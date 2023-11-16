@@ -28,7 +28,7 @@ openapi-python-client = "^0.15.2"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.4.2"
-mkdocs-material = "^9.2.7"
+mkdocs-material = "^9.4.8"
 mkdocstrings = {extras = ["python"], version = "^0.23.0"}
 
 [build-system]
