@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.11-slim-bookworm AS base-image
+FROM python:3.12-slim-bookworm AS base-image
 
 ENV LANG=C.UTF-8 \
   LC_ALL=C.UTF-8 \
@@ -26,7 +26,7 @@ COPY pyproject.toml poetry.lock ./
 
 RUN poetry install --no-root
 
-FROM python:3.11-slim-bookworm AS final
+FROM python:3.12-slim-bookworm AS final
 
 ENV VIRTUAL_ENV=/workspaces/.venv \
     PATH="/workspaces/.venv/bin:$PATH"
