@@ -1,10 +1,10 @@
-site_name: kraken-api
-repo_url: https://github.com/tlg7c5/kraken-api
-site_url: https://tlg7c5.github.io/kraken-api
+site_name: kraken-connector
+repo_url: https://github.com/tlg7c5/kraken-connector
+site_url: https://tlg7c5.github.io/kraken-connector
 site_description: Websockets and HTTP clients for Kraken exchange API
 site_author: Terry Garner
 edit_uri: edit/main/docs/
-repo_name: tlg7c5/kraken-api
+repo_name: tlg7c5/kraken-connector
 copyright: Maintained by <a href="https://tlg7c5.com">Florian</a>.
 
 nav:
@@ -15,9 +15,17 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-            setup_commands:
-                - import sys
-                - sys.path.append('../')
+          setup_commands:
+            - import sys
+            - sys.path.append('../')
+          options:
+            show_symbol_type_heading: true
+            show_submodules: true
+            summary: true
+            merge_init_into_class: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+            docstring_section_style: list
 theme:
   name: material
   feature:
@@ -43,9 +51,9 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/tlg7c5/kraken-api
+      link: https://github.com/tlg7c5/kraken-connector
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/kraken-api
+      link: https://pypi.org/project/kraken-connector
 
 markdown_extensions:
   - toc:

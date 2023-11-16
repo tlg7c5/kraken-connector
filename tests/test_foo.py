@@ -1,4 +1,4 @@
-from kraken_api.foo import foo
+from kraken_connector.foo import foo
 
 
 def test_foo():

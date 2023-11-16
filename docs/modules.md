@@ -1,1 +1,1 @@
-::: kraken_api
+::: kraken_connector

@@ -1,8 +1,17 @@
+#* Variables
+SHELL := /usr/bin/env bash
+PYTHON := python
+PYTHONPATH := `pwd`
+
+#* Docker variables
+IMAGE := kraken-connector
+VERSION := latest
+
 .PHONY: install
 install: ## Install the poetry environment and install the pre-commit hooks
 	@echo "🚀 Creating virtual environment using pyenv and poetry"
-	@poetry install
-	@ poetry run pre-commit install
+	@poetry install --with dev
+	@poetry run pre-commit install
 	@poetry shell
 
 .PHONY: check
@@ -20,6 +29,35 @@ check: ## Run code quality tools.
 test: ## Test the code with pytest
 	@echo "🚀 Testing code: Running pytest"
 	@poetry run pytest --cov --cov-config=pyproject.toml --cov-report=xml
+
+#* Docker
+# Example: make docker-build VERSION=latest
+# Example: make docker-build IMAGE=some_name VERSION=0.1.0
+.PHONY: docker-build
+docker-build:
+	@echo Building docker $(IMAGE):$(VERSION) .
+	docker buildx build --platform linux/arm64 \
+		-t $(IMAGE):$(VERSION) . \
+		-f ./docker/Dockerfile --no-cache
+
+# Example: make docker-remove VERSION=latest
+# Example: make docker-remove IMAGE=some_name VERSION=0.1.0
+.PHONY: docker-remove
+docker-remove:
+	@echo Removing docker $(IMAGE):$(VERSION) .
+	docker rmi -f $(IMAGE):$(VERSION)
+
+.PHONY: local-build
+local-build:
+	@echo Building docker $(IMAGE):$(VERSION) .
+	docker buildx build --platform linux/arm64 \
+		-t $(IMAGE):$(VERSION) . \
+		-f ./docker/dev/Dockerfile
+
+.PHONY: local
+local:
+	@echo Creating local dev environment
+	docker run --name $(IMAGE) -v /var/run/docker.sock:/var/run/docker.sock -v $(PYTHONPATH):/app -it --rm $(IMAGE) bash
 
 .PHONY: build
 build: clean-build ## Build wheel file using poetry

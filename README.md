@@ -1,15 +1,15 @@
-# kraken-api
+# kraken-connector
 
-[![Release](https://img.shields.io/github/v/release/tlg7c5/kraken-api)](https://img.shields.io/github/v/release/tlg7c5/kraken-api)
-[![Build status](https://img.shields.io/github/actions/workflow/status/tlg7c5/kraken-api/main.yml?branch=main)](https://github.com/tlg7c5/kraken-api/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/tlg7c5/kraken-api/branch/main/graph/badge.svg)](https://codecov.io/gh/tlg7c5/kraken-api)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/tlg7c5/kraken-api)](https://img.shields.io/github/commit-activity/m/tlg7c5/kraken-api)
-[![License](https://img.shields.io/github/license/tlg7c5/kraken-api)](https://img.shields.io/github/license/tlg7c5/kraken-api)
+[![Release](https://img.shields.io/github/v/release/tlg7c5/kraken-connector)](https://img.shields.io/github/v/release/tlg7c5/kraken-connector)
+[![Build status](https://img.shields.io/github/actions/workflow/status/tlg7c5/kraken-connector/main.yml?branch=main)](https://github.com/tlg7c5/kraken-connector/actions/workflows/main.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/tlg7c5/kraken-connector/branch/main/graph/badge.svg)](https://codecov.io/gh/tlg7c5/kraken-connector)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/tlg7c5/kraken-connector)](https://img.shields.io/github/commit-activity/m/tlg7c5/kraken-connector)
+[![License](https://img.shields.io/github/license/tlg7c5/kraken-connector)](https://img.shields.io/github/license/tlg7c5/kraken-connector)
 
-Websockets and HTTP clients for Kraken exchange API
+WS and HTTP clients for Kraken exchange API
 
-- **Github repository**: <https://github.com/tlg7c5/kraken-api/>
-- **Documentation** <https://tlg7c5.github.io/kraken-api/>
+- **Github repository**: <https://github.com/tlg7c5/kraken-connector/>
+- **Documentation** <https://tlg7c5.github.io/kraken-connector/>
 
 ## Getting started with your project
 
@@ -19,7 +19,7 @@ First, create a repository on GitHub with the same name as this project, and the
 git init -b main
 git add .
 git commit -m "init commit"
-git remote add origin git@github.com:tlg7c5/kraken-api.git
+git remote add origin git@github.com:tlg7c5/kraken-connector.git
 git push -u origin main
 ```
 
@@ -39,8 +39,8 @@ To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookie
 ## Releasing a new version
 
 - Create an API Token on [Pypi](https://pypi.org/).
-- Add the API Token to your projects secrets with the name `PYPI_TOKEN` by visiting [this page](https://github.com/tlg7c5/kraken-api/settings/secrets/actions/new).
-- Create a [new release](https://github.com/tlg7c5/kraken-api/releases/new) on Github.
+- Add the API Token to your projects secrets with the name `PYPI_TOKEN` by visiting [this page](https://github.com/tlg7c5/kraken-connector/settings/secrets/actions/new).
+- Create a [new release](https://github.com/tlg7c5/kraken-connector/releases/new) on Github.
 - Create a new tag in the form `*.*.*`.
 
 For more details, see [here](https://fpgmaas.github.io/cookiecutter-poetry/features/cicd/#how-to-trigger-a-release).

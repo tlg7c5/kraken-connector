@@ -1,4 +1,8 @@
 docs/source
+.DS_Store
+.python-version
+.devcontainer
+openapi.json
 
 # From https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
