@@ -3,17 +3,19 @@ from typing import Any, Dict, List, Self, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
+
 
 @_attrs_define
 class CancelOpenOrderRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         txid (Union[int, str]): Open order transaction ID (txid) or user reference (userref)
     """
 
-    nonce: int
     txid: Union[int, str]
+    nonce: int = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -36,7 +38,7 @@ class CancelOpenOrderRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         def _parse_txid(data: object) -> Union[int, str]:
             return cast(Union[int, str], data)

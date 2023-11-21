@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -10,10 +11,11 @@ from ..types import UNSET, Unset
 class AllocateStrategyJsonBodyNonce:
     """
     Attributes:
-        nonce (Union[Unset, int]): Nonce used in construction of `API-Sign` header
+        nonce (Union[Unset, int]): Nonce used in construction of `API-Sign` header.
+            Default `get_nonce`
     """
 
-    nonce: Union[Unset, int] = UNSET
+    nonce: Union[Unset, int] = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -30,7 +32,7 @@ class AllocateStrategyJsonBodyNonce:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce", UNSET)
+        nonce = d.pop("nonce", get_nonce())
 
         allocate_strategy_json_body_nonce = cls(
             nonce=nonce,

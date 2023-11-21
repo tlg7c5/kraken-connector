@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -10,7 +11,7 @@ from ..types import UNSET, Unset
 class Addresses:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         asset (str): Asset being deposited
         method (str): Name of the deposit method
         new (Union[Unset, bool]): Whether or not to generate a new address
@@ -18,9 +19,9 @@ class Addresses:
             Lightning`)
     """
 
-    nonce: int
     asset: str
     method: str
+    nonce: int = get_nonce()
     new: Union[Unset, bool] = False
     amount: Union[Unset, float, int, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -52,7 +53,7 @@ class Addresses:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         asset = d.pop("asset")
 

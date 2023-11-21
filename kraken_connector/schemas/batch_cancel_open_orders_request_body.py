@@ -3,6 +3,8 @@ from typing import TYPE_CHECKING, Any, Dict, List, Self
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
+
 if TYPE_CHECKING:
     from ..schemas.batch_cancel_open_orders_request_body_orders_item import (
         BatchCancelOpenOrdersRequestBodyOrdersItem,
@@ -13,12 +15,12 @@ if TYPE_CHECKING:
 class BatchCancelOpenOrdersRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         orders (List['BatchCancelOpenOrdersRequestBodyOrdersItem']):
     """
 
-    nonce: int
     orders: List["BatchCancelOpenOrdersRequestBodyOrdersItem"]
+    nonce: int = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -47,7 +49,7 @@ class BatchCancelOpenOrdersRequestBody:
         )
 
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         orders = []
         _orders = d.pop("orders")

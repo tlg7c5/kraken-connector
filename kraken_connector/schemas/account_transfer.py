@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -138,18 +139,18 @@ class AccountTransferResult:
 class AccountTransferRequest:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
         asset (str): Asset being transferred
         amount (str): Amount of asset to transfer
         from_ (str): IIBAN of the source account
         to (str): IIBAN of the destination account
+        nonce (int): Nonce used in construction of `API-Sign` header, set by `get_nonce`
     """
 
-    nonce: int
     asset: str
     amount: str
     from_: str
     to: str
+    nonce: int = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -176,7 +177,7 @@ class AccountTransferRequest:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         asset = d.pop("asset")
 

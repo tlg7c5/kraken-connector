@@ -25,7 +25,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/public/Depth",
+        "url": "/0/public/Depth",
         "params": params,
     }
 

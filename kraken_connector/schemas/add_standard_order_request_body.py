@@ -11,6 +11,7 @@ from ..constants.trading import (
     Trigger,
     TypeOrder,
 )
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -18,7 +19,7 @@ from ..types import UNSET, Unset
 class AddStandardOrderRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `../security.get_nonce`
         ordertype (Ordertype): Order type
         type (TypeOrder): Order direction (buy/sell)
         volume (str): Order quantity in terms of the base asset
@@ -99,11 +100,11 @@ class AddStandardOrderRequestBody:
         validate (Union[Unset, bool]): Validate inputs only. Do not submit order.
     """
 
-    nonce: int
     ordertype: OrderType
     type: TypeOrder
     volume: str
     pair: str
+    nonce: int = get_nonce()
     userref: Union[Unset, int] = UNSET
     displayvol: Union[Unset, str] = UNSET
     price: Union[Unset, str] = UNSET
@@ -214,7 +215,7 @@ class AddStandardOrderRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         ordertype = OrderType(d.pop("ordertype"))
 

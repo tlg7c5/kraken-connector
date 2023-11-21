@@ -3,12 +3,15 @@ from typing import Any, Dict, List, Self
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
+
 
 @_attrs_define
 class CancelAllOrdersAfterData:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default
+            `get_nonce`
         timeout (int): Duration (in seconds) to set/extend the timer by
     """
 
@@ -34,7 +37,7 @@ class CancelAllOrdersAfterData:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         timeout = d.pop("timeout")
 

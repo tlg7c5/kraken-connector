@@ -3,6 +3,7 @@ docs/source
 .python-version
 .devcontainer
 openapi.json
+secrets.txt
 
 # From https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 

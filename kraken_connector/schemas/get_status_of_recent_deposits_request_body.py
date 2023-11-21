@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -10,7 +11,7 @@ from ..types import UNSET, Unset
 class GetStatusOfRecentDepositsRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         asset (Union[Unset, str]): Filter for specific asset being deposited
         method (Union[Unset, str]): Filter for specific name of deposit method
         start (Union[Unset, str]): Start timestamp, deposits created strictly before will not be included in the
@@ -20,7 +21,7 @@ class GetStatusOfRecentDepositsRequestBody:
             page of results (string), default false
     """
 
-    nonce: int
+    nonce: int = get_nonce()
     asset: Union[Unset, str] = UNSET
     method: Union[Unset, str] = UNSET
     start: Union[Unset, str] = UNSET
@@ -60,7 +61,7 @@ class GetStatusOfRecentDepositsRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         asset = d.pop("asset", UNSET)
 

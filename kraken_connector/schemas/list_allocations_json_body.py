@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -63,7 +64,7 @@ class ListAllocationsJsonBody:
         )
 
         d = src_dict.copy()
-        nonce = ListAllocationsJsonBodyNonce.from_dict(d.pop("nonce"))
+        nonce = ListAllocationsJsonBodyNonce.from_dict(d.pop("nonce", get_nonce()))
 
         ascending = d.pop("ascending", UNSET)
 

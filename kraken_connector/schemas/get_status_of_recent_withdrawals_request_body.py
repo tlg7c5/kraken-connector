@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -10,12 +11,12 @@ from ..types import UNSET, Unset
 class GetStatusOfRecentWithdrawalsRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         asset (Union[Unset, str]): Filter for specific asset being withdrawn
         method (Union[Unset, str]): Filter for specific name of withdrawal method
     """
 
-    nonce: int
+    nonce: int = get_nonce()
     asset: Union[Unset, str] = UNSET
     method: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -42,7 +43,7 @@ class GetStatusOfRecentWithdrawalsRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         asset = d.pop("asset", UNSET)
 

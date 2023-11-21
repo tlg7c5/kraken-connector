@@ -14,7 +14,7 @@ def _get_kwargs() -> Dict[str, Any]:
 
     return {
         "method": "get",
-        "url": "/public/Time",
+        "url": "/0/public/Time",
     }
 
 

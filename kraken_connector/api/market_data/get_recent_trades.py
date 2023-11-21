@@ -28,7 +28,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/public/Trades",
+        "url": "/0/public/Trades",
         "params": params,
     }
 

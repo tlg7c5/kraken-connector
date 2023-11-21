@@ -3,19 +3,21 @@ from typing import Any, Dict, List, Self
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
+
 
 @_attrs_define
 class RequestWithdrawalCancelationRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         asset (str): Asset being withdrawn
         refid (str): Withdrawal reference ID
     """
 
-    nonce: int
     asset: str
     refid: str
+    nonce: int = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -38,7 +40,7 @@ class RequestWithdrawalCancelationRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         asset = d.pop("asset")
 

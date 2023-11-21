@@ -25,7 +25,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/public/Assets",
+        "url": "/0/public/Assets",
         "params": params,
     }
 

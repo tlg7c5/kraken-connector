@@ -33,7 +33,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/public/OHLC",
+        "url": "/0/public/OHLC",
         "params": params,
     }
 

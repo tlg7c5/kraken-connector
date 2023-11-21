@@ -4,21 +4,22 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..constants.account_data import TypeDeleteReportRequest
+from ..security import get_nonce
 
 
 @_attrs_define
 class RemoveExportData:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         id (str): ID of report to delete or cancel
         type (TypeDeleteReportRequest): `delete` can only be used for reports that have already been processed. Use
             `cancel` for queued or processing reports.
     """
 
-    nonce: int
     id: str
     type: TypeDeleteReportRequest
+    nonce: int = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -41,7 +42,7 @@ class RemoveExportData:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         id = d.pop("id")
 

@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -10,7 +11,7 @@ from ..types import UNSET, Unset
 class EditStandardOrderRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header.  Default `get_nonce`
         txid (Union[int, str]): Original Order ID or User Reference Id (userref) which is user-specified integer id used
             with the original order. If userref is not unique and was used with multiple order, edit request is denied with
             an error.
@@ -47,9 +48,9 @@ class EditStandardOrderRequestBody:
         validate (Union[Unset, bool]): Validate inputs only. Do not submit order.
     """
 
-    nonce: int
     txid: Union[int, str]
     pair: str
+    nonce: int = get_nonce()
     userref: Union[Unset, int] = UNSET
     volume: Union[Unset, str] = UNSET
     displayvol: Union[Unset, str] = UNSET
@@ -111,7 +112,7 @@ class EditStandardOrderRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         def _parse_txid(data: object) -> Union[int, str]:
             return cast(Union[int, str], data)

@@ -4,6 +4,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..constants.account_data import OpenPositionsDataConsolidation
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -11,13 +12,13 @@ from ..types import UNSET, Unset
 class GetOpenPositionsData:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         txid (Union[Unset, str]): Comma delimited list of txids to limit output to
         docalcs (Union[Unset, bool]): Whether to include P&L calculations
         consolidation (Union[Unset, OpenPositionsDataConsolidation]): Consolidate positions by market/pair
     """
 
-    nonce: int
+    nonce: int = get_nonce()
     txid: Union[Unset, str] = UNSET
     docalcs: Union[Unset, bool] = False
     consolidation: Union[Unset, OpenPositionsDataConsolidation] = UNSET
@@ -50,7 +51,7 @@ class GetOpenPositionsData:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         txid = d.pop("txid", UNSET)
 

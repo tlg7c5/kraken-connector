@@ -22,7 +22,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/public/Ticker",
+        "url": "/0/public/Ticker",
         "params": params,
     }
 

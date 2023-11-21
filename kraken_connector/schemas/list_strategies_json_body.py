@@ -4,6 +4,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..constants.earn import StrategyLockType
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -83,7 +84,7 @@ class ListStrategiesJsonBody:
         )
 
         d = src_dict.copy()
-        nonce = ListStrategiesJsonBodyNonce.from_dict(d.pop("nonce"))
+        nonce = ListStrategiesJsonBodyNonce.from_dict(d.pop("nonce", get_nonce()))
 
         ascending = d.pop("ascending", UNSET)
 

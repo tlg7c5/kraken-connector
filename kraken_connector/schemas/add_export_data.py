@@ -4,6 +4,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..constants.account_data import ReportFileFormat, ReportType
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -11,7 +12,7 @@ from ..types import UNSET, Unset
 class AddExportData:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`.
         report (ReportType): Type of data to export
         description (str): Description for the export
         format_ (Union[Unset, ReportFileFormat]): File format to export Default: ReportFileFormat.CSV.
@@ -24,9 +25,9 @@ class AddExportData:
         endtm (Union[Unset, int]): UNIX timestamp for report end time (default now)
     """
 
-    nonce: int
     report: ReportType
     description: str
+    nonce: int = get_nonce()
     format_: Union[Unset, ReportFileFormat] = ReportFileFormat.CSV
     fields: Union[Unset, str] = "all"
     starttm: Union[Unset, int] = UNSET
@@ -69,7 +70,7 @@ class AddExportData:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         report = ReportType(d.pop("report"))
 

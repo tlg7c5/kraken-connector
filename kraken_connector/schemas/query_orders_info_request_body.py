@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Self, Union
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..security import get_nonce
 from ..types import UNSET, Unset
 
 
@@ -10,7 +11,7 @@ from ..types import UNSET, Unset
 class QueryOrdersInfoRequestBody:
     """
     Attributes:
-        nonce (int): Nonce used in construction of `API-Sign` header
+        nonce (int): Nonce used in construction of `API-Sign` header. Default `get_nonce`
         txid (str): Comma delimited list of transaction IDs to query info about (50 maximum)
         trades (Union[Unset, bool]): Whether or not to include trades related to position in output
         userref (Union[Unset, int]): Restrict results to given user reference id
@@ -18,8 +19,8 @@ class QueryOrdersInfoRequestBody:
             True.
     """
 
-    nonce: int
     txid: str
+    nonce: int = get_nonce()
     trades: Union[Unset, bool] = False
     userref: Union[Unset, int] = UNSET
     consolidate_taker: Union[Unset, bool] = True
@@ -52,7 +53,7 @@ class QueryOrdersInfoRequestBody:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         txid = d.pop("txid")
 

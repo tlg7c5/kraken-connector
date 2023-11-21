@@ -4,6 +4,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..constants.account_data import ReportType
+from ..security import get_nonce
 
 
 @_attrs_define
@@ -11,11 +12,12 @@ class ExportStatusData:
     """
     Attributes:
         nonce (int): Nonce used in construction of `API-Sign` header.
+            Default `get_nonce`
         report (ReportType): Type of reports about which to inquire.
     """
 
-    nonce: int
     report: ReportType
+    nonce: int = get_nonce()
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -36,7 +38,7 @@ class ExportStatusData:
     @classmethod
     def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
         d = src_dict.copy()
-        nonce = d.pop("nonce")
+        nonce = d.pop("nonce", get_nonce())
 
         report = ReportType(d.pop("report"))
 

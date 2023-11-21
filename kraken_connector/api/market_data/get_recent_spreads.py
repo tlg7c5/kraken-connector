@@ -25,7 +25,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/public/Spread",
+        "url": "/0/public/Spread",
         "params": params,
     }
 
