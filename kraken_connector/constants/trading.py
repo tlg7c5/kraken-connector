@@ -17,6 +17,33 @@ class ConditionalCloseOrderType(str, Enum):
     TAKE_PROFIT = "take-profit"
     TAKE_PROFIT_LIMIT = "take-profit-limit"
 
+    def __str__(self) -> str:
+        return str(self.value)
+
+
+class OrderFlags(str, Enum):
+    """Flags that can be added to an Order.
+
+    Note:
+        POST_ONLY flag is only available when OrderType is `limit`
+
+    Names:
+        VOLUME_IN_QUOTE_CURRENCY
+        PREFER_FEE_IN_BASE_CURRENCY
+        PREFER_FEE_IN_QUOTE_CURRENCY
+        NO_MARKET_PRICE_PROTECTION
+        POST_ONLY
+    """
+
+    VOLUME_IN_QUOTE_CURRENCY = "viqc"
+    PREFER_FEE_IN_BASE_CURRENCY = "fcib"
+    PREFER_FEE_IN_QUOTE_CURRENCY = "fciq"
+    NO_MARKET_PRICE_PROTECTION = "nompp"
+    POST_ONLY = "post"
+
+    def __str__(self) -> str:
+        return str(self.value)
+
 
 class OrderStatus(str, Enum):
     """Status of an Order.

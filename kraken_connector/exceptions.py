@@ -1,6 +1,10 @@
 """ Contains shared errors types that can be raised from API functions """
 
 
+class InvalidResponseModel(Exception):
+    """Raised by schema models when required key-value pairs are not found."""
+
+
 class UnexpectedStatus(Exception):
     """Raised by api functions when the response status an undocumented status and HTTPClient.raise_on_unexpected_status is True
     """
