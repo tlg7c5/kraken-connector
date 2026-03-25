@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.list_allocations_json_body import ListAllocationsJsonBody
 from ...schemas.list_allocations_response_200 import ListAllocationsResponse200
@@ -19,7 +20,7 @@ def _get_kwargs(
 
     return {
         "method": "post",
-        "url": "/0/private/Earn/Allocations",
+        "url": f"{API_VERSION_PREFIX}/private/Earn/Allocations",
         "json": json_json_body,
     }
 

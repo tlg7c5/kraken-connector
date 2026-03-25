@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.cancel_all_orders_after_data import CancelAllOrdersAfterData
 from ...schemas.cancel_all_orders_after_response_200 import (
@@ -18,7 +19,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/CancelAllOrdersAfter",
+        "url": f"{API_VERSION_PREFIX}/private/CancelAllOrdersAfter",
         "data": form_data.to_dict(),
     }
 

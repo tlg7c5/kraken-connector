@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional, Union
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...constants.market_data import TradableAssetPairInfo
 from ...http import HTTPAuthenticatedClient, HTTPClient
 from ...schemas.get_tradable_asset_pairs_response_200 import (
@@ -30,7 +31,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/0/public/AssetPairs",
+        "url": f"{API_VERSION_PREFIX}/public/AssetPairs",
         "params": params,
     }
 

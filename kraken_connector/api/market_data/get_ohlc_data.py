@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional, Union
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...constants.market_data import OHLCDataInterval
 from ...http import HTTPAuthenticatedClient, HTTPClient
 from ...schemas.ohlc import Ohlc
@@ -31,7 +32,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/0/public/OHLC",
+        "url": f"{API_VERSION_PREFIX}/public/OHLC",
         "params": params,
     }
 

@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.get_deallocate_strategy_status_json_body import (
     GetDeallocateStrategyStatusJsonBody,
@@ -23,7 +24,7 @@ def _get_kwargs(
 
     return {
         "method": "post",
-        "url": "/0/private/Earn/DeallocateStatus",
+        "url": f"{API_VERSION_PREFIX}/private/Earn/DeallocateStatus",
         "json": json_json_body,
     }
 

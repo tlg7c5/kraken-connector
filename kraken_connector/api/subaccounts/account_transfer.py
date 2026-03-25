@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.account_transfer import AccountTransferRequest, AccountTransferResponse
 from ...security import sign_message
@@ -15,7 +16,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/AccountTransfer",
+        "url": f"{API_VERSION_PREFIX}/private/AccountTransfer",
         "data": form_data.to_dict(),
     }
 

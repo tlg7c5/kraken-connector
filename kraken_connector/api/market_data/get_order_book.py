@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional, Union
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
 from ...schemas.depth import Depth
 from ...types import UNSET, Response, Unset
@@ -23,7 +24,7 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/0/public/Depth",
+        "url": f"{API_VERSION_PREFIX}/public/Depth",
         "params": params,
     }
 

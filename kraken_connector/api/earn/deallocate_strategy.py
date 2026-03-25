@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.deallocate_strategy_json_body import DeallocateStrategyJsonBody
 from ...schemas.deallocate_strategy_response_200 import DeallocateStrategyResponse200
@@ -19,7 +20,7 @@ def _get_kwargs(
 
     return {
         "method": "post",
-        "url": "/0/private/Earn/Deallocate",
+        "url": f"{API_VERSION_PREFIX}/private/Earn/Deallocate",
         "json": json_json_body,
     }
 

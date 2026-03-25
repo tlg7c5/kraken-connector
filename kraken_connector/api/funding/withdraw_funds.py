@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.withdrawal import Withdrawal
 from ...schemas.withdrawal_2 import Withdrawal2
@@ -16,7 +17,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/Withdraw",
+        "url": f"{API_VERSION_PREFIX}/private/Withdraw",
         "data": form_data.to_dict(),
     }
 

@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional, Union
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
 from ...schemas.get_system_status_response_200 import GetSystemStatusResponse200
 from ...types import Response, Unset
@@ -12,7 +13,7 @@ from ...types import Response, Unset
 def _get_kwargs() -> Dict[str, Any]:
     return {
         "method": "get",
-        "url": "/0/public/SystemStatus",
+        "url": f"{API_VERSION_PREFIX}/public/SystemStatus",
     }
 
 

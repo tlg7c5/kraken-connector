@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.get_open_positions_data import GetOpenPositionsData
 from ...schemas.get_open_positions_response_200 import GetOpenPositionsResponse200
@@ -16,7 +17,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/OpenPositions",
+        "url": f"{API_VERSION_PREFIX}/private/OpenPositions",
         "data": form_data.to_dict(),
     }
 

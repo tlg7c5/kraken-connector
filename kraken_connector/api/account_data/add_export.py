@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.add_export_data import AddExportData
 from ...schemas.add_export_response_200 import AddExportResponse200
@@ -16,7 +17,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/AddExport",
+        "url": f"{API_VERSION_PREFIX}/private/AddExport",
         "data": form_data.to_dict(),
     }
 

@@ -6,6 +6,7 @@ import pkgutil
 
 import kraken_connector.api as api_pkg
 from kraken_connector import HTTPAuthenticatedClient, HTTPClient
+from kraken_connector.constants.api import API_VERSION_PREFIX
 
 
 def test_import_http_client():
@@ -80,3 +81,29 @@ def test_no_arg_get_kwargs_return_method_and_url():
         assert "url" in result, f"{mod.__name__}._get_kwargs() missing 'url'"
         tested += 1
     assert tested >= 15, f"Expected >=15 no-arg endpoints, only tested {tested}"
+
+
+def test_api_version_prefix_value():
+    """API_VERSION_PREFIX must match Kraken's current REST path version."""
+    assert API_VERSION_PREFIX == "/0"
+
+
+def test_endpoint_urls_use_version_prefix():
+    """All no-arg endpoint URLs must start with API_VERSION_PREFIX."""
+    modules = _discover_endpoint_modules()
+    for mod in modules:
+        sig = inspect.signature(mod._get_kwargs)
+        required = [
+            p
+            for p in sig.parameters.values()
+            if p.default is inspect.Parameter.empty
+            and p.kind
+            not in (inspect.Parameter.VAR_POSITIONAL, inspect.Parameter.VAR_KEYWORD)
+        ]
+        if required:
+            continue
+        result = mod._get_kwargs()
+        url = result["url"]
+        assert url.startswith(
+            API_VERSION_PREFIX + "/"
+        ), f"{mod.__name__} URL {url!r} does not start with {API_VERSION_PREFIX!r}"

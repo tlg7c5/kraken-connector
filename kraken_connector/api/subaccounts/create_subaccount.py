@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.create_subaccount_data import CreateSubaccountData
 from ...schemas.create_subaccount_response_200 import CreateSubaccountResponse200
@@ -16,7 +17,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/CreateSubaccount",
+        "url": f"{API_VERSION_PREFIX}/private/CreateSubaccount",
         "data": form_data.to_dict(),
     }
 

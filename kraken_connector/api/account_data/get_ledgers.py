@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.info_3 import Info3
 from ...security import get_nonce, sign_message
@@ -13,7 +14,7 @@ from ...types import Response, Unset
 def _get_kwargs() -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/Ledgers",
+        "url": f"{API_VERSION_PREFIX}/private/Ledgers",
         "data": {"nonce": get_nonce()},
     }
 

@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.get_status_of_recent_deposits_request_body import (
     GetStatusOfRecentDepositsRequestBody,
@@ -18,7 +19,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/DepositStatus",
+        "url": f"{API_VERSION_PREFIX}/private/DepositStatus",
         "data": form_data.to_dict(),
     }
 
