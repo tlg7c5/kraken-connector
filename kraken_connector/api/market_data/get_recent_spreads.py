@@ -36,6 +36,13 @@ def _parse_response(
     if response.status_code == HTTPStatus.OK:
         response_200 = Spread2.from_dict(response.json())
 
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
+
         return response_200
     if client.raise_on_unexpected_status:
         raise exceptions.UnexpectedStatus(response.status_code, response.content)

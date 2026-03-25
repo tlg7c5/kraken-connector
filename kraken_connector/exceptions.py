@@ -16,4 +16,12 @@ class UnexpectedStatus(Exception):
         super().__init__(f"Unexpected status code: {status_code}")
 
 
-__all__ = ["UnexpectedStatus"]
+class KrakenAPIError(Exception):
+    """Raised when the Kraken API returns an error in the response body."""
+
+    def __init__(self, errors: list[str]):
+        self.errors = errors
+        super().__init__(f"Kraken API error: {', '.join(errors)}")
+
+
+__all__ = ["InvalidResponseModel", "KrakenAPIError", "UnexpectedStatus"]

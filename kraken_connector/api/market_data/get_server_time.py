@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...http import HTTPAuthenticatedClient, HTTPClient
 from ...schemas.time import Time
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs() -> Dict[str, Any]:
@@ -23,6 +23,13 @@ def _parse_response(
 ) -> Optional[Time]:
     if response.status_code == HTTPStatus.OK:
         response_200 = Time.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:

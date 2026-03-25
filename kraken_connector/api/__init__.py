@@ -1,1 +1,1 @@
-""" Contains methods for accessing the API """
+"""Kraken API endpoint modules."""

@@ -47,4 +47,4 @@ For more details, see [here](https://fpgmaas.github.io/cookiecutter-poetry/featu
 
 ---
 
-Repository initiated with [fpgmaas/cookiecutter-poetry](https://github.com/fpgmaas/cookiecutter-poetry).
+Repository initiated with [fpgmaas/cookiecutter-poetry](https://github.com/fpgmaas/cookiecutter-poetry). Now using [PDM](https://pdm-project.org/) for dependency management.

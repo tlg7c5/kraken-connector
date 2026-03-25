@@ -386,7 +386,6 @@ __all__ = (
     "OpenOrder",
     "OpenOrderOrderDescription",
     "OrderBook",
-    "Ordertype",
     "Query2",
     "Query2Result",
     "Query3",

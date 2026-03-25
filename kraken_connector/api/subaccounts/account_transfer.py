@@ -7,7 +7,7 @@ from ... import exceptions
 from ...http import HTTPAuthenticatedClient
 from ...schemas.account_transfer import AccountTransferRequest, AccountTransferResponse
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
@@ -27,6 +27,13 @@ def _parse_response(
 ) -> Optional[AccountTransferResponse]:
     if response.status_code == HTTPStatus.OK:
         response_200 = AccountTransferResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:

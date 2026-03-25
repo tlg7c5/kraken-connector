@@ -8,7 +8,7 @@ from ...http import HTTPAuthenticatedClient
 from ...schemas.info_4 import Info4
 from ...schemas.info_5 import Info5
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
@@ -28,6 +28,13 @@ def _parse_response(
 ) -> Optional[Info5]:
     if response.status_code == HTTPStatus.OK:
         response_200 = Info5.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
