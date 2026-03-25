@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.query_2 import Query2
-from ...schemas.query_orders_info_request_body import QueryOrdersInfoRequestBody
+from ...schemas.get_orders_info_response import GetOrdersInfoResponse
+from ...schemas.query_orders_info_request import QueryOrdersInfoRequest
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: QueryOrdersInfoRequestBody,
+    form_data: QueryOrdersInfoRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Query2]:
+) -> Optional[GetOrdersInfoResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Query2.from_dict(response.json())
+        response_200 = GetOrdersInfoResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Query2]:
+) -> Response[GetOrdersInfoResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: QueryOrdersInfoRequestBody,
-) -> Response[Query2]:
+    form_data: QueryOrdersInfoRequest,
+) -> Response[GetOrdersInfoResponse]:
     """Query Orders Info
 
      Retrieve information about specific orders.
@@ -70,7 +70,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Query2]
+        Response[GetOrdersInfoResponse]
     """
 
     kwargs = _get_kwargs(
@@ -94,8 +94,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: QueryOrdersInfoRequestBody,
-) -> Optional[Query2]:
+    form_data: QueryOrdersInfoRequest,
+) -> Optional[GetOrdersInfoResponse]:
     """Query Orders Info
 
      Retrieve information about specific orders.
@@ -108,7 +108,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Query2
+        GetOrdersInfoResponse
     """
 
     return sync_detailed(
@@ -120,8 +120,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: QueryOrdersInfoRequestBody,
-) -> Response[Query2]:
+    form_data: QueryOrdersInfoRequest,
+) -> Response[GetOrdersInfoResponse]:
     """Query Orders Info
 
      Retrieve information about specific orders.
@@ -134,7 +134,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Query2]
+        Response[GetOrdersInfoResponse]
     """
 
     kwargs = _get_kwargs(
@@ -158,8 +158,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: QueryOrdersInfoRequestBody,
-) -> Optional[Query2]:
+    form_data: QueryOrdersInfoRequest,
+) -> Optional[GetOrdersInfoResponse]:
     """Query Orders Info
 
      Retrieve information about specific orders.
@@ -172,7 +172,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Query2
+        GetOrdersInfoResponse
     """
 
     return (

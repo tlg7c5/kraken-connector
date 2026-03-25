@@ -7,8 +7,8 @@ from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...constants.market_data import TradableAssetPairInfo
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.get_tradable_asset_pairs_response_200 import (
-    GetTradableAssetPairsResponse200,
+from ...schemas.get_tradable_asset_pairs_response import (
+    GetTradableAssetPairsResponse,
 )
 from ...types import UNSET, Response, Unset
 
@@ -38,9 +38,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetTradableAssetPairsResponse200]:
+) -> Optional[GetTradableAssetPairsResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetTradableAssetPairsResponse200.from_dict(response.json())
+        response_200 = GetTradableAssetPairsResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -58,7 +58,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[GetTradableAssetPairsResponse200]:
+) -> Response[GetTradableAssetPairsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,7 +72,7 @@ def sync_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
     info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Response[GetTradableAssetPairsResponse200]:
+) -> Response[GetTradableAssetPairsResponse]:
     """Get Tradable Asset Pairs
 
      Get tradable asset pairs
@@ -87,7 +87,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetTradableAssetPairsResponse200]
+        Response[GetTradableAssetPairsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -107,7 +107,7 @@ def sync(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
     info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Optional[GetTradableAssetPairsResponse200]:
+) -> Optional[GetTradableAssetPairsResponse]:
     """Get Tradable Asset Pairs
 
      Get tradable asset pairs
@@ -122,7 +122,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetTradableAssetPairsResponse200
+        GetTradableAssetPairsResponse
     """
 
     return sync_detailed(
@@ -137,7 +137,7 @@ async def asyncio_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
     info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Response[GetTradableAssetPairsResponse200]:
+) -> Response[GetTradableAssetPairsResponse]:
     """Get Tradable Asset Pairs
 
      Get tradable asset pairs
@@ -152,7 +152,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetTradableAssetPairsResponse200]
+        Response[GetTradableAssetPairsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -170,7 +170,7 @@ async def asyncio(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
     info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Optional[GetTradableAssetPairsResponse200]:
+) -> Optional[GetTradableAssetPairsResponse]:
     """Get Tradable Asset Pairs
 
      Get tradable asset pairs
@@ -185,7 +185,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetTradableAssetPairsResponse200
+        GetTradableAssetPairsResponse
     """
 
     return (

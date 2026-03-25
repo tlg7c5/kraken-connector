@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.withdrawal import Withdrawal
-from ...schemas.withdrawal_2 import Withdrawal2
+from ...schemas.withdraw_funds_request import WithdrawFundsRequest
+from ...schemas.withdraw_funds_response import WithdrawFundsResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: Withdrawal,
+    form_data: WithdrawFundsRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Withdrawal2]:
+) -> Optional[WithdrawFundsResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Withdrawal2.from_dict(response.json())
+        response_200 = WithdrawFundsResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Withdrawal2]:
+) -> Response[WithdrawFundsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: Withdrawal,
-) -> Response[Withdrawal2]:
+    form_data: WithdrawFundsRequest,
+) -> Response[WithdrawFundsResponse]:
     """Withdraw Funds
 
      Make a withdrawal request.
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Withdrawal2]
+        Response[WithdrawFundsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -93,8 +93,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: Withdrawal,
-) -> Optional[Withdrawal2]:
+    form_data: WithdrawFundsRequest,
+) -> Optional[WithdrawFundsResponse]:
     """Withdraw Funds
 
      Make a withdrawal request.
@@ -106,7 +106,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Withdrawal2
+        WithdrawFundsResponse
     """
 
     return sync_detailed(
@@ -118,8 +118,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: Withdrawal,
-) -> Response[Withdrawal2]:
+    form_data: WithdrawFundsRequest,
+) -> Response[WithdrawFundsResponse]:
     """Withdraw Funds
 
      Make a withdrawal request.
@@ -131,7 +131,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Withdrawal2]
+        Response[WithdrawFundsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -155,8 +155,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: Withdrawal,
-) -> Optional[Withdrawal2]:
+    form_data: WithdrawFundsRequest,
+) -> Optional[WithdrawFundsResponse]:
     """Withdraw Funds
 
      Make a withdrawal request.
@@ -168,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Withdrawal2
+        WithdrawFundsResponse
     """
 
     return (

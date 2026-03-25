@@ -14,8 +14,8 @@ class AssetTickerInfo:
         a (Union[Unset, List[str]]): Ask `[<price>, <whole lot volume>, <lot volume>]`
         b (Union[Unset, List[str]]): Bid `[<price>, <whole lot volume>, <lot volume>]`
         c (Union[Unset, List[str]]): Last trade closed `[<price>, <lot volume>]`
-        v (Union[Unset, List[str]]): Volume `[<today>, <last 24 hours>]`
-        p (Union[Unset, List[str]]): Volume weighted average price `[<today>, <last 24 hours>]`
+        v (Union[Unset, List[str]]): TradeVolumeResponse `[<today>, <last 24 hours>]`
+        p (Union[Unset, List[str]]): TradeVolumeResponse weighted average price `[<today>, <last 24 hours>]`
         t (Union[Unset, List[int]]): Number of trades `[<today>, <last 24 hours>]`
         l (Union[Unset, List[str]]): Low `[<today>, <last 24 hours>]`
         h (Union[Unset, List[str]]): High `[<today>, <last 24 hours>]`

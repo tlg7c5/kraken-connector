@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.info_2 import Info2
+from ...schemas.get_asset_info_response import GetAssetInfoResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -31,9 +31,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Info2]:
+) -> Optional[GetAssetInfoResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Info2.from_dict(response.json())
+        response_200 = GetAssetInfoResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -51,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Info2]:
+) -> Response[GetAssetInfoResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +65,7 @@ def sync_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     asset: Union[Unset, None, str] = UNSET,
     aclass: Union[Unset, None, str] = UNSET,
-) -> Response[Info2]:
+) -> Response[GetAssetInfoResponse]:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -79,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Info2]
+        Response[GetAssetInfoResponse]
     """
 
     kwargs = _get_kwargs(
@@ -99,7 +99,7 @@ def sync(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     asset: Union[Unset, None, str] = UNSET,
     aclass: Union[Unset, None, str] = UNSET,
-) -> Optional[Info2]:
+) -> Optional[GetAssetInfoResponse]:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -113,7 +113,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Info2
+        GetAssetInfoResponse
     """
 
     return sync_detailed(
@@ -128,7 +128,7 @@ async def asyncio_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     asset: Union[Unset, None, str] = UNSET,
     aclass: Union[Unset, None, str] = UNSET,
-) -> Response[Info2]:
+) -> Response[GetAssetInfoResponse]:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -142,7 +142,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Info2]
+        Response[GetAssetInfoResponse]
     """
 
     kwargs = _get_kwargs(
@@ -160,7 +160,7 @@ async def asyncio(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     asset: Union[Unset, None, str] = UNSET,
     aclass: Union[Unset, None, str] = UNSET,
-) -> Optional[Info2]:
+) -> Optional[GetAssetInfoResponse]:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -174,7 +174,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Info2
+        GetAssetInfoResponse
     """
 
     return (

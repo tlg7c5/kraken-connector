@@ -6,16 +6,16 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.cancel_withdrawal_response_200 import CancelWithdrawalResponse200
-from ...schemas.request_withdrawal_cancelation_request_body import (
-    RequestWithdrawalCancelationRequestBody,
+from ...schemas.cancel_withdrawal_request import (
+    CancelWithdrawalRequest,
 )
+from ...schemas.cancel_withdrawal_response import CancelWithdrawalResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: RequestWithdrawalCancelationRequestBody,
+    form_data: CancelWithdrawalRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -26,9 +26,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[CancelWithdrawalResponse200]:
+) -> Optional[CancelWithdrawalResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = CancelWithdrawalResponse200.from_dict(response.json())
+        response_200 = CancelWithdrawalResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -46,7 +46,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[CancelWithdrawalResponse200]:
+) -> Response[CancelWithdrawalResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,9 +58,9 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RequestWithdrawalCancelationRequestBody,
-) -> Response[CancelWithdrawalResponse200]:
-    """Request Withdrawal Cancelation
+    form_data: CancelWithdrawalRequest,
+) -> Response[CancelWithdrawalResponse]:
+    """Request WithdrawFundsRequest Cancelation
 
      Cancel a recently requested withdrawal, if it has not already been successfully processed.
 
@@ -72,7 +72,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CancelWithdrawalResponse200]
+        Response[CancelWithdrawalResponse]
     """
 
     kwargs = _get_kwargs(
@@ -96,9 +96,9 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RequestWithdrawalCancelationRequestBody,
-) -> Optional[CancelWithdrawalResponse200]:
-    """Request Withdrawal Cancelation
+    form_data: CancelWithdrawalRequest,
+) -> Optional[CancelWithdrawalResponse]:
+    """Request WithdrawFundsRequest Cancelation
 
      Cancel a recently requested withdrawal, if it has not already been successfully processed.
 
@@ -110,7 +110,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CancelWithdrawalResponse200
+        CancelWithdrawalResponse
     """
 
     return sync_detailed(
@@ -122,9 +122,9 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RequestWithdrawalCancelationRequestBody,
-) -> Response[CancelWithdrawalResponse200]:
-    """Request Withdrawal Cancelation
+    form_data: CancelWithdrawalRequest,
+) -> Response[CancelWithdrawalResponse]:
+    """Request WithdrawFundsRequest Cancelation
 
      Cancel a recently requested withdrawal, if it has not already been successfully processed.
 
@@ -136,7 +136,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CancelWithdrawalResponse200]
+        Response[CancelWithdrawalResponse]
     """
 
     kwargs = _get_kwargs(
@@ -160,9 +160,9 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RequestWithdrawalCancelationRequestBody,
-) -> Optional[CancelWithdrawalResponse200]:
-    """Request Withdrawal Cancelation
+    form_data: CancelWithdrawalRequest,
+) -> Optional[CancelWithdrawalResponse]:
+    """Request WithdrawFundsRequest Cancelation
 
      Cancel a recently requested withdrawal, if it has not already been successfully processed.
 
@@ -174,7 +174,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CancelWithdrawalResponse200
+        CancelWithdrawalResponse
     """
 
     return (

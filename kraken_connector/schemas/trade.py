@@ -20,7 +20,7 @@ class Trade:
         price (Union[Unset, str]): Average price order was executed at (quote currency)
         cost (Union[Unset, str]): Total cost of order (quote currency)
         fee (Union[Unset, str]): Total fee (quote currency)
-        vol (Union[Unset, str]): Volume (base currency)
+        vol (Union[Unset, str]): TradeVolumeResponse (base currency)
         margin (Union[Unset, str]): Initial margin (quote currency)
         leverage (Union[Unset, str]): Amount of leverage used in trade
         misc (Union[Unset, str]): Comma delimited list of miscellaneous info:

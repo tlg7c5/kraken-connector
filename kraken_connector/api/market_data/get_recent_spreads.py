@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.spread_2 import Spread2
+from ...schemas.get_recent_spreads_response import GetRecentSpreadsResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -31,9 +31,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Spread2]:
+) -> Optional[GetRecentSpreadsResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Spread2.from_dict(response.json())
+        response_200 = GetRecentSpreadsResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -51,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Spread2]:
+) -> Response[GetRecentSpreadsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +65,7 @@ def sync_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     since: Union[Unset, None, int] = UNSET,
-) -> Response[Spread2]:
+) -> Response[GetRecentSpreadsResponse]:
     """Get Recent Spreads
 
      Returns the last ~200 top-of-book spreads for a given pair
@@ -79,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Spread2]
+        Response[GetRecentSpreadsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -99,7 +99,7 @@ def sync(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     since: Union[Unset, None, int] = UNSET,
-) -> Optional[Spread2]:
+) -> Optional[GetRecentSpreadsResponse]:
     """Get Recent Spreads
 
      Returns the last ~200 top-of-book spreads for a given pair
@@ -113,7 +113,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Spread2
+        GetRecentSpreadsResponse
     """
 
     return sync_detailed(
@@ -128,7 +128,7 @@ async def asyncio_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     since: Union[Unset, None, int] = UNSET,
-) -> Response[Spread2]:
+) -> Response[GetRecentSpreadsResponse]:
     """Get Recent Spreads
 
      Returns the last ~200 top-of-book spreads for a given pair
@@ -142,7 +142,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Spread2]
+        Response[GetRecentSpreadsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -160,7 +160,7 @@ async def asyncio(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     since: Union[Unset, None, int] = UNSET,
-) -> Optional[Spread2]:
+) -> Optional[GetRecentSpreadsResponse]:
     """Get Recent Spreads
 
      Returns the last ~200 top-of-book spreads for a given pair
@@ -174,7 +174,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Spread2
+        GetRecentSpreadsResponse
     """
 
     return (

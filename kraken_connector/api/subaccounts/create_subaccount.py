@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.create_subaccount_data import CreateSubaccountData
-from ...schemas.create_subaccount_response_200 import CreateSubaccountResponse200
+from ...schemas.create_subaccount_request import CreateSubaccountRequest
+from ...schemas.create_subaccount_response import CreateSubaccountResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: CreateSubaccountData,
+    form_data: CreateSubaccountRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[CreateSubaccountResponse200]:
+) -> Optional[CreateSubaccountResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = CreateSubaccountResponse200.from_dict(response.json())
+        response_200 = CreateSubaccountResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[CreateSubaccountResponse200]:
+) -> Response[CreateSubaccountResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CreateSubaccountData,
-) -> Response[CreateSubaccountResponse200]:
+    form_data: CreateSubaccountRequest,
+) -> Response[CreateSubaccountResponse]:
     """Create Subaccount
 
      Create a trading subaccount.
@@ -67,7 +67,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CreateSubaccountResponse200]
+        Response[CreateSubaccountResponse]
     """
 
     kwargs = _get_kwargs(
@@ -91,8 +91,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CreateSubaccountData,
-) -> Optional[CreateSubaccountResponse200]:
+    form_data: CreateSubaccountRequest,
+) -> Optional[CreateSubaccountResponse]:
     """Create Subaccount
 
      Create a trading subaccount.
@@ -102,7 +102,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CreateSubaccountResponse200
+        CreateSubaccountResponse
     """
 
     return sync_detailed(
@@ -114,8 +114,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CreateSubaccountData,
-) -> Response[CreateSubaccountResponse200]:
+    form_data: CreateSubaccountRequest,
+) -> Response[CreateSubaccountResponse]:
     """Create Subaccount
 
      Create a trading subaccount.
@@ -125,7 +125,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CreateSubaccountResponse200]
+        Response[CreateSubaccountResponse]
     """
 
     kwargs = _get_kwargs(
@@ -149,8 +149,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CreateSubaccountData,
-) -> Optional[CreateSubaccountResponse200]:
+    form_data: CreateSubaccountRequest,
+) -> Optional[CreateSubaccountResponse]:
     """Create Subaccount
 
      Create a trading subaccount.
@@ -160,7 +160,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CreateSubaccountResponse200
+        CreateSubaccountResponse
     """
 
     return (

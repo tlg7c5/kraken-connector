@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.cancel_all_orders_response_200 import CancelAllOrdersResponse200
+from ...schemas.cancel_all_orders_response import CancelAllOrdersResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[CancelAllOrdersResponse200]:
+) -> Optional[CancelAllOrdersResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = CancelAllOrdersResponse200.from_dict(response.json())
+        response_200 = CancelAllOrdersResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[CancelAllOrdersResponse200]:
+) -> Response[CancelAllOrdersResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,7 +53,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[CancelAllOrdersResponse200]:
+) -> Response[CancelAllOrdersResponse]:
     """Cancel All Orders
 
      Cancel all open orders
@@ -66,7 +66,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CancelAllOrdersResponse200]
+        Response[CancelAllOrdersResponse]
     """
 
     kwargs = _get_kwargs()
@@ -88,7 +88,7 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[CancelAllOrdersResponse200]:
+) -> Optional[CancelAllOrdersResponse]:
     """Cancel All Orders
 
      Cancel all open orders
@@ -101,7 +101,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CancelAllOrdersResponse200
+        CancelAllOrdersResponse
     """
 
     return sync_detailed(
@@ -112,7 +112,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[CancelAllOrdersResponse200]:
+) -> Response[CancelAllOrdersResponse]:
     """Cancel All Orders
 
      Cancel all open orders
@@ -125,7 +125,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CancelAllOrdersResponse200]
+        Response[CancelAllOrdersResponse]
     """
 
     kwargs = _get_kwargs()
@@ -147,7 +147,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[CancelAllOrdersResponse200]:
+) -> Optional[CancelAllOrdersResponse]:
     """Cancel All Orders
 
      Cancel all open orders
@@ -160,7 +160,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CancelAllOrdersResponse200
+        CancelAllOrdersResponse
     """
 
     return (

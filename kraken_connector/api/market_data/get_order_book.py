@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.depth import Depth
+from ...schemas.order_book_response import OrderBookResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -24,16 +24,16 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": f"{API_VERSION_PREFIX}/public/Depth",
+        "url": f"{API_VERSION_PREFIX}/public/OrderBookResponse",
         "params": params,
     }
 
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Depth]:
+) -> Optional[OrderBookResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Depth.from_dict(response.json())
+        response_200 = OrderBookResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -51,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Depth]:
+) -> Response[OrderBookResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +65,7 @@ def sync_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     count: Union[Unset, None, int] = 100,
-) -> Response[Depth]:
+) -> Response[OrderBookResponse]:
     """Get Order Book
 
     Args:
@@ -77,7 +77,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Depth]
+        Response[OrderBookResponse]
     """
 
     kwargs = _get_kwargs(
@@ -97,7 +97,7 @@ def sync(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     count: Union[Unset, None, int] = 100,
-) -> Optional[Depth]:
+) -> Optional[OrderBookResponse]:
     """Get Order Book
 
     Args:
@@ -109,7 +109,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Depth
+        OrderBookResponse
     """
 
     return sync_detailed(
@@ -124,7 +124,7 @@ async def asyncio_detailed(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     count: Union[Unset, None, int] = 100,
-) -> Response[Depth]:
+) -> Response[OrderBookResponse]:
     """Get Order Book
 
     Args:
@@ -136,7 +136,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Depth]
+        Response[OrderBookResponse]
     """
 
     kwargs = _get_kwargs(
@@ -154,7 +154,7 @@ async def asyncio(
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: str,
     count: Union[Unset, None, int] = 100,
-) -> Optional[Depth]:
+) -> Optional[OrderBookResponse]:
     """Get Order Book
 
     Args:
@@ -166,7 +166,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Depth
+        OrderBookResponse
     """
 
     return (

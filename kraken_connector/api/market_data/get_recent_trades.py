@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.trades import Trades
+from ...schemas.recent_trades_response import RecentTradesResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -27,16 +27,16 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": f"{API_VERSION_PREFIX}/public/Trades",
+        "url": f"{API_VERSION_PREFIX}/public/RecentTradesResponse",
         "params": params,
     }
 
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Trades]:
+) -> Optional[RecentTradesResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Trades.from_dict(response.json())
+        response_200 = RecentTradesResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -54,7 +54,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Trades]:
+) -> Response[RecentTradesResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,8 +69,8 @@ def sync_detailed(
     pair: str,
     since: Union[Unset, None, str] = UNSET,
     count: Union[Unset, None, int] = 1000,
-) -> Response[Trades]:
-    """Get Recent Trades
+) -> Response[RecentTradesResponse]:
+    """Get Recent RecentTradesResponse
 
      Returns the last 1000 trades by default
 
@@ -84,7 +84,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Trades]
+        Response[RecentTradesResponse]
     """
 
     kwargs = _get_kwargs(
@@ -106,8 +106,8 @@ def sync(
     pair: str,
     since: Union[Unset, None, str] = UNSET,
     count: Union[Unset, None, int] = 1000,
-) -> Optional[Trades]:
-    """Get Recent Trades
+) -> Optional[RecentTradesResponse]:
+    """Get Recent RecentTradesResponse
 
      Returns the last 1000 trades by default
 
@@ -121,7 +121,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Trades
+        RecentTradesResponse
     """
 
     return sync_detailed(
@@ -138,8 +138,8 @@ async def asyncio_detailed(
     pair: str,
     since: Union[Unset, None, str] = UNSET,
     count: Union[Unset, None, int] = 1000,
-) -> Response[Trades]:
-    """Get Recent Trades
+) -> Response[RecentTradesResponse]:
+    """Get Recent RecentTradesResponse
 
      Returns the last 1000 trades by default
 
@@ -153,7 +153,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Trades]
+        Response[RecentTradesResponse]
     """
 
     kwargs = _get_kwargs(
@@ -173,8 +173,8 @@ async def asyncio(
     pair: str,
     since: Union[Unset, None, str] = UNSET,
     count: Union[Unset, None, int] = 1000,
-) -> Optional[Trades]:
-    """Get Recent Trades
+) -> Optional[RecentTradesResponse]:
+    """Get Recent RecentTradesResponse
 
      Returns the last 1000 trades by default
 
@@ -188,7 +188,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Trades
+        RecentTradesResponse
     """
 
     return (

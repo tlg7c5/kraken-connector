@@ -6,15 +6,15 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.get_status_of_recent_withdrawals_request_body import (
-    GetStatusOfRecentWithdrawalsRequestBody,
+from ...schemas.get_recent_withdrawals_request import (
+    GetRecentWithdrawalsRequest,
 )
 from ...security import sign_message
 from ...types import Response
 
 
 def _get_kwargs(
-    form_data: GetStatusOfRecentWithdrawalsRequestBody,
+    form_data: GetRecentWithdrawalsRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -46,7 +46,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetStatusOfRecentWithdrawalsRequestBody,
+    form_data: GetRecentWithdrawalsRequest,
 ) -> Response[Any]:
     """Get Status of Recent Withdrawals
 
@@ -84,7 +84,7 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetStatusOfRecentWithdrawalsRequestBody,
+    form_data: GetRecentWithdrawalsRequest,
 ) -> Response[Any]:
     """Get Status of Recent Withdrawals
 

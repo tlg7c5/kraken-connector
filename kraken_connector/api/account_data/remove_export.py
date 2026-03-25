@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.remove_export_data import RemoveExportData
-from ...schemas.remove_export_response_200 import RemoveExportResponse200
+from ...schemas.remove_export_request import RemoveExportRequest
+from ...schemas.remove_export_response import RemoveExportResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: RemoveExportData,
+    form_data: RemoveExportRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[RemoveExportResponse200]:
+) -> Optional[RemoveExportResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = RemoveExportResponse200.from_dict(response.json())
+        response_200 = RemoveExportResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[RemoveExportResponse200]:
+) -> Response[RemoveExportResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RemoveExportData,
-) -> Response[RemoveExportResponse200]:
+    form_data: RemoveExportRequest,
+) -> Response[RemoveExportResponse]:
     """Delete Export Report
 
      Delete exported trades/ledgers report
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[RemoveExportResponse200]
+        Response[RemoveExportResponse]
     """
 
     kwargs = _get_kwargs(
@@ -93,8 +93,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RemoveExportData,
-) -> Optional[RemoveExportResponse200]:
+    form_data: RemoveExportRequest,
+) -> Optional[RemoveExportResponse]:
     """Delete Export Report
 
      Delete exported trades/ledgers report
@@ -106,7 +106,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        RemoveExportResponse200
+        RemoveExportResponse
     """
 
     return sync_detailed(
@@ -118,8 +118,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RemoveExportData,
-) -> Response[RemoveExportResponse200]:
+    form_data: RemoveExportRequest,
+) -> Response[RemoveExportResponse]:
     """Delete Export Report
 
      Delete exported trades/ledgers report
@@ -131,7 +131,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[RemoveExportResponse200]
+        Response[RemoveExportResponse]
     """
 
     kwargs = _get_kwargs(
@@ -155,8 +155,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RemoveExportData,
-) -> Optional[RemoveExportResponse200]:
+    form_data: RemoveExportRequest,
+) -> Optional[RemoveExportResponse]:
     """Delete Export Report
 
      Delete exported trades/ledgers report
@@ -168,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        RemoveExportResponse200
+        RemoveExportResponse
     """
 
     return (

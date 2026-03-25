@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.get_desposit_methods_request_body import GetDespositMethodsRequestBody
-from ...schemas.methods_2 import Methods2
+from ...schemas.get_deposit_methods_request import GetDepositMethodsRequest
+from ...schemas.get_deposit_methods_response import GetDepositMethodsResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: GetDespositMethodsRequestBody,
+    form_data: GetDepositMethodsRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Methods2]:
+) -> Optional[GetDepositMethodsResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Methods2.from_dict(response.json())
+        response_200 = GetDepositMethodsResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Methods2]:
+) -> Response[GetDepositMethodsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetDespositMethodsRequestBody,
-) -> Response[Methods2]:
+    form_data: GetDepositMethodsRequest,
+) -> Response[GetDepositMethodsResponse]:
     """Get Deposit Methods
 
      Retrieve methods available for depositing a particular asset.
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Methods2]
+        Response[GetDepositMethodsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -93,8 +93,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetDespositMethodsRequestBody,
-) -> Optional[Methods2]:
+    form_data: GetDepositMethodsRequest,
+) -> Optional[GetDepositMethodsResponse]:
     """Get Deposit Methods
 
      Retrieve methods available for depositing a particular asset.
@@ -106,7 +106,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Methods2
+        GetDepositMethodsResponse
     """
 
     return sync_detailed(
@@ -118,8 +118,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetDespositMethodsRequestBody,
-) -> Response[Methods2]:
+    form_data: GetDepositMethodsRequest,
+) -> Response[GetDepositMethodsResponse]:
     """Get Deposit Methods
 
      Retrieve methods available for depositing a particular asset.
@@ -131,7 +131,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Methods2]
+        Response[GetDepositMethodsResponse]
     """
 
     kwargs = _get_kwargs(
@@ -155,8 +155,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetDespositMethodsRequestBody,
-) -> Optional[Methods2]:
+    form_data: GetDepositMethodsRequest,
+) -> Optional[GetDepositMethodsResponse]:
     """Get Deposit Methods
 
      Retrieve methods available for depositing a particular asset.
@@ -168,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Methods2
+        GetDepositMethodsResponse
     """
 
     return (

@@ -6,15 +6,15 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.allocate_strategy_json_body import AllocateStrategyJsonBody
-from ...schemas.allocate_strategy_response_200 import AllocateStrategyResponse200
+from ...schemas.allocate_strategy_request import AllocateStrategyRequest
+from ...schemas.allocate_strategy_response import AllocateStrategyResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
     *,
-    json_body: AllocateStrategyJsonBody,
+    json_body: AllocateStrategyRequest,
 ) -> Dict[str, Any]:
     json_json_body = json_body.to_dict()
 
@@ -27,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[AllocateStrategyResponse200]:
+) -> Optional[AllocateStrategyResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = AllocateStrategyResponse200.from_dict(response.json())
+        response_200 = AllocateStrategyResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -47,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[AllocateStrategyResponse200]:
+) -> Response[AllocateStrategyResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,8 +59,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: AllocateStrategyJsonBody,
-) -> Response[AllocateStrategyResponse200]:
+    json_body: AllocateStrategyRequest,
+) -> Response[AllocateStrategyResponse]:
     """Allocate Earn Funds
 
      Allocate funds to the Strategy.
@@ -90,14 +90,14 @@ def sync_detailed(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (AllocateStrategyJsonBody): Allocation amount in asset specified in the strategy
+        json_body (AllocateStrategyRequest): Allocation amount in asset specified in the strategy
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[AllocateStrategyResponse200]
+        Response[AllocateStrategyResponse]
     """
 
     kwargs = _get_kwargs(
@@ -121,8 +121,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: AllocateStrategyJsonBody,
-) -> Optional[AllocateStrategyResponse200]:
+    json_body: AllocateStrategyRequest,
+) -> Optional[AllocateStrategyResponse]:
     """Allocate Earn Funds
 
      Allocate funds to the Strategy.
@@ -152,14 +152,14 @@ def sync(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (AllocateStrategyJsonBody): Allocation amount in asset specified in the strategy
+        json_body (AllocateStrategyRequest): Allocation amount in asset specified in the strategy
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        AllocateStrategyResponse200
+        AllocateStrategyResponse
     """
 
     return sync_detailed(
@@ -171,8 +171,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: AllocateStrategyJsonBody,
-) -> Response[AllocateStrategyResponse200]:
+    json_body: AllocateStrategyRequest,
+) -> Response[AllocateStrategyResponse]:
     """Allocate Earn Funds
 
      Allocate funds to the Strategy.
@@ -202,14 +202,14 @@ async def asyncio_detailed(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (AllocateStrategyJsonBody): Allocation amount in asset specified in the strategy
+        json_body (AllocateStrategyRequest): Allocation amount in asset specified in the strategy
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[AllocateStrategyResponse200]
+        Response[AllocateStrategyResponse]
     """
 
     kwargs = _get_kwargs(
@@ -233,8 +233,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: AllocateStrategyJsonBody,
-) -> Optional[AllocateStrategyResponse200]:
+    json_body: AllocateStrategyRequest,
+) -> Optional[AllocateStrategyResponse]:
     """Allocate Earn Funds
 
      Allocate funds to the Strategy.
@@ -264,14 +264,14 @@ async def asyncio(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (AllocateStrategyJsonBody): Allocation amount in asset specified in the strategy
+        json_body (AllocateStrategyRequest): Allocation amount in asset specified in the strategy
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        AllocateStrategyResponse200
+        AllocateStrategyResponse
     """
 
     return (

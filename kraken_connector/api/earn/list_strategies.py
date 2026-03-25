@@ -6,15 +6,15 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.list_strategies_json_body import ListStrategiesJsonBody
-from ...schemas.list_strategies_response_200 import ListStrategiesResponse200
+from ...schemas.list_strategies_request import ListStrategiesRequest
+from ...schemas.list_strategies_response import ListStrategiesResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
     *,
-    json_body: ListStrategiesJsonBody,
+    json_body: ListStrategiesRequest,
 ) -> Dict[str, Any]:
     json_json_body = json_body.to_dict()
 
@@ -27,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[ListStrategiesResponse200]:
+) -> Optional[ListStrategiesResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = ListStrategiesResponse200.from_dict(response.json())
+        response_200 = ListStrategiesResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -47,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[ListStrategiesResponse200]:
+) -> Response[ListStrategiesResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,8 +59,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListStrategiesJsonBody,
-) -> Response[ListStrategiesResponse200]:
+    json_body: ListStrategiesRequest,
+) -> Response[ListStrategiesResponse]:
     """List Earn Strategies
 
      List earn strategies along with their parameters.
@@ -79,14 +79,14 @@ def sync_detailed(
     data in the first page.
 
     Args:
-        json_body (ListStrategiesJsonBody): List strategies parameters
+        json_body (ListStrategiesRequest): List strategies parameters
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[ListStrategiesResponse200]
+        Response[ListStrategiesResponse]
     """
 
     kwargs = _get_kwargs(
@@ -110,8 +110,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListStrategiesJsonBody,
-) -> Optional[ListStrategiesResponse200]:
+    json_body: ListStrategiesRequest,
+) -> Optional[ListStrategiesResponse]:
     """List Earn Strategies
 
      List earn strategies along with their parameters.
@@ -130,14 +130,14 @@ def sync(
     data in the first page.
 
     Args:
-        json_body (ListStrategiesJsonBody): List strategies parameters
+        json_body (ListStrategiesRequest): List strategies parameters
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        ListStrategiesResponse200
+        ListStrategiesResponse
     """
 
     return sync_detailed(
@@ -149,8 +149,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListStrategiesJsonBody,
-) -> Response[ListStrategiesResponse200]:
+    json_body: ListStrategiesRequest,
+) -> Response[ListStrategiesResponse]:
     """List Earn Strategies
 
      List earn strategies along with their parameters.
@@ -169,14 +169,14 @@ async def asyncio_detailed(
     data in the first page.
 
     Args:
-        json_body (ListStrategiesJsonBody): List strategies parameters
+        json_body (ListStrategiesRequest): List strategies parameters
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[ListStrategiesResponse200]
+        Response[ListStrategiesResponse]
     """
 
     kwargs = _get_kwargs(
@@ -200,8 +200,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListStrategiesJsonBody,
-) -> Optional[ListStrategiesResponse200]:
+    json_body: ListStrategiesRequest,
+) -> Optional[ListStrategiesResponse]:
     """List Earn Strategies
 
      List earn strategies along with their parameters.
@@ -220,14 +220,14 @@ async def asyncio(
     data in the first page.
 
     Args:
-        json_body (ListStrategiesJsonBody): List strategies parameters
+        json_body (ListStrategiesRequest): List strategies parameters
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        ListStrategiesResponse200
+        ListStrategiesResponse
     """
 
     return (

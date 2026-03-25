@@ -6,22 +6,22 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.time import Time
+from ...schemas.server_time_response import ServerTimeResponse
 from ...types import Response, Unset
 
 
 def _get_kwargs() -> Dict[str, Any]:
     return {
         "method": "get",
-        "url": f"{API_VERSION_PREFIX}/public/Time",
+        "url": f"{API_VERSION_PREFIX}/public/ServerTimeResponse",
     }
 
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Time]:
+) -> Optional[ServerTimeResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Time.from_dict(response.json())
+        response_200 = ServerTimeResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -39,7 +39,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Time]:
+) -> Response[ServerTimeResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,8 +51,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Response[Time]:
-    """Get Server Time
+) -> Response[ServerTimeResponse]:
+    """Get Server ServerTimeResponse
 
      Get the server's time.
 
@@ -61,7 +61,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Time]
+        Response[ServerTimeResponse]
     """
 
     kwargs = _get_kwargs()
@@ -76,8 +76,8 @@ def sync_detailed(
 def sync(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Optional[Time]:
-    """Get Server Time
+) -> Optional[ServerTimeResponse]:
+    """Get Server ServerTimeResponse
 
      Get the server's time.
 
@@ -86,7 +86,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Time
+        ServerTimeResponse
     """
 
     return sync_detailed(
@@ -97,8 +97,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Response[Time]:
-    """Get Server Time
+) -> Response[ServerTimeResponse]:
+    """Get Server ServerTimeResponse
 
      Get the server's time.
 
@@ -107,7 +107,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Time]
+        Response[ServerTimeResponse]
     """
 
     kwargs = _get_kwargs()
@@ -120,8 +120,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Optional[Time]:
-    """Get Server Time
+) -> Optional[ServerTimeResponse]:
+    """Get Server ServerTimeResponse
 
      Get the server's time.
 
@@ -130,7 +130,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Time
+        ServerTimeResponse
     """
 
     return (

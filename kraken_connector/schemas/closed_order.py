@@ -27,8 +27,8 @@ class ClosedOrder:
         starttm (Union[Unset, float]): Unix timestamp of order start time (or 0 if not set)
         expiretm (Union[Unset, float]): Unix timestamp of order end time (or 0 if not set)
         descr (Union[Unset, OpenOrderOrderDescription]): Order description info
-        vol (Union[Unset, str]): Volume of order (base currency)
-        vol_exec (Union[Unset, str]): Volume executed (base currency)
+        vol (Union[Unset, str]): TradeVolumeResponse of order (base currency)
+        vol_exec (Union[Unset, str]): TradeVolumeResponse executed (base currency)
         cost (Union[Unset, str]): Total cost (quote currency unless)
         fee (Union[Unset, str]): Total fee (quote currency)
         price (Union[Unset, str]): Average price (quote currency)

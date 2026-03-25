@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.query_3 import Query3
+from ...schemas.get_ledgers_info_response import GetLedgersInfoResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Query3]:
+) -> Optional[GetLedgersInfoResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Query3.from_dict(response.json())
+        response_200 = GetLedgersInfoResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Query3]:
+) -> Response[GetLedgersInfoResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,7 +53,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Query3]:
+) -> Response[GetLedgersInfoResponse]:
     """Query Ledgers
 
      Retrieve information about specific ledger entries.
@@ -65,7 +65,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Query3]
+        Response[GetLedgersInfoResponse]
     """
 
     kwargs = _get_kwargs()
@@ -87,7 +87,7 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Query3]:
+) -> Optional[GetLedgersInfoResponse]:
     """Query Ledgers
 
      Retrieve information about specific ledger entries.
@@ -99,7 +99,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Query3
+        GetLedgersInfoResponse
     """
 
     return sync_detailed(
@@ -110,7 +110,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Query3]:
+) -> Response[GetLedgersInfoResponse]:
     """Query Ledgers
 
      Retrieve information about specific ledger entries.
@@ -122,7 +122,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Query3]
+        Response[GetLedgersInfoResponse]
     """
 
     kwargs = _get_kwargs()
@@ -144,7 +144,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Query3]:
+) -> Optional[GetLedgersInfoResponse]:
     """Query Ledgers
 
      Retrieve information about specific ledger entries.
@@ -156,7 +156,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Query3
+        GetLedgersInfoResponse
     """
 
     return (

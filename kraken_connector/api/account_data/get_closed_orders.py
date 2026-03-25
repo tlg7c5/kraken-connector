@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.closed_2 import Closed2
+from ...schemas.get_closed_orders_response import GetClosedOrdersResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Closed2]:
+) -> Optional[GetClosedOrdersResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Closed2.from_dict(response.json())
+        response_200 = GetClosedOrdersResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Closed2]:
+) -> Response[GetClosedOrdersResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,7 +53,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Closed2]:
+) -> Response[GetClosedOrdersResponse]:
     """Get Closed Orders
 
      Retrieve information about orders that have been closed (filled or cancelled). 50 results are
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Closed2]
+        Response[GetClosedOrdersResponse]
     """
 
     kwargs = _get_kwargs()
@@ -91,7 +91,7 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Closed2]:
+) -> Optional[GetClosedOrdersResponse]:
     """Get Closed Orders
 
      Retrieve information about orders that have been closed (filled or cancelled). 50 results are
@@ -107,7 +107,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Closed2
+        GetClosedOrdersResponse
     """
 
     return sync_detailed(
@@ -118,7 +118,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Closed2]:
+) -> Response[GetClosedOrdersResponse]:
     """Get Closed Orders
 
      Retrieve information about orders that have been closed (filled or cancelled). 50 results are
@@ -134,7 +134,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Closed2]
+        Response[GetClosedOrdersResponse]
     """
 
     kwargs = _get_kwargs()
@@ -156,7 +156,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Closed2]:
+) -> Optional[GetClosedOrdersResponse]:
     """Get Closed Orders
 
      Retrieve information about orders that have been closed (filled or cancelled). 50 results are
@@ -172,7 +172,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Closed2
+        GetClosedOrdersResponse
     """
 
     return (

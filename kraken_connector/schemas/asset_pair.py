@@ -17,7 +17,7 @@ class AssetPair:
         base (Union[Unset, str]): Asset ID of base component
         aclass_quote (Union[Unset, str]): Asset class of quote component
         quote (Union[Unset, str]): Asset ID of quote component
-        lot (Union[Unset, str]): Volume lot size
+        lot (Union[Unset, str]): TradeVolumeResponse lot size
         pair_decimals (Union[Unset, int]): Scaling decimal places for pair
         cost_decimals (Union[Unset, int]): Scaling decimal places for cost
         lot_decimals (Union[Unset, int]): Scaling decimal places for volume
@@ -27,7 +27,7 @@ class AssetPair:
         fees (Union[Unset, List[List[float]]]): Fee schedule array in `[<volume>, <percent fee>]` tuples
         fees_maker (Union[Unset, List[List[float]]]): Maker fee schedule array in `[<volume>, <percent fee>]`  tuples
             (if on maker/taker)
-        fee_volume_currency (Union[Unset, str]): Volume discount currency
+        fee_volume_currency (Union[Unset, str]): TradeVolumeResponse discount currency
         margin_call (Union[Unset, int]): Margin call level
         margin_stop (Union[Unset, int]): Stop-out/liquidation margin level
         ordermin (Union[Unset, str]): Minimum order size (in terms of base currency)

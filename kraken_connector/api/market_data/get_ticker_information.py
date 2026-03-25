@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.ticker_2 import Ticker2
+from ...schemas.get_ticker_response import GetTickerResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -28,9 +28,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Ticker2]:
+) -> Optional[GetTickerResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Ticker2.from_dict(response.json())
+        response_200 = GetTickerResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -48,7 +48,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Ticker2]:
+) -> Response[GetTickerResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,7 +61,7 @@ def sync_detailed(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
-) -> Response[Ticker2]:
+) -> Response[GetTickerResponse]:
     """Get Ticker Information
 
      Note: Today's prices start at midnight UTC. Leaving the pair parameter blank will return tickers for
@@ -75,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Ticker2]
+        Response[GetTickerResponse]
     """
 
     kwargs = _get_kwargs(
@@ -93,7 +93,7 @@ def sync(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
-) -> Optional[Ticker2]:
+) -> Optional[GetTickerResponse]:
     """Get Ticker Information
 
      Note: Today's prices start at midnight UTC. Leaving the pair parameter blank will return tickers for
@@ -107,7 +107,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Ticker2
+        GetTickerResponse
     """
 
     return sync_detailed(
@@ -120,7 +120,7 @@ async def asyncio_detailed(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
-) -> Response[Ticker2]:
+) -> Response[GetTickerResponse]:
     """Get Ticker Information
 
      Note: Today's prices start at midnight UTC. Leaving the pair parameter blank will return tickers for
@@ -134,7 +134,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Ticker2]
+        Response[GetTickerResponse]
     """
 
     kwargs = _get_kwargs(
@@ -150,7 +150,7 @@ async def asyncio(
     *,
     client: Union[HTTPAuthenticatedClient, HTTPClient],
     pair: Union[Unset, None, str] = UNSET,
-) -> Optional[Ticker2]:
+) -> Optional[GetTickerResponse]:
     """Get Ticker Information
 
      Note: Today's prices start at midnight UTC. Leaving the pair parameter blank will return tickers for
@@ -164,7 +164,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Ticker2
+        GetTickerResponse
     """
 
     return (

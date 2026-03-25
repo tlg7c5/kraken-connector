@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.volume import Volume
+from ...schemas.trade_volume_response import TradeVolumeResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Volume]:
+) -> Optional[TradeVolumeResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Volume.from_dict(response.json())
+        response_200 = TradeVolumeResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Volume]:
+) -> Response[TradeVolumeResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,8 +53,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Volume]:
-    """Get Trade Volume
+) -> Response[TradeVolumeResponse]:
+    """Get Trade TradeVolumeResponse
 
      Returns 30 day USD trading volume and resulting fee schedule for any asset pair(s) provided.
     Note: If an asset pair is on a maker/taker fee schedule, the taker side is given in `fees` and maker
@@ -67,7 +67,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Volume]
+        Response[TradeVolumeResponse]
     """
 
     kwargs = _get_kwargs()
@@ -89,8 +89,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Volume]:
-    """Get Trade Volume
+) -> Optional[TradeVolumeResponse]:
+    """Get Trade TradeVolumeResponse
 
      Returns 30 day USD trading volume and resulting fee schedule for any asset pair(s) provided.
     Note: If an asset pair is on a maker/taker fee schedule, the taker side is given in `fees` and maker
@@ -103,7 +103,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Volume
+        TradeVolumeResponse
     """
 
     return sync_detailed(
@@ -114,8 +114,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Volume]:
-    """Get Trade Volume
+) -> Response[TradeVolumeResponse]:
+    """Get Trade TradeVolumeResponse
 
      Returns 30 day USD trading volume and resulting fee schedule for any asset pair(s) provided.
     Note: If an asset pair is on a maker/taker fee schedule, the taker side is given in `fees` and maker
@@ -128,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Volume]
+        Response[TradeVolumeResponse]
     """
 
     kwargs = _get_kwargs()
@@ -150,8 +150,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Volume]:
-    """Get Trade Volume
+) -> Optional[TradeVolumeResponse]:
+    """Get Trade TradeVolumeResponse
 
      Returns 30 day USD trading volume and resulting fee schedule for any asset pair(s) provided.
     Note: If an asset pair is on a maker/taker fee schedule, the taker side is given in `fees` and maker
@@ -164,7 +164,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Volume
+        TradeVolumeResponse
     """
 
     return (

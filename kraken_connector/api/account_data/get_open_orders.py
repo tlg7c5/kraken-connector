@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.open_2 import Open2
+from ...schemas.get_open_orders_response import GetOpenOrdersResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Open2]:
+) -> Optional[GetOpenOrdersResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Open2.from_dict(response.json())
+        response_200 = GetOpenOrdersResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Open2]:
+) -> Response[GetOpenOrdersResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,7 +53,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Open2]:
+) -> Response[GetOpenOrdersResponse]:
     """Get Open Orders
 
      Retrieve information about currently open orders.
@@ -65,7 +65,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Open2]
+        Response[GetOpenOrdersResponse]
     """
 
     kwargs = _get_kwargs()
@@ -87,7 +87,7 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Open2]:
+) -> Optional[GetOpenOrdersResponse]:
     """Get Open Orders
 
      Retrieve information about currently open orders.
@@ -99,7 +99,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Open2
+        GetOpenOrdersResponse
     """
 
     return sync_detailed(
@@ -110,7 +110,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Open2]:
+) -> Response[GetOpenOrdersResponse]:
     """Get Open Orders
 
      Retrieve information about currently open orders.
@@ -122,7 +122,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Open2]
+        Response[GetOpenOrdersResponse]
     """
 
     kwargs = _get_kwargs()
@@ -144,7 +144,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Open2]:
+) -> Optional[GetOpenOrdersResponse]:
     """Get Open Orders
 
      Retrieve information about currently open orders.
@@ -156,7 +156,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Open2
+        GetOpenOrdersResponse
     """
 
     return (

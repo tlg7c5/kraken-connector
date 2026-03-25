@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.balance_2 import Balance2
+from ...schemas.get_balance_response import GetBalanceResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Balance2]:
+) -> Optional[GetBalanceResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Balance2.from_dict(response.json())
+        response_200 = GetBalanceResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Balance2]:
+) -> Response[GetBalanceResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,7 +53,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Balance2]:
+) -> Response[GetBalanceResponse]:
     """Get Account Balance
 
      Retrieve all cash balances, net of pending withdrawals.
@@ -65,7 +65,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Balance2]
+        Response[GetBalanceResponse]
     """
 
     kwargs = _get_kwargs()
@@ -89,7 +89,7 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Balance2]:
+) -> Optional[GetBalanceResponse]:
     """Get Account Balance
 
      Retrieve all cash balances, net of pending withdrawals.
@@ -101,7 +101,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Balance2
+        GetBalanceResponse
     """
 
     return sync_detailed(
@@ -112,7 +112,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[Balance2]:
+) -> Response[GetBalanceResponse]:
     """Get Account Balance
 
      Retrieve all cash balances, net of pending withdrawals.
@@ -124,7 +124,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Balance2]
+        Response[GetBalanceResponse]
     """
 
     kwargs = _get_kwargs()
@@ -146,7 +146,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[Balance2]:
+) -> Optional[GetBalanceResponse]:
     """Get Account Balance
 
      Retrieve all cash balances, net of pending withdrawals.
@@ -158,7 +158,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Balance2
+        GetBalanceResponse
     """
 
     return (

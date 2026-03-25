@@ -6,7 +6,7 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.get_trades_info_response_200 import GetTradesInfoResponse200
+from ...schemas.get_trades_info_response import GetTradesInfoResponse
 from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
@@ -21,9 +21,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[GetTradesInfoResponse200]:
+) -> Optional[GetTradesInfoResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetTradesInfoResponse200.from_dict(response.json())
+        response_200 = GetTradesInfoResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -41,7 +41,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[GetTradesInfoResponse200]:
+) -> Response[GetTradesInfoResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,8 +53,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[GetTradesInfoResponse200]:
-    """Query Trades Info
+) -> Response[GetTradesInfoResponse]:
+    """Query RecentTradesResponse Info
 
      Retrieve information about specific trades/fills.
 
@@ -65,7 +65,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetTradesInfoResponse200]
+        Response[GetTradesInfoResponse]
     """
 
     kwargs = _get_kwargs()
@@ -87,8 +87,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[GetTradesInfoResponse200]:
-    """Query Trades Info
+) -> Optional[GetTradesInfoResponse]:
+    """Query RecentTradesResponse Info
 
      Retrieve information about specific trades/fills.
 
@@ -99,7 +99,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetTradesInfoResponse200
+        GetTradesInfoResponse
     """
 
     return sync_detailed(
@@ -110,8 +110,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-) -> Response[GetTradesInfoResponse200]:
-    """Query Trades Info
+) -> Response[GetTradesInfoResponse]:
+    """Query RecentTradesResponse Info
 
      Retrieve information about specific trades/fills.
 
@@ -122,7 +122,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetTradesInfoResponse200]
+        Response[GetTradesInfoResponse]
     """
 
     kwargs = _get_kwargs()
@@ -144,8 +144,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[GetTradesInfoResponse200]:
-    """Query Trades Info
+) -> Optional[GetTradesInfoResponse]:
+    """Query RecentTradesResponse Info
 
      Retrieve information about specific trades/fills.
 
@@ -156,7 +156,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetTradesInfoResponse200
+        GetTradesInfoResponse
     """
 
     return (

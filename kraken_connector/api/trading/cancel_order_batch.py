@@ -6,15 +6,15 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.batch_cancel_open_orders_request_body import (
-    BatchCancelOpenOrdersRequestBody,
+from ...schemas.batch_cancel_orders_request import (
+    BatchCancelOrdersRequest,
 )
 from ...security import sign_message
 from ...types import Response
 
 
 def _get_kwargs(
-    form_data: BatchCancelOpenOrdersRequestBody,
+    form_data: BatchCancelOrdersRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -48,7 +48,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: BatchCancelOpenOrdersRequestBody,
+    form_data: BatchCancelOrdersRequest,
 ) -> Response[Any]:
     """Cancel Order Batch
 
@@ -86,7 +86,7 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: BatchCancelOpenOrdersRequestBody,
+    form_data: BatchCancelOrdersRequest,
 ) -> Response[Any]:
     """Cancel Order Batch
 

@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.add_export_data import AddExportData
-from ...schemas.add_export_response_200 import AddExportResponse200
+from ...schemas.add_export_request import AddExportRequest
+from ...schemas.add_export_response import AddExportResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: AddExportData,
+    form_data: AddExportRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[AddExportResponse200]:
+) -> Optional[AddExportResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = AddExportResponse200.from_dict(response.json())
+        response_200 = AddExportResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[AddExportResponse200]:
+) -> Response[AddExportResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddExportData,
-) -> Response[AddExportResponse200]:
+    form_data: AddExportRequest,
+) -> Response[AddExportResponse]:
     """Request Export Report
 
      Request export of trades or ledgers.
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[AddExportResponse200]
+        Response[AddExportResponse]
     """
 
     kwargs = _get_kwargs(
@@ -94,8 +94,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddExportData,
-) -> Optional[AddExportResponse200]:
+    form_data: AddExportRequest,
+) -> Optional[AddExportResponse]:
     """Request Export Report
 
      Request export of trades or ledgers.
@@ -107,7 +107,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        AddExportResponse200
+        AddExportResponse
     """
 
     return sync_detailed(
@@ -119,8 +119,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddExportData,
-) -> Response[AddExportResponse200]:
+    form_data: AddExportRequest,
+) -> Response[AddExportResponse]:
     """Request Export Report
 
      Request export of trades or ledgers.
@@ -132,7 +132,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[AddExportResponse200]
+        Response[AddExportResponse]
     """
 
     kwargs = _get_kwargs(
@@ -155,8 +155,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddExportData,
-) -> Optional[AddExportResponse200]:
+    form_data: AddExportRequest,
+) -> Optional[AddExportResponse]:
     """Request Export Report
 
      Request export of trades or ledgers.
@@ -168,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        AddExportResponse200
+        AddExportResponse
     """
 
     return (

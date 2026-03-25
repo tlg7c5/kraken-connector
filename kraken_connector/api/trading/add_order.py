@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.add_2 import Add2
-from ...schemas.add_standard_order_request_body import AddStandardOrderRequestBody
+from ...schemas.add_order_request import AddOrderRequest
+from ...schemas.add_order_response import AddOrderResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: AddStandardOrderRequestBody,
+    form_data: AddOrderRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Add2]:
+) -> Optional[AddOrderResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Add2.from_dict(response.json())
+        response_200 = AddOrderResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Add2]:
+) -> Response[AddOrderResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddStandardOrderRequestBody,
-) -> Response[Add2]:
+    form_data: AddOrderRequest,
+) -> Response[AddOrderResponse]:
     """Add Order
 
      Place a new order.
@@ -73,7 +73,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Add2]
+        Response[AddOrderResponse]
     """
 
     kwargs = _get_kwargs(
@@ -97,8 +97,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddStandardOrderRequestBody,
-) -> Optional[Add2]:
+    form_data: AddOrderRequest,
+) -> Optional[AddOrderResponse]:
     """Add Order
 
      Place a new order.
@@ -114,7 +114,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Add2
+        AddOrderResponse
     """
 
     return sync_detailed(
@@ -126,8 +126,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddStandardOrderRequestBody,
-) -> Response[Add2]:
+    form_data: AddOrderRequest,
+) -> Response[AddOrderResponse]:
     """Add Order
 
      Place a new order.
@@ -143,7 +143,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Add2]
+        Response[AddOrderResponse]
     """
 
     kwargs = _get_kwargs(
@@ -167,8 +167,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: AddStandardOrderRequestBody,
-) -> Optional[Add2]:
+    form_data: AddOrderRequest,
+) -> Optional[AddOrderResponse]:
     """Add Order
 
      Place a new order.
@@ -184,7 +184,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Add2
+        AddOrderResponse
     """
 
     return (

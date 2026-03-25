@@ -6,15 +6,15 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.deallocate_strategy_json_body import DeallocateStrategyJsonBody
-from ...schemas.deallocate_strategy_response_200 import DeallocateStrategyResponse200
+from ...schemas.deallocate_strategy_request import DeallocateStrategyRequest
+from ...schemas.deallocate_strategy_response import DeallocateStrategyResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
     *,
-    json_body: DeallocateStrategyJsonBody,
+    json_body: DeallocateStrategyRequest,
 ) -> Dict[str, Any]:
     json_json_body = json_body.to_dict()
 
@@ -27,9 +27,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[DeallocateStrategyResponse200]:
+) -> Optional[DeallocateStrategyResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = DeallocateStrategyResponse200.from_dict(response.json())
+        response_200 = DeallocateStrategyResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -47,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[DeallocateStrategyResponse200]:
+) -> Response[DeallocateStrategyResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,8 +59,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Response[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> Response[DeallocateStrategyResponse]:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -89,7 +89,7 @@ def sync_detailed(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -97,7 +97,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[DeallocateStrategyResponse200]
+        Response[DeallocateStrategyResponse]
     """
 
     kwargs = _get_kwargs(
@@ -121,8 +121,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Optional[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> Optional[DeallocateStrategyResponse]:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -151,7 +151,7 @@ def sync(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -159,7 +159,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        DeallocateStrategyResponse200
+        DeallocateStrategyResponse
     """
 
     return sync_detailed(
@@ -171,8 +171,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Response[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> Response[DeallocateStrategyResponse]:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -201,7 +201,7 @@ async def asyncio_detailed(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -209,7 +209,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[DeallocateStrategyResponse200]
+        Response[DeallocateStrategyResponse]
     """
 
     kwargs = _get_kwargs(
@@ -233,8 +233,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Optional[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> Optional[DeallocateStrategyResponse]:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -263,7 +263,7 @@ async def asyncio(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -271,7 +271,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        DeallocateStrategyResponse200
+        DeallocateStrategyResponse
     """
 
     return (

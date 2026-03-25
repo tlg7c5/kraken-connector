@@ -6,14 +6,14 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.retrieve_export_data import RetrieveExportData
-from ...schemas.retrieve_export_response_200 import RetrieveExportResponse200
+from ...schemas.retrieve_export_request import RetrieveExportRequest
+from ...schemas.retrieve_export_response import RetrieveExportResponse
 from ...security import sign_message
 from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: RetrieveExportData,
+    form_data: RetrieveExportRequest,
 ) -> Dict[str, Any]:
     return {
         "method": "post",
@@ -24,9 +24,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[RetrieveExportResponse200]:
+) -> Optional[RetrieveExportResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = RetrieveExportResponse200.from_dict(response.content)
+        response_200 = RetrieveExportResponse.from_dict(response.content)
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -44,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[RetrieveExportResponse200]:
+) -> Response[RetrieveExportResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,8 +56,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RetrieveExportData,
-) -> Response[RetrieveExportResponse200]:
+    form_data: RetrieveExportRequest,
+) -> Response[RetrieveExportResponse]:
     """Retrieve Data Export
 
      Retrieve a processed data export
@@ -69,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[RetrieveExportResponse200]
+        Response[RetrieveExportResponse]
     """
 
     kwargs = _get_kwargs(
@@ -93,8 +93,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RetrieveExportData,
-) -> Optional[RetrieveExportResponse200]:
+    form_data: RetrieveExportRequest,
+) -> Optional[RetrieveExportResponse]:
     """Retrieve Data Export
 
      Retrieve a processed data export
@@ -106,7 +106,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        RetrieveExportResponse200
+        RetrieveExportResponse
     """
 
     return sync_detailed(
@@ -118,8 +118,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RetrieveExportData,
-) -> Response[RetrieveExportResponse200]:
+    form_data: RetrieveExportRequest,
+) -> Response[RetrieveExportResponse]:
     """Retrieve Data Export
 
      Retrieve a processed data export
@@ -131,7 +131,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[RetrieveExportResponse200]
+        Response[RetrieveExportResponse]
     """
 
     kwargs = _get_kwargs(
@@ -155,8 +155,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: RetrieveExportData,
-) -> Optional[RetrieveExportResponse200]:
+    form_data: RetrieveExportRequest,
+) -> Optional[RetrieveExportResponse]:
     """Retrieve Data Export
 
      Retrieve a processed data export
@@ -168,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        RetrieveExportResponse200
+        RetrieveExportResponse
     """
 
     return (

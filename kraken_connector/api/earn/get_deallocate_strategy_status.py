@@ -6,11 +6,11 @@ import httpx
 from ... import exceptions
 from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.get_deallocate_strategy_status_json_body import (
-    GetDeallocateStrategyStatusJsonBody,
+from ...schemas.get_deallocate_strategy_status_request import (
+    GetDeallocateStrategyStatusRequest,
 )
-from ...schemas.get_deallocate_strategy_status_response_200 import (
-    GetDeallocateStrategyStatusResponse200,
+from ...schemas.get_deallocate_strategy_status_response import (
+    GetDeallocateStrategyStatusResponse,
 )
 from ...security import sign_message
 from ...types import Response, Unset
@@ -18,7 +18,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     *,
-    json_body: GetDeallocateStrategyStatusJsonBody,
+    json_body: GetDeallocateStrategyStatusRequest,
 ) -> Dict[str, Any]:
     json_json_body = json_body.to_dict()
 
@@ -31,9 +31,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[GetDeallocateStrategyStatusResponse200]:
+) -> Optional[GetDeallocateStrategyStatusResponse]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetDeallocateStrategyStatusResponse200.from_dict(response.json())
+        response_200 = GetDeallocateStrategyStatusResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -51,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[GetDeallocateStrategyStatusResponse200]:
+) -> Response[GetDeallocateStrategyStatusResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,8 +63,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: GetDeallocateStrategyStatusJsonBody,
-) -> Response[GetDeallocateStrategyStatusResponse200]:
+    json_body: GetDeallocateStrategyStatusRequest,
+) -> Response[GetDeallocateStrategyStatusResponse]:
     """Get Deallocation Status
 
      Get the status of the last deallocation request.
@@ -88,14 +88,14 @@ def sync_detailed(
     - Minimum allocation: `EEarnings:Below min:(De)allocation operation amount less than minimum`
 
     Args:
-        json_body (GetDeallocateStrategyStatusJsonBody):
+        json_body (GetDeallocateStrategyStatusRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetDeallocateStrategyStatusResponse200]
+        Response[GetDeallocateStrategyStatusResponse]
     """
 
     kwargs = _get_kwargs(
@@ -119,8 +119,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: GetDeallocateStrategyStatusJsonBody,
-) -> Optional[GetDeallocateStrategyStatusResponse200]:
+    json_body: GetDeallocateStrategyStatusRequest,
+) -> Optional[GetDeallocateStrategyStatusResponse]:
     """Get Deallocation Status
 
      Get the status of the last deallocation request.
@@ -144,14 +144,14 @@ def sync(
     - Minimum allocation: `EEarnings:Below min:(De)allocation operation amount less than minimum`
 
     Args:
-        json_body (GetDeallocateStrategyStatusJsonBody):
+        json_body (GetDeallocateStrategyStatusRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetDeallocateStrategyStatusResponse200
+        GetDeallocateStrategyStatusResponse
     """
 
     return sync_detailed(
@@ -163,8 +163,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: GetDeallocateStrategyStatusJsonBody,
-) -> Response[GetDeallocateStrategyStatusResponse200]:
+    json_body: GetDeallocateStrategyStatusRequest,
+) -> Response[GetDeallocateStrategyStatusResponse]:
     """Get Deallocation Status
 
      Get the status of the last deallocation request.
@@ -188,14 +188,14 @@ async def asyncio_detailed(
     - Minimum allocation: `EEarnings:Below min:(De)allocation operation amount less than minimum`
 
     Args:
-        json_body (GetDeallocateStrategyStatusJsonBody):
+        json_body (GetDeallocateStrategyStatusRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetDeallocateStrategyStatusResponse200]
+        Response[GetDeallocateStrategyStatusResponse]
     """
 
     kwargs = _get_kwargs(
@@ -219,8 +219,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: GetDeallocateStrategyStatusJsonBody,
-) -> Optional[GetDeallocateStrategyStatusResponse200]:
+    json_body: GetDeallocateStrategyStatusRequest,
+) -> Optional[GetDeallocateStrategyStatusResponse]:
     """Get Deallocation Status
 
      Get the status of the last deallocation request.
@@ -244,14 +244,14 @@ async def asyncio(
     - Minimum allocation: `EEarnings:Below min:(De)allocation operation amount less than minimum`
 
     Args:
-        json_body (GetDeallocateStrategyStatusJsonBody):
+        json_body (GetDeallocateStrategyStatusRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetDeallocateStrategyStatusResponse200
+        GetDeallocateStrategyStatusResponse
     """
 
     return (
