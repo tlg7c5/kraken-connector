@@ -13,6 +13,11 @@ install: ## Install the pdm environment and install the pre-commit hooks
 	@pdm install
 	@pdm run pre-commit install
 
+.PHONY: generate
+generate: ## Regenerate API client code from openapi.json
+	@echo "🚀 Regenerating client from OpenAPI spec"
+	@pdm run openapi-python-client update --path openapi.json
+
 .PHONY: check
 check: ## Run code quality tools.
 	@echo "🚀 Checking PDM lock file consistency with 'pyproject.toml': Running pdm lock --check"
