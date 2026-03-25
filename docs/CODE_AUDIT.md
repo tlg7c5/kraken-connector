@@ -217,7 +217,7 @@ The current `ws.py` targets v1 and is too incomplete to extend. Build a new WebS
 
 ## P3 — Improve When Convenient
 
-> **Status: SEC-06, BUG-03, INC-06, CQ-03 resolved (2026-03-24). AP-02, AP-05, INC-05, CQ-02 deferred.**
+> **Status: SEC-06, BUG-03, INC-05, INC-06, CQ-03 resolved (2026-03-24). AP-05 won't fix. AP-02, CQ-02 deferred.**
 
 ### SEC-06 | API secret has no `__repr__` masking — RESOLVED
 
@@ -238,14 +238,12 @@ The method lazily creates an `httpx.Client` if one doesn't exist. The name `get_
 
 ---
 
-### AP-05 | Custom `Unset` sentinel type
+### AP-05 | Custom `Unset` sentinel type — WON'T FIX
 
 - **Severity:** Low
 - **File:** `kraken_connector/types.py:8-13`
 
-The `Unset` type is used across all generated schemas to distinguish "field not present in response" from "field is null." While semantically valid, it adds cognitive load and doesn't integrate well with standard Python typing tools.
-
-**Recommendation:** Low priority. If schemas are regenerated for v2, evaluate whether the distinction between Unset and None is needed. For most Kraken API responses, `Optional[T] = None` is sufficient.
+The `Unset` type distinguishes three states: field absent (`UNSET`), field explicitly null (`None`), and field has a value. This three-way distinction is semantically meaningful — it preserves request-building fidelity (distinguishing "don't send this field" from "set to null") and response fidelity (absent vs explicitly null can carry different API meaning). Collapsing `Unset` into `None` would lose information and require auditing every endpoint to confirm safety. The cost is ergonomic (extra type checks, unfamiliar pattern), not correctness. Retaining it is the right tradeoff.
 
 ---
 
@@ -257,22 +255,14 @@ The `Unset` type is used across all generated schemas to distinguish "field not 
 
 ---
 
-### INC-05 | No retry logic, rate limiting, or request logging
+### INC-05 | No retry logic, rate limiting, or request logging — RESOLVED
 
 - **Severity:** Medium
-- **Files:** Library-wide
-
-The library has no mechanism for:
-
-- Retrying failed requests (network errors, 5xx responses)
-- Respecting Kraken's rate limits (documented in openapi.json)
-- Logging requests/responses for debugging
-
-**Recommendation:** Add optional middleware or hooks:
-
-- Rate limiter using Kraken's documented token bucket algorithm
-- Configurable retry with exponential backoff for transient errors
-- Structured logging at DEBUG level for request/response pairs
+- **Files:** `kraken_connector/resilience.py` (new), `kraken_connector/http.py`
+- **Resolution:** Added `kraken_connector/resilience.py` with three features:
+  - **Retry**: Custom httpx transports (`RetryTransport`, `AsyncRetryTransport`) that retry on transient network errors with exponential backoff. Configured via `ResilienceConfig` on the client. Disabled by default (`max_retries=0`).
+  - **Rate limiting**: Caller-controlled `RateLimiter` with `from_tier(KrakenTier)` factory matching Kraken's token bucket parameters. Supports variable `cost` per call. Thread-safe for sync and async.
+  - **Logging**: stdlib `logging` via httpx event hooks. Logs method, URL, status, and elapsed time. Consumers wire their own logging framework (e.g., structlog).
 
 ---
 
@@ -355,12 +345,12 @@ This depends on `get_httpx_client()` being called first to initialize the intern
 | AP-02  | Medium   | P3       | `http.py`             | Misleading getter name                                     |
 | AP-03  | Medium   | P2       | `api/*/*.py`          | ~~Dead `pass` statements~~ **RESOLVED**                    |
 | AP-04  | Medium   | P1       | `http.py`             | ~~Duplicated client classes~~ **RESOLVED**                 |
-| AP-05  | Low      | P3       | `types.py`            | Custom Unset sentinel                                      |
+| AP-05  | Low      | P3       | `types.py`            | Custom Unset sentinel — **WON'T FIX**                      |
 | INC-01 | Critical | P1       | `ws.py`               | ~~Non-functional WebSocket client~~ **RESOLVED** (deleted) |
 | INC-02 | High     | P1       | `api/*/__init__.py`   | ~~Empty submodule exports~~ **RESOLVED**                   |
 | INC-03 | High     | P1       | `__init__.py`         | ~~Minimal package exports~~ **RESOLVED**                   |
 | INC-04 | Medium   | P1       | `exceptions.py`       | ~~Sparse exception hierarchy~~ **RESOLVED**                |
-| INC-05 | Medium   | P3       | Library-wide          | No retry/rate-limit/logging                                |
+| INC-05 | Medium   | P3       | Library-wide          | ~~No retry/rate-limit/logging~~ **RESOLVED**               |
 | INC-06 | Low      | P3       | `utils.py`            | ~~Empty module~~ **RESOLVED**                              |
 | V2-01  | High     | P2       | `ws.py`               | WS v2 rebuild needed                                       |
 | V2-02  | Medium   | P2       | `api/*/*.py`          | ~~Hardcoded URL prefix~~ **RESOLVED**                      |

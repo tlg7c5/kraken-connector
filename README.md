@@ -45,6 +45,92 @@ To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookie
 
 For more details, see [here](https://fpgmaas.github.io/cookiecutter-poetry/features/cicd/#how-to-trigger-a-release).
 
+## Usage
+
+### Basic client
+
+```python
+from kraken_connector import HTTPClient, HTTPAuthenticatedClient
+
+# Public endpoints
+client = HTTPClient("https://api.kraken.com")
+
+# Authenticated endpoints
+auth_client = HTTPAuthenticatedClient(
+    "https://api.kraken.com",
+    api_key="your-api-key",
+    api_secret="your-api-secret",
+)
+```
+
+### Retry on network errors
+
+Retry is disabled by default. Enable it via `ResilienceConfig`:
+
+```python
+from kraken_connector import HTTPClient, ResilienceConfig
+
+config = ResilienceConfig(
+    max_retries=3,        # retry up to 3 times on network errors
+    backoff_base=1.0,     # initial backoff delay in seconds
+    backoff_max=30.0,     # maximum backoff delay
+)
+client = HTTPClient("https://api.kraken.com", resilience=config)
+```
+
+Only transient network errors (connection refused, timeouts) are retried. API-level errors (rate limits, validation) are never retried at the transport layer — callers handle those via `KrakenAPIError`.
+
+### Rate limiting
+
+The `RateLimiter` is a caller-controlled token bucket matching Kraken's tier-based rate limits. It is **not** automatic — callers opt in explicitly:
+
+```python
+from kraken_connector import KrakenTier, RateLimiter
+from kraken_connector.api.market_data import get_server_time
+
+limiter = RateLimiter.from_tier(KrakenTier.STARTER)
+
+# Sync — most API calls cost 1 token
+with limiter.acquire(cost=1):
+    response = get_server_time.sync(client=client)
+
+# Async
+async with limiter.async_acquire(cost=1):
+    response = await get_server_time.asyncio(client=client)
+
+# Ledger/trade history calls cost 2 tokens
+with limiter.acquire(cost=2):
+    response = get_trade_history.sync(client=auth_client, form_data=form)
+```
+
+The rate limiter blocks (sleeps) when tokens are depleted, waiting for the bucket to refill. It is thread-safe but not multiprocessing-safe.
+
+**Kraken tier parameters:**
+
+| Tier         | Max tokens | Decay rate |
+| ------------ | ---------- | ---------- |
+| Starter      | 15         | 0.33/sec   |
+| Intermediate | 20         | 0.5/sec    |
+| Pro          | 20         | 1.0/sec    |
+
+### Request logging
+
+Enable request/response logging via `ResilienceConfig`:
+
+```python
+import logging
+from kraken_connector import HTTPClient, ResilienceConfig
+
+logging.basicConfig(level=logging.DEBUG)
+
+config = ResilienceConfig(enable_logging=True, log_level=logging.DEBUG)
+client = HTTPClient("https://api.kraken.com", resilience=config)
+# Logs: "HTTP GET https://api.kraken.com/0/public/Time"
+# Logs: "HTTP GET https://api.kraken.com/0/public/Time -> 200 (0.12s)"
+```
+
+Logging uses Python's stdlib `logging` module under the logger name `kraken_connector`. Consumers can wire any logging framework (e.g., structlog) via its stdlib integration.
+
 ---
 
 Repository initiated with [fpgmaas/cookiecutter-poetry](https://github.com/fpgmaas/cookiecutter-poetry). Now using [PDM](https://pdm-project.org/) for dependency management.

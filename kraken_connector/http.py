@@ -1,8 +1,11 @@
 import ssl
-from typing import Any, Dict, Optional, Self, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Self, Union
 
 import httpx
 from attrs import define, evolve, field
+
+if TYPE_CHECKING:
+    from .resilience import ResilienceConfig
 
 
 @define
@@ -42,6 +45,7 @@ class HTTPClient:
     _verify_ssl: Union[str, bool, ssl.SSLContext] = field(default=True, kw_only=True)
     _follow_redirects: bool = field(default=False, kw_only=True)
     _httpx_args: Dict[str, Any] = field(factory=dict, kw_only=True)
+    _resilience: Optional["ResilienceConfig"] = field(default=None, kw_only=True)
     _client: Optional[httpx.Client] = field(default=None, init=False)
     _async_client: Optional[httpx.AsyncClient] = field(default=None, init=False)
 
@@ -57,6 +61,10 @@ class HTTPClient:
         """Get a new client matching this one with a new timeout (in seconds)"""
         return evolve(self, timeout=timeout)
 
+    def with_resilience(self, resilience: "ResilienceConfig") -> Self:
+        """Get a new client matching this one with resilience configuration"""
+        return evolve(self, resilience=resilience)
+
     def set_httpx_client(self, client: httpx.Client) -> Self:
         """Manually the underlying httpx.Client
 
@@ -65,19 +73,51 @@ class HTTPClient:
         self._client = client
         return self
 
+    def _build_httpx_kwargs(self, *, is_async: bool = False) -> Dict[str, Any]:
+        """Build kwargs for httpx.Client or httpx.AsyncClient construction.
+
+        Injects retry transport and logging event hooks when a
+        :class:`~kraken_connector.resilience.ResilienceConfig` is set.
+        """
+        kwargs: Dict[str, Any] = {
+            "base_url": self._base_url,
+            "cookies": self._cookies,
+            "headers": self._headers,
+            "timeout": self._timeout,
+            "verify": self._verify_ssl,
+            "follow_redirects": self._follow_redirects,
+            **self._httpx_args,
+        }
+        if self._resilience is not None:
+            from .resilience import (
+                AsyncRetryTransport,
+                RetryTransport,
+                make_event_hooks,
+            )
+
+            if self._resilience.max_retries > 0:
+                if is_async:
+                    async_base = httpx.AsyncHTTPTransport(verify=self._verify_ssl)
+                    kwargs["transport"] = AsyncRetryTransport(
+                        async_base, self._resilience
+                    )
+                else:
+                    sync_base = httpx.HTTPTransport(verify=self._verify_ssl)
+                    kwargs["transport"] = RetryTransport(sync_base, self._resilience)
+            if self._resilience.enable_logging:
+                hooks = make_event_hooks(self._resilience)
+                existing: Dict[str, List[Any]] = kwargs.pop("event_hooks", {})
+                kwargs["event_hooks"] = {
+                    "request": existing.get("request", []) + hooks["request"],
+                    "response": existing.get("response", []) + hooks["response"],
+                }
+        return kwargs
+
     def get_httpx_client(self) -> httpx.Client:
         """Get the underlying httpx.Client, constructing a new one if not previously set
         """
         if self._client is None:
-            self._client = httpx.Client(
-                base_url=self._base_url,
-                cookies=self._cookies,
-                headers=self._headers,
-                timeout=self._timeout,
-                verify=self._verify_ssl,
-                follow_redirects=self._follow_redirects,
-                **self._httpx_args,
-            )
+            self._client = httpx.Client(**self._build_httpx_kwargs())
         return self._client
 
     def __enter__(self) -> Self:
@@ -103,13 +143,7 @@ class HTTPClient:
         """
         if self._async_client is None:
             self._async_client = httpx.AsyncClient(
-                base_url=self._base_url,
-                cookies=self._cookies,
-                headers=self._headers,
-                timeout=self._timeout,
-                verify=self._verify_ssl,
-                follow_redirects=self._follow_redirects,
-                **self._httpx_args,
+                **self._build_httpx_kwargs(is_async=True)
             )
         return self._async_client
 
@@ -150,15 +184,7 @@ class HTTPAuthenticatedClient(HTTPClient):
         """
         if self._client is None:
             self._headers[self.auth_header_name] = self._api_key
-            self._client = httpx.Client(
-                base_url=self._base_url,
-                cookies=self._cookies,
-                headers=self._headers,
-                timeout=self._timeout,
-                verify=self._verify_ssl,
-                follow_redirects=self._follow_redirects,
-                **self._httpx_args,
-            )
+            self._client = httpx.Client(**self._build_httpx_kwargs())
         return self._client
 
     def get_async_httpx_client(self) -> httpx.AsyncClient:
@@ -167,12 +193,6 @@ class HTTPAuthenticatedClient(HTTPClient):
         if self._async_client is None:
             self._headers[self.auth_header_name] = self._api_key
             self._async_client = httpx.AsyncClient(
-                base_url=self._base_url,
-                cookies=self._cookies,
-                headers=self._headers,
-                timeout=self._timeout,
-                verify=self._verify_ssl,
-                follow_redirects=self._follow_redirects,
-                **self._httpx_args,
+                **self._build_httpx_kwargs(is_async=True)
             )
         return self._async_client
