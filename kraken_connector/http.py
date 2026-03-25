@@ -66,7 +66,7 @@ class HTTPClient:
         return evolve(self, resilience=resilience)
 
     def set_httpx_client(self, client: httpx.Client) -> Self:
-        """Manually the underlying httpx.Client
+        """Manually set the underlying httpx.Client
 
         **NOTE**: This will override any other settings on the client, including cookies, headers, and timeout.
         """
@@ -113,7 +113,7 @@ class HTTPClient:
                 }
         return kwargs
 
-    def get_httpx_client(self) -> httpx.Client:
+    def get_or_create_httpx_client(self) -> httpx.Client:
         """Get the underlying httpx.Client, constructing a new one if not previously set
         """
         if self._client is None:
@@ -123,22 +123,22 @@ class HTTPClient:
     def __enter__(self) -> Self:
         """Enter a context manager for self.client—you cannot enter twice (see httpx docs)
         """
-        self.get_httpx_client().__enter__()
+        self.get_or_create_httpx_client().__enter__()
         return self
 
     def __exit__(self, *args: Any, **kwargs: Any) -> None:
         """Exit a context manager for internal httpx.Client (see httpx docs)"""
-        self.get_httpx_client().__exit__(*args, **kwargs)
+        self.get_or_create_httpx_client().__exit__(*args, **kwargs)
 
     def set_async_httpx_client(self, async_client: httpx.AsyncClient) -> Self:
-        """Manually the underlying httpx.AsyncClient
+        """Manually set the underlying httpx.AsyncClient
 
         **NOTE**: This will override any other settings on the client, including cookies, headers, and timeout.
         """
         self._async_client = async_client
         return self
 
-    def get_async_httpx_client(self) -> httpx.AsyncClient:
+    def get_or_create_async_httpx_client(self) -> httpx.AsyncClient:
         """Get the underlying httpx.AsyncClient, constructing a new one if not previously set
         """
         if self._async_client is None:
@@ -150,12 +150,12 @@ class HTTPClient:
     async def __aenter__(self) -> Self:
         """Enter a context manager for underlying httpx.AsyncClient—you cannot enter twice (see httpx docs)
         """
-        await self.get_async_httpx_client().__aenter__()
+        await self.get_or_create_async_httpx_client().__aenter__()
         return self
 
     async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
         """Exit a context manager for underlying httpx.AsyncClient (see httpx docs)"""
-        await self.get_async_httpx_client().__aexit__(*args, **kwargs)
+        await self.get_or_create_async_httpx_client().__aexit__(*args, **kwargs)
 
 
 @define
@@ -163,7 +163,7 @@ class HTTPAuthenticatedClient(HTTPClient):
     """A HTTPClient which has been authenticated for use on secured endpoints.
 
     Inherits all functionality from HTTPClient and adds API key authentication.
-    The ``get_httpx_client`` and ``get_async_httpx_client`` methods inject the
+    The ``get_or_create_httpx_client`` and ``get_or_create_async_httpx_client`` methods inject the
     API-Key header before constructing the underlying httpx client.
 
     Attributes:
@@ -179,7 +179,7 @@ class HTTPAuthenticatedClient(HTTPClient):
     auth_header_name: str = "API-Key"
     hmac_msg_signature: str = "API-Sign"
 
-    def get_httpx_client(self) -> httpx.Client:
+    def get_or_create_httpx_client(self) -> httpx.Client:
         """Get the underlying httpx.Client, constructing a new one if not previously set
         """
         if self._client is None:
@@ -187,7 +187,7 @@ class HTTPAuthenticatedClient(HTTPClient):
             self._client = httpx.Client(**self._build_httpx_kwargs())
         return self._client
 
-    def get_async_httpx_client(self) -> httpx.AsyncClient:
+    def get_or_create_async_httpx_client(self) -> httpx.AsyncClient:
         """Get the underlying httpx.AsyncClient, constructing a new one if not previously set
         """
         if self._async_client is None:

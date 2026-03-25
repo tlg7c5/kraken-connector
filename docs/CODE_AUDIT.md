@@ -217,7 +217,7 @@ The current `ws.py` targets v1 and is too incomplete to extend. Build a new WebS
 
 ## P3 — Improve When Convenient
 
-> **Status: SEC-06, BUG-03, INC-05, INC-06, CQ-03 resolved (2026-03-24). AP-05 won't fix. AP-02, CQ-02 deferred.**
+> **Status: All P3 findings resolved or closed (2026-03-24). AP-05 won't fix.**
 
 ### SEC-06 | API secret has no `__repr__` masking — RESOLVED
 
@@ -227,14 +227,11 @@ The current `ws.py` targets v1 and is too incomplete to extend. Build a new WebS
 
 ---
 
-### AP-02 | `get_httpx_client()` name obscures side effects
+### AP-02 | `get_httpx_client()` name obscures side effects — RESOLVED
 
 - **Severity:** Medium
-- **File:** `kraken_connector/http.py:80-93`
-
-The method lazily creates an `httpx.Client` if one doesn't exist. The name `get_httpx_client()` implies a pure getter.
-
-**Recommendation:** Rename to `get_or_create_httpx_client()`. This is a breaking change for existing consumers, so do it when making other breaking changes (e.g., v2 migration).
+- **File:** `kraken_connector/http.py`
+- **Resolution:** Renamed `get_httpx_client()` → `get_or_create_httpx_client()` and `get_async_httpx_client()` → `get_or_create_async_httpx_client()` across all 48 endpoint files, the HTTP client class, and tests.
 
 ---
 
@@ -274,23 +271,11 @@ The `Unset` type distinguishes three states: field absent (`UNSET`), field expli
 
 ---
 
-### CQ-02 | Fragile header mutation pattern in authenticated endpoints
+### CQ-02 | Fragile header mutation pattern in authenticated endpoints — RESOLVED
 
 - **Severity:** Low
-- **Files:** All private endpoint files (e.g., `api/trading/add_order.py:77-86`)
-
-```python
-# Force client initialization
-client.get_httpx_client()
-# Mutate client headers with HMAC signature
-secured_client = client.with_headers(security_header)
-# Use the mutated client
-response = secured_client.get_httpx_client().request(**kwargs)
-```
-
-This depends on `get_httpx_client()` being called first to initialize the internal client, then `with_headers()` mutates that same client (see AP-01). The pattern is order-dependent and fragile.
-
-**Note:** Partially mitigated by AP-01 fix (with_headers is now copy-only). The force-init + with_headers pattern still exists in endpoint code but is no longer dangerous since mutation was removed.
+- **Files:** All private endpoint files (39 files)
+- **Resolution:** Deleted the unnecessary force-init call (`client.get_httpx_client()` called for side effects only) from all 39 private endpoint files. The AP-01 fix (pure-copy `with_headers`) made this call unnecessary — the evolved copy creates its own httpx client lazily on first use.
 
 ---
 
@@ -342,7 +327,7 @@ This depends on `get_httpx_client()` being called first to initialize the intern
 | BUG-03 | Medium   | P3       | `http.py`             | ~~Content-Type commented out~~ **RESOLVED**                |
 | BUG-04 | Medium   | P0       | `tests/`              | ~~Broken test suite~~ **RESOLVED**                         |
 | AP-01  | High     | P1       | `http.py`             | ~~Mutate-and-copy anti-pattern~~ **RESOLVED**              |
-| AP-02  | Medium   | P3       | `http.py`             | Misleading getter name                                     |
+| AP-02  | Medium   | P3       | `http.py`             | ~~Misleading getter name~~ **RESOLVED**                    |
 | AP-03  | Medium   | P2       | `api/*/*.py`          | ~~Dead `pass` statements~~ **RESOLVED**                    |
 | AP-04  | Medium   | P1       | `http.py`             | ~~Duplicated client classes~~ **RESOLVED**                 |
 | AP-05  | Low      | P3       | `types.py`            | Custom Unset sentinel — **WON'T FIX**                      |
@@ -357,5 +342,5 @@ This depends on `get_httpx_client()` being called first to initialize the intern
 | V2-03  | Medium   | P2       | `schemas/`            | ~~Opaque schema names~~ **RESOLVED**                       |
 | V2-04  | Low      | P2       | `openapi.json`        | ~~No regen process~~ **RESOLVED**                          |
 | CQ-01  | Medium   | P2       | `schemas/`            | ~~Long file names~~ **RESOLVED**                           |
-| CQ-02  | Low      | P3       | `api/*/*.py`          | Fragile header mutation                                    |
+| CQ-02  | Low      | P3       | `api/*/*.py`          | ~~Fragile header mutation~~ **RESOLVED**                   |
 | CQ-03  | Low      | P3       | Package root          | ~~Missing `py.typed`~~ **RESOLVED**                        |

@@ -391,13 +391,13 @@ class TestClientIntegration:
     def test_retry_transport_used_when_configured(self) -> None:
         config = ResilienceConfig(max_retries=2)
         client = HTTPClient("https://api.kraken.com", resilience=config)
-        httpx_client = client.get_httpx_client()
+        httpx_client = client.get_or_create_httpx_client()
         assert isinstance(httpx_client._transport, RetryTransport)
 
     def test_no_retry_transport_when_disabled(self) -> None:
         config = ResilienceConfig(max_retries=0)
         client = HTTPClient("https://api.kraken.com", resilience=config)
-        httpx_client = client.get_httpx_client()
+        httpx_client = client.get_or_create_httpx_client()
         assert not isinstance(httpx_client._transport, RetryTransport)
 
     def test_authenticated_client_with_resilience(self) -> None:
@@ -408,14 +408,14 @@ class TestClientIntegration:
             api_secret="test-secret",  # noqa: S106
             resilience=config,
         )
-        httpx_client = client.get_httpx_client()
+        httpx_client = client.get_or_create_httpx_client()
         assert isinstance(httpx_client._transport, RetryTransport)
         assert httpx_client.headers["API-Key"] == "test-key"
 
     def test_logging_hooks_injected_when_enabled(self) -> None:
         config = ResilienceConfig(enable_logging=True)
         client = HTTPClient("https://api.kraken.com", resilience=config)
-        httpx_client = client.get_httpx_client()
+        httpx_client = client.get_or_create_httpx_client()
         assert len(httpx_client.event_hooks["request"]) >= 1
         assert len(httpx_client.event_hooks["response"]) >= 1
 
