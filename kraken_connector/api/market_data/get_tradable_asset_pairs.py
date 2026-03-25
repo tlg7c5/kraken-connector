@@ -17,8 +17,6 @@ def _get_kwargs(
     pair: Union[Unset, None, str] = UNSET,
     info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
 ) -> Dict[str, Any]:
-    pass
-
     params: Dict[str, Any] = {}
     params["pair"] = pair
 

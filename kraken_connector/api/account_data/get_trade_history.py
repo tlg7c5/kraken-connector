@@ -11,8 +11,6 @@ from ...types import Response, Unset
 
 
 def _get_kwargs() -> Dict[str, Any]:
-    pass
-
     return {
         "method": "post",
         "url": "/0/private/TradesHistory",

@@ -15,8 +15,6 @@ def _get_kwargs(
     since: Union[Unset, None, str] = UNSET,
     count: Union[Unset, None, int] = 1000,
 ) -> Dict[str, Any]:
-    pass
-
     params: Dict[str, Any] = {}
     params["pair"] = pair
 

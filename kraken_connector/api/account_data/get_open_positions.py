@@ -14,8 +14,6 @@ from ...types import Response, Unset
 def _get_kwargs(
     form_data: GetOpenPositionsData,
 ) -> Dict[str, Any]:
-    pass
-
     return {
         "method": "post",
         "url": "/0/private/OpenPositions",

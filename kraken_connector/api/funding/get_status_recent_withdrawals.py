@@ -15,8 +15,6 @@ from ...types import Response
 def _get_kwargs(
     form_data: GetStatusOfRecentWithdrawalsRequestBody,
 ) -> Dict[str, Any]:
-    pass
-
     return {
         "method": "post",
         "url": "/0/private/WithdrawStatus",

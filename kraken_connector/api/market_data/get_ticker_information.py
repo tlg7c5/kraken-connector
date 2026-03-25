@@ -13,8 +13,6 @@ def _get_kwargs(
     *,
     pair: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
-    pass
-
     params: Dict[str, Any] = {}
     params["pair"] = pair
 

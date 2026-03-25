@@ -13,8 +13,6 @@ from ...types import Response, Unset
 def _get_kwargs(
     form_data: AccountTransferRequest,
 ) -> Dict[str, Any]:
-    pass
-
     return {
         "method": "post",
         "url": "/0/private/AccountTransfer",

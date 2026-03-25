@@ -14,8 +14,6 @@ def _get_kwargs(
     asset: Union[Unset, None, str] = UNSET,
     aclass: Union[Unset, None, str] = UNSET,
 ) -> Dict[str, Any]:
-    pass
-
     params: Dict[str, Any] = {}
     params["asset"] = asset
 

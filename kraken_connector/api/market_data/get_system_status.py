@@ -10,8 +10,6 @@ from ...types import Response, Unset
 
 
 def _get_kwargs() -> Dict[str, Any]:
-    pass
-
     return {
         "method": "get",
         "url": "/0/public/SystemStatus",

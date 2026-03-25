@@ -16,8 +16,6 @@ def _get_kwargs(
     interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
     since: Union[Unset, None, int] = UNSET,
 ) -> Dict[str, Any]:
-    pass
-
     params: Dict[str, Any] = {}
     params["pair"] = pair
 
