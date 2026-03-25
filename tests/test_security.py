@@ -22,7 +22,7 @@ def test_get_nonce_is_non_decreasing():
 
 
 def test_sign_message_deterministic():
-    api_secret = "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="
+    api_secret = "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="  # noqa: S105
     data = {
         "nonce": 1616492376594,
         "ordertype": "limit",
@@ -39,7 +39,7 @@ def test_sign_message_deterministic():
 
 
 def test_sign_message_returns_string():
-    api_secret = "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="
+    api_secret = "kQH5HW/8p1uGOVjbgWA7FunAmGO8lsSUXNsu3eow76sz84Q18fWxnyRzBHCd3pd5nE9qa99HAZtuZuj6F1huXg=="  # noqa: S105
     data = {"nonce": 12345}
     urlpath = "/0/public/Time"
 

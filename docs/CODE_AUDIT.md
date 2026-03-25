@@ -217,24 +217,13 @@ The current `ws.py` targets v1 and is too incomplete to extend. Build a new WebS
 
 ## P3 — Improve When Convenient
 
-### SEC-06 | API secret has no `__repr__` masking
+> **Status: SEC-06, BUG-03, INC-06, CQ-03 resolved (2026-03-24). AP-02, AP-05, INC-05, CQ-02 deferred.**
+
+### SEC-06 | API secret has no `__repr__` masking — RESOLVED
 
 - **Severity:** Low
-- **File:** `kraken_connector/http.py:174-175`
-
-The `_api_secret` field is a plain `Optional[str]`. Attrs-generated `__repr__` will include the full secret in string representations, which could appear in logs or tracebacks.
-
-**Recommendation:** Add `repr=False` to the field definition:
-
-```python
-_api_secret: Optional[str] = field(default=None, kw_only=True, repr=False)
-```
-
-Also apply to `_api_key`:
-
-```python
-_api_key: Optional[str] = field(default=None, kw_only=True, repr=False)
-```
+- **File:** `kraken_connector/http.py`
+- **Resolution:** Added `repr=False` to both `_api_key` and `_api_secret` field definitions on `HTTPAuthenticatedClient`. Credentials no longer appear in `repr()` output, logs, or tracebacks. Added regression test.
 
 ---
 
@@ -260,18 +249,11 @@ The `Unset` type is used across all generated schemas to distinguish "field not 
 
 ---
 
-### BUG-03 | Content-Type header commented out
+### BUG-03 | Content-Type header commented out — RESOLVED
 
 - **Severity:** Medium
-- **File:** `kraken_connector/http.py:227`
-
-```python
-# self._headers[self.content_type_key] = self.content_type_value
-```
-
-Kraken private endpoints expect `application/x-www-form-urlencoded`. httpx sets this automatically for `data=` kwargs, so this is likely safe in practice. However, if the signing code and httpx encode the data differently, the signature will mismatch.
-
-**Recommendation:** Verify httpx's default Content-Type matches what `sign_message()` expects. If they align, remove the commented line. If not, uncomment it.
+- **File:** `kraken_connector/http.py`
+- **Resolution:** Removed the unused `content_type_key` and `content_type_value` class attributes from `HTTPAuthenticatedClient`. httpx automatically sets `Content-Type: application/x-www-form-urlencoded` for `data=` kwargs, which matches what `sign_message()` expects. The constants were never referenced outside their definitions.
 
 ---
 
@@ -294,14 +276,11 @@ The library has no mechanism for:
 
 ---
 
-### INC-06 | Empty `utils.py` module
+### INC-06 | Empty `utils.py` module — RESOLVED
 
 - **Severity:** Low
-- **File:** `kraken_connector/utils.py`
-
-Contains only a docstring. The `utils/` subdirectory has functional code (`converters.py`, `validators.py`, `errors.py`), but this top-level file is dead.
-
-**Recommendation:** Delete `kraken_connector/utils.py` (the empty module). The `utils/` package serves the same purpose.
+- **File:** `kraken_connector/utils.py` (deleted)
+- **Resolution:** Deleted the empty module. It contained only a docstring and was imported nowhere in the codebase.
 
 ---
 
@@ -325,14 +304,11 @@ This depends on `get_httpx_client()` being called first to initialize the intern
 
 ---
 
-### CQ-03 | No `py.typed` marker
+### CQ-03 | No `py.typed` marker — RESOLVED
 
 - **Severity:** Low
-- **File:** Missing `kraken_connector/py.typed`
-
-Downstream consumers using mypy won't pick up the library's type annotations without a `py.typed` marker file (PEP 561).
-
-**Recommendation:** Add an empty `kraken_connector/py.typed` file.
+- **File:** `kraken_connector/py.typed`
+- **Resolution:** File already exists. No action needed.
 
 ---
 
@@ -370,10 +346,10 @@ Downstream consumers using mypy won't pick up the library's type annotations wit
 | SEC-03 | High     | P0       | `http.py`             | ~~Inconsistent sync/async auth~~ **RESOLVED**              |
 | SEC-04 | Medium   | P1       | `security.py`         | ~~Nonce collision risk~~ **RESOLVED**                      |
 | SEC-05 | Medium   | P1       | `http.py`             | ~~Auth client follows redirects~~ **RESOLVED**             |
-| SEC-06 | Low      | P3       | `http.py`             | No secret masking in repr                                  |
+| SEC-06 | Low      | P3       | `http.py`             | ~~No secret masking in repr~~ **RESOLVED**                 |
 | BUG-01 | Critical | P0       | `ws.py`               | ~~Wrong method name in `process_events()`~~ **RESOLVED**   |
 | BUG-02 | High     | P0       | `schemas/__init__.py` | ~~`Ordertype` export missing~~ **RESOLVED**                |
-| BUG-03 | Medium   | P3       | `http.py`             | Content-Type commented out                                 |
+| BUG-03 | Medium   | P3       | `http.py`             | ~~Content-Type commented out~~ **RESOLVED**                |
 | BUG-04 | Medium   | P0       | `tests/`              | ~~Broken test suite~~ **RESOLVED**                         |
 | AP-01  | High     | P1       | `http.py`             | ~~Mutate-and-copy anti-pattern~~ **RESOLVED**              |
 | AP-02  | Medium   | P3       | `http.py`             | Misleading getter name                                     |
@@ -385,11 +361,11 @@ Downstream consumers using mypy won't pick up the library's type annotations wit
 | INC-03 | High     | P1       | `__init__.py`         | ~~Minimal package exports~~ **RESOLVED**                   |
 | INC-04 | Medium   | P1       | `exceptions.py`       | ~~Sparse exception hierarchy~~ **RESOLVED**                |
 | INC-05 | Medium   | P3       | Library-wide          | No retry/rate-limit/logging                                |
-| INC-06 | Low      | P3       | `utils.py`            | Empty module                                               |
+| INC-06 | Low      | P3       | `utils.py`            | ~~Empty module~~ **RESOLVED**                              |
 | V2-01  | High     | P2       | `ws.py`               | WS v2 rebuild needed                                       |
 | V2-02  | Medium   | P2       | `api/*/*.py`          | ~~Hardcoded URL prefix~~ **RESOLVED**                      |
 | V2-03  | Medium   | P2       | `schemas/`            | ~~Opaque schema names~~ **RESOLVED**                       |
 | V2-04  | Low      | P2       | `openapi.json`        | ~~No regen process~~ **RESOLVED**                          |
 | CQ-01  | Medium   | P2       | `schemas/`            | ~~Long file names~~ **RESOLVED**                           |
 | CQ-02  | Low      | P3       | `api/*/*.py`          | Fragile header mutation                                    |
-| CQ-03  | Low      | P3       | Package root          | Missing `py.typed`                                         |
+| CQ-03  | Low      | P3       | Package root          | ~~Missing `py.typed`~~ **RESOLVED**                        |

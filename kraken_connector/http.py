@@ -138,14 +138,12 @@ class HTTPAuthenticatedClient(HTTPClient):
         auth_header_name: The name of the Authorization header
     """
 
-    _api_key: Optional[str] = field(default=None, kw_only=True)
-    _api_secret: Optional[str] = field(default=None, kw_only=True)
+    _api_key: Optional[str] = field(default=None, kw_only=True, repr=False)
+    _api_secret: Optional[str] = field(default=None, kw_only=True, repr=False)
     _follow_redirects: bool = field(default=False, kw_only=True)
 
     auth_header_name: str = "API-Key"
     hmac_msg_signature: str = "API-Sign"
-    content_type_key: str = "Content-Type"
-    content_type_value: str = "application/x-www-form-urlencoded; charset=utf-8"
 
     def get_httpx_client(self) -> httpx.Client:
         """Get the underlying httpx.Client, constructing a new one if not previously set
