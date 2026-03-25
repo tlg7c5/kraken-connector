@@ -154,7 +154,7 @@ Each finding has an **ID** (e.g., SEC-01) for cross-referencing in commits and P
 
 ## P2 — Fix During V2 Migration
 
-> **Status: AP-03, V2-02, V2-04 resolved (2026-03-24). V2-01, V2-03, CQ-01 deferred.**
+> **Status: AP-03, V2-02, V2-03, V2-04, CQ-01 resolved (2026-03-24). V2-01 deferred.**
 
 ### V2-01 | WebSocket v2 requires a ground-up rebuild
 
@@ -183,18 +183,11 @@ The current `ws.py` targets v1 and is too incomplete to extend. Build a new WebS
 
 ---
 
-### V2-03 | Schema names are opaque
+### V2-03 | Schema names are opaque — RESOLVED
 
 - **Severity:** Medium
 - **Files:** `kraken_connector/schemas/`
-
-Generated names like `Add2`, `Closed2`, `Balance2`, `Info3`, `Info5` give no indication of their purpose. Examples:
-
-- `Add2` = AddOrder response
-- `Closed2` = GetClosedOrders response
-- `Info5` = GetWithdrawalInformation response
-
-**Recommendation:** During v2 migration, rename schemas to descriptive names (e.g., `AddOrderResponse`, `ClosedOrdersResponse`). If generated code is kept, configure `openapi-python-client` with a custom name mapping.
+- **Resolution:** Renamed all 148 opaque schema classes and files to descriptive names using a consistent convention: `Response` (envelope), `Result` (payload), `Request` (body), or bare domain noun (entity). Examples: `Add2` → `AddOrderResponse`, `Info5` → `WithdrawalInfoResponse`, `Closed2` → `GetClosedOrdersResponse`. Earn domain type variants renamed from docstrings (e.g., `AutoCompoundType0` → `AutoCompoundDisabled`). Automated via `scripts/rename_schemas.py` which handles file renames, class definitions, imports, and cross-references.
 
 ---
 
@@ -214,20 +207,11 @@ Generated names like `Add2`, `Closed2`, `Balance2`, `Info3`, `Info5` give no ind
 
 ---
 
-### CQ-01 | Schema file names are excessively long
+### CQ-01 | Schema file names are excessively long — RESOLVED
 
 - **Severity:** Medium
 - **Files:** `kraken_connector/schemas/`
-
-Some file names exceed 100 characters:
-
-```
-list_allocations_response_200_result_items_item_amount_allocated_bonding_allocations_item.py
-```
-
-This causes problems with some filesystems, IDE tabs, and readability.
-
-**Recommendation:** Address during v2 schema redesign. If regenerating, configure shorter name prefixes.
+- **Resolution:** Addressed as part of V2-03 rename. Long earn domain prefixes collapsed: `ListAllocationsResponse200ResultItemsItem*` → `Allocation*`, `ListStrategiesResponse200ResultItemsItem*` → `EarnStrategy*`. Longest filename reduced from 95 to ~40 characters.
 
 ---
 
@@ -404,8 +388,8 @@ Downstream consumers using mypy won't pick up the library's type annotations wit
 | INC-06 | Low      | P3       | `utils.py`            | Empty module                                               |
 | V2-01  | High     | P2       | `ws.py`               | WS v2 rebuild needed                                       |
 | V2-02  | Medium   | P2       | `api/*/*.py`          | ~~Hardcoded URL prefix~~ **RESOLVED**                      |
-| V2-03  | Medium   | P2       | `schemas/`            | Opaque schema names                                        |
+| V2-03  | Medium   | P2       | `schemas/`            | ~~Opaque schema names~~ **RESOLVED**                       |
 | V2-04  | Low      | P2       | `openapi.json`        | ~~No regen process~~ **RESOLVED**                          |
-| CQ-01  | Medium   | P2       | `schemas/`            | Long file names                                            |
+| CQ-01  | Medium   | P2       | `schemas/`            | ~~Long file names~~ **RESOLVED**                           |
 | CQ-02  | Low      | P3       | `api/*/*.py`          | Fragile header mutation                                    |
 | CQ-03  | Low      | P3       | Package root          | Missing `py.typed`                                         |
