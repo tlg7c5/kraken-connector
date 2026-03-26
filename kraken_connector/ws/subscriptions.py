@@ -53,8 +53,11 @@ def _make_sub_key(params: SubscriptionParams) -> tuple[tuple[str, Any], ...]:
 
     Uses the serialized dict to ensure two param objects with the same
     field values produce the same key, regardless of object identity.
+    The ``token`` field is excluded because it changes on refresh and
+    must not affect subscription identity.
     """
     d = params.to_dict()
+    d.pop("token", None)
     return tuple(
         sorted((k, tuple(v) if isinstance(v, list) else v) for k, v in d.items())
     )

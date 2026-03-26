@@ -43,6 +43,7 @@ from .envelopes import (
     WSRequest,
     WSResponse,
 )
+from .sequence import SequenceGapEvent, SequenceTracker
 from .subscribe import (
     BalancesParams,
     BookParams,
@@ -57,6 +58,7 @@ from .subscriptions import (
     SubscriptionError,
     SubscriptionParams,
 )
+from .token import TokenAcquisitionError, TokenManager
 from .trading import (
     AddOrderParams,
     AddOrderResult,
@@ -119,10 +121,16 @@ __all__ = [
     "WSErrorResponse",
     "WSRequest",
     "WSResponse",
+    # Sequence tracking
+    "SequenceGapEvent",
+    "SequenceTracker",
     # Subscription tracking
     "SubscriptionEntry",
     "SubscriptionError",
     "SubscriptionParams",
+    # Token management
+    "TokenAcquisitionError",
+    "TokenManager",
     # Subscription params
     "BalancesParams",
     "BookParams",

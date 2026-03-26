@@ -149,18 +149,23 @@ class WSDataMessage:
         channel: The channel name (ticker, book, trade, etc.)
         type: Message type — "snapshot" or "update".
         data: Array of channel-specific data objects.
+        sequence: Monotonic sequence number (present on private channels only).
     """
 
     channel: str
     type: str
     data: list[Any]
+    sequence: Unset | int = UNSET
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        field_dict: dict[str, Any] = {
             "channel": self.channel,
             "type": self.type,
             "data": self.data,
         }
+        if not isinstance(self.sequence, Unset):
+            field_dict["sequence"] = self.sequence
+        return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: dict[str, Any]) -> Self:
@@ -168,7 +173,8 @@ class WSDataMessage:
         channel = d.pop("channel")
         type_ = d.pop("type")
         data = d.pop("data")
-        return cls(channel=channel, type=type_, data=data)
+        sequence = d.pop("sequence", UNSET)
+        return cls(channel=channel, type=type_, data=data, sequence=sequence)
 
 
 @_attrs_define

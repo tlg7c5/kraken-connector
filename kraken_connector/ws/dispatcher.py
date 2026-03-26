@@ -5,6 +5,7 @@ Routes raw JSON strings to typed model instances.
 import json
 from typing import Any, Union
 
+from ..types import UNSET
 from .channels.balances import BalanceLedgerUpdate, BalanceSnapshot
 from .channels.book import BookData
 from .channels.executions import ExecutionData
@@ -15,6 +16,7 @@ from .channels.status import StatusData
 from .channels.ticker import TickerData
 from .channels.trade import TradeData
 from .envelopes import PongResponse, WSDataMessage, WSErrorResponse, WSResponse
+from .sequence import SequenceGapEvent
 
 # Union of all possible return types from parse_message.
 WSMessage = Union[
@@ -23,6 +25,7 @@ WSMessage = Union[
     PongResponse,
     WSResponse,
     WSErrorResponse,
+    SequenceGapEvent,
 ]
 
 # Channel name → data item deserializer.
@@ -100,10 +103,12 @@ def parse_message(raw: str) -> WSMessage:
     if channel is not None and "data" in msg:
         msg_type = msg.get("type", "update")
         typed_data = _parse_data_items(channel, msg_type, msg["data"])
+        sequence = msg.get("sequence", UNSET)
         return WSDataMessage(
             channel=channel,
             type=msg_type,
             data=typed_data,
+            sequence=sequence,
         )
 
     # 3. Pong response.

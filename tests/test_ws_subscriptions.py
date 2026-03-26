@@ -12,7 +12,7 @@ from kraken_connector.ws import (
     SubscriptionError,
 )
 from kraken_connector.ws.envelopes import WSDataMessage, WSResponse
-from kraken_connector.ws.subscribe import BookParams, TickerParams
+from kraken_connector.ws.subscribe import BookParams, ExecutionsParams, TickerParams
 from kraken_connector.ws.subscriptions import _make_sub_key
 
 from .ws_helpers import (
@@ -43,6 +43,11 @@ class TestSubscriptionKey:
     def test_key_with_list_symbols(self) -> None:
         a = TickerParams(symbol=["BTC/USD", "ETH/USD"])
         b = TickerParams(symbol=["BTC/USD", "ETH/USD"])
+        assert _make_sub_key(a) == _make_sub_key(b)
+
+    def test_key_excludes_token(self) -> None:
+        a = ExecutionsParams(token="token_a")  # noqa: S106
+        b = ExecutionsParams(token="token_b")  # noqa: S106
         assert _make_sub_key(a) == _make_sub_key(b)
 
 

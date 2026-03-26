@@ -134,6 +134,51 @@ def unsubscribe_response_json(
     )
 
 
+def executions_json(
+    sequence: int = 1,
+    exec_type: str = "new",
+    order_id: str = "OTEST-12345",
+) -> str:
+    return json.dumps(
+        {
+            "channel": "executions",
+            "type": "update",
+            "sequence": sequence,
+            "data": [
+                {
+                    "exec_type": exec_type,
+                    "order_id": order_id,
+                    "symbol": "BTC/USD",
+                    "order_status": "pending_new",
+                    "side": "buy",
+                    "order_type": "limit",
+                    "timestamp": "2024-01-01T00:00:00Z",
+                }
+            ],
+        }
+    )
+
+
+def balances_snapshot_json(sequence: int = 1) -> str:
+    return json.dumps(
+        {
+            "channel": "balances",
+            "type": "snapshot",
+            "sequence": sequence,
+            "data": [
+                {
+                    "asset": "BTC",
+                    "asset_class": "currency",
+                    "balance": 1.5,
+                    "wallets": [
+                        {"type": "spot", "id": "main", "balance": 1.5},
+                    ],
+                }
+            ],
+        }
+    )
+
+
 # ---------------------------------------------------------------------------
 # Mock WebSocket
 # ---------------------------------------------------------------------------

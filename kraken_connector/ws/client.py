@@ -22,12 +22,15 @@ from .envelopes import (
     WSRequest,
     WSResponse,
 )
+from .sequence import SequenceTracker
+from .subscribe import BalancesParams, ExecutionsParams
 from .subscriptions import (
     SubscriptionEntry,
     SubscriptionError,
     SubscriptionParams,
     _make_sub_key,
 )
+from .token import TokenManager
 
 _logger = logging.getLogger("kraken_connector.ws")
 
@@ -64,6 +67,7 @@ class KrakenWSClient:
         backoff_max: float = 30.0,
         max_reconnect_attempts: int = 10,
         request_timeout: float = 10.0,
+        token_manager: TokenManager | None = None,
     ) -> None:
         self.url = url
         self.ping_interval = ping_interval
@@ -73,6 +77,7 @@ class KrakenWSClient:
         self.backoff_max = backoff_max
         self.max_reconnect_attempts = max_reconnect_attempts
         self.request_timeout = request_timeout
+        self._token_manager = token_manager
 
         self._state = ConnectionState.DISCONNECTED
         self._ws: Any | None = None
@@ -92,6 +97,9 @@ class KrakenWSClient:
         self._pending_requests: dict[
             int, asyncio.Future[WSResponse | WSErrorResponse]
         ] = {}
+
+        # Sequence tracking for private channels
+        self._sequence_tracker: SequenceTracker = SequenceTracker()
 
     @property
     def state(self) -> ConnectionState:
@@ -190,6 +198,15 @@ class KrakenWSClient:
         """
         if self._state != ConnectionState.CONNECTED or self._ws is None:
             raise RuntimeError(f"Cannot subscribe: state is {self._state.value}")
+
+        # Inject token for private channels.
+        if self._token_manager is not None and isinstance(
+            params, (ExecutionsParams, BalancesParams)
+        ):
+            import attrs
+
+            token = await self._token_manager.get_token()
+            params = attrs.evolve(params, token=token)
 
         self._sub_req_counter += 1
         req_id = self._sub_req_counter
@@ -311,6 +328,20 @@ class KrakenWSClient:
                 self._last_message_time = time.monotonic()
 
                 msg = parse_message(str(raw))
+
+                # Sequence tracking for private channels.
+                if isinstance(msg, WSDataMessage) and not isinstance(
+                    msg.sequence, Unset
+                ):
+                    gap = self._sequence_tracker.check(msg.sequence, msg.channel)
+                    if gap is not None:
+                        _logger.warning(
+                            "Sequence gap on %s: expected %d, got %d",
+                            gap.channel,
+                            gap.expected,
+                            gap.received,
+                        )
+                        await self._message_queue.put(gap)
 
                 # Intercept status messages to update internal state.
                 if isinstance(msg, WSDataMessage) and msg.channel == "status":
@@ -490,6 +521,10 @@ class KrakenWSClient:
 
     async def _resubscribe_all(self) -> None:
         """Re-subscribe to all tracked subscriptions after reconnect."""
+        if self._token_manager is not None:
+            self._token_manager.invalidate()
+        self._sequence_tracker.reset()
+
         if not self._subscriptions:
             return
         _logger.info("Re-subscribing to %d channels", len(self._subscriptions))

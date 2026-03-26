@@ -136,6 +136,18 @@ class TestEnvelopes:
         restored = PongResponse.from_dict(d)
         assert restored.req_id == 101
 
+    def test_data_message_sequence_default_unset(self) -> None:
+        msg = WSDataMessage(channel="ticker", type="snapshot", data=[])
+        d = msg.to_dict()
+        assert "sequence" not in d
+
+    def test_data_message_sequence_roundtrip(self) -> None:
+        msg = WSDataMessage(channel="executions", type="update", data=[], sequence=42)
+        d = msg.to_dict()
+        assert d["sequence"] == 42
+        restored = WSDataMessage.from_dict(d)
+        assert restored.sequence == 42
+
 
 # ---------------------------------------------------------------------------
 # Channel data round-trips
