@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union, cast
+from typing import TYPE_CHECKING, Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,19 +19,19 @@ class AddOrderResult:
     """
 
     descr: Union[Unset, "AddOrderResultDescr"] = UNSET
-    txid: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    txid: Unset | list[str] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        descr: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        descr: Unset | dict[str, Any] = UNSET
         if not isinstance(self.descr, Unset):
             descr = self.descr.to_dict()
 
-        txid: Union[Unset, List[str]] = UNSET
+        txid: Unset | list[str] = UNSET
         if not isinstance(self.txid, Unset):
             txid = self.txid
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if descr is not UNSET:
@@ -42,18 +42,18 @@ class AddOrderResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.add_order_result_descr import AddOrderResultDescr
 
         d = src_dict.copy()
         _descr = d.pop("descr", UNSET)
-        descr: Union[Unset, AddOrderResultDescr]
+        descr: Unset | AddOrderResultDescr
         if isinstance(_descr, Unset):
             descr = UNSET
         else:
             descr = AddOrderResultDescr.from_dict(_descr)
 
-        txid = cast(List[str], d.pop("txid", UNSET))
+        txid = cast(list[str], d.pop("txid", UNSET))
 
         add_2_order_added = cls(
             descr=descr,
@@ -64,7 +64,7 @@ class AddOrderResult:
         return add_2_order_added
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

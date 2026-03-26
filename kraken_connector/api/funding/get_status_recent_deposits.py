@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -16,7 +16,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: GetRecentDepositsRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/DepositStatus",
@@ -26,7 +26,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[GetRecentDepositsResponse]:
+) -> GetRecentDepositsResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetRecentDepositsResponse.from_dict(response.json())
 
@@ -95,7 +95,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: GetRecentDepositsRequest,
-) -> Optional[GetRecentDepositsResponse]:
+) -> GetRecentDepositsResponse | None:
     """Get Status of Recent Deposits
 
      Retrieve information about recent deposits. Any deposits initiated in the past 90 days will be
@@ -157,7 +157,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: GetRecentDepositsRequest,
-) -> Optional[GetRecentDepositsResponse]:
+) -> GetRecentDepositsResponse | None:
     """Get Status of Recent Deposits
 
      Retrieve information about recent deposits. Any deposits initiated in the past 90 days will be

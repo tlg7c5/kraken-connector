@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -27,17 +27,17 @@ class AllocateStrategyRequest:
     amount: str
     nonce: "AllocateStrategyRequestNonce"
     strategy_id: str
-    otp: Union[Unset, None, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    otp: Unset | None | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         amount = self.amount
         nonce = self.nonce.to_dict()
 
         strategy_id = self.strategy_id
         otp = self.otp
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -52,7 +52,7 @@ class AllocateStrategyRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.allocate_strategy_request_nonce import (
             AllocateStrategyRequestNonce,
         )
@@ -77,7 +77,7 @@ class AllocateStrategyRequest:
         return allocate_strategy_json_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

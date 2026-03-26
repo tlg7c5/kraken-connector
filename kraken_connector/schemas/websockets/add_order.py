@@ -1,6 +1,6 @@
 """Data models for addOrder private messasges on websockets."""
 
-from typing import Any, Dict, List, Literal, Self, Union
+from typing import Any, Literal, Self
 
 from attrs import converters
 from attrs import define as _attrs_define
@@ -69,45 +69,43 @@ class CreateOrder:
     type_order: TypeOrder
     pair: str
     volume: float = _attrs_field(converter=float)
-    request_id: Union[int, Unset] = _attrs_field(
+    request_id: int | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(int)
     )
-    price: Union[float, Unset] = _attrs_field(
+    price: float | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(float)
     )
-    price2: Union[float, Unset] = _attrs_field(
+    price2: float | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(float)
     )
-    leverage: Union[float, Unset] = _attrs_field(
+    leverage: float | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(float)
     )
-    reduce_only: Union[Unset, bool] = _attrs_field(
+    reduce_only: Unset | bool = _attrs_field(
         default=UNSET, converter=converters.optional(converters.to_bool)
     )
-    order_flags: Union[Unset, List[OrderFlags]] = _attrs_field(
-        default=UNSET, factory=list
-    )
-    start_time: Union[str, Unset] = UNSET
-    expire_time: Union[str, Unset] = UNSET
-    deadline: Union[str, Unset] = UNSET
-    userref: Union[int, Unset] = _attrs_field(
+    order_flags: Unset | list[OrderFlags] = _attrs_field(default=UNSET, factory=list)
+    start_time: str | Unset = UNSET
+    expire_time: str | Unset = UNSET
+    deadline: str | Unset = UNSET
+    userref: int | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(int)
     )
-    validate: Union[bool, Unset] = _attrs_field(
+    validate: bool | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(converters.to_bool)
     )
-    conditional_close_order_type: Union[OrderType, Unset] = UNSET
-    conditional_close_price: Union[float, Unset] = _attrs_field(
+    conditional_close_order_type: OrderType | Unset = UNSET
+    conditional_close_price: float | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(float)
     )
-    conditional_close_price2: Union[float, Unset] = _attrs_field(
+    conditional_close_price2: float | Unset = _attrs_field(
         default=UNSET, converter=converters.optional(float)
     )
-    time_in_force: Union[TimeInForce, Unset] = UNSET
+    time_in_force: TimeInForce | Unset = UNSET
     _event: Literal["addOrder"] = "addOrder"
 
     @classmethod
-    def from_dict(cls, values: Dict[str, Any]) -> Self:
+    def from_dict(cls, values: dict[str, Any]) -> Self:
         """Generates object to create order from dictary of values.
 
         Args:
@@ -244,15 +242,15 @@ class CreateOrderResponse:
 
     event: Literal["addOrderStatus"]
     status: MessageStatus
-    request_id: Union[Unset, int] = _attrs_field(
+    request_id: Unset | int = _attrs_field(
         default=UNSET, converter=converters.optional(int)
     )
-    order_id: Union[Unset, str] = UNSET
-    description: Union[Unset, str] = UNSET
-    error_message: Union[Unset, str] = UNSET
+    order_id: Unset | str = UNSET
+    description: Unset | str = UNSET
+    error_message: Unset | str = UNSET
 
     @classmethod
-    def from_message(cls, message: Dict[str, Any]) -> Self:
+    def from_message(cls, message: dict[str, Any]) -> Self:
         """Converts message received by websocket to object.
 
         The message will have a description, order_id and request_id,

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -14,15 +14,15 @@ class ServerTime:
         rfc1123 (Union[Unset, str]): RFC 1123 time format
     """
 
-    unixtime: Union[Unset, int] = UNSET
-    rfc1123: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    unixtime: Unset | int = UNSET
+    rfc1123: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         unixtime = self.unixtime
         rfc1123 = self.rfc1123
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if unixtime is not UNSET:
@@ -33,7 +33,7 @@ class ServerTime:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         unixtime = d.pop("unixtime", UNSET)
 
@@ -48,7 +48,7 @@ class ServerTime:
         return time_server_time
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

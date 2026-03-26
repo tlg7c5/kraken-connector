@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union, cast
+from typing import TYPE_CHECKING, Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -71,8 +71,8 @@ class EarnStrategy:
         user_min_allocation (Union[Unset, None, str]): Minimum amount (in USD) for an allocation or deallocation
     """
 
-    allocation_fee: Union[float, int, str]
-    allocation_restriction_info: List[AllocationRestrictionInfo]
+    allocation_fee: float | int | str
+    allocation_restriction_info: list[AllocationRestrictionInfo]
     asset: str
     auto_compound: Union[
         "EarnStrategyAutoCompoundDisabled",
@@ -81,7 +81,7 @@ class EarnStrategy:
     ]
     can_allocate: bool
     can_deallocate: bool
-    deallocation_fee: Union[float, int, str]
+    deallocation_fee: float | int | str
     id: str
     lock_type: Union[
         "EarnStrategyLockFlex",
@@ -94,11 +94,11 @@ class EarnStrategy:
         "EarnStrategyYieldOffChain",
     ]
     apr_estimate: Union[Unset, None, "EarnStrategyAprEstimate"] = UNSET
-    user_cap: Union[Unset, None, str] = UNSET
-    user_min_allocation: Union[Unset, None, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    user_cap: Unset | None | str = UNSET
+    user_min_allocation: Unset | None | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         from ..schemas.earn_strategy_auto_compound_disabled import (
             EarnStrategyAutoCompoundDisabled,
         )
@@ -118,7 +118,7 @@ class EarnStrategy:
             EarnStrategyYieldStaking,
         )
 
-        allocation_fee: Union[float, int, str]
+        allocation_fee: float | int | str
 
         allocation_fee = self.allocation_fee
 
@@ -131,7 +131,7 @@ class EarnStrategy:
             allocation_restriction_info.append(allocation_restriction_info_item)
 
         asset = self.asset
-        auto_compound: Dict[str, Any]
+        auto_compound: dict[str, Any]
 
         if isinstance(
             self.auto_compound,
@@ -150,12 +150,12 @@ class EarnStrategy:
 
         can_allocate = self.can_allocate
         can_deallocate = self.can_deallocate
-        deallocation_fee: Union[float, int, str]
+        deallocation_fee: float | int | str
 
         deallocation_fee = self.deallocation_fee
 
         id = self.id
-        lock_type: Dict[str, Any]
+        lock_type: dict[str, Any]
 
         if isinstance(self.lock_type, EarnStrategyLockFlex):
             lock_type = self.lock_type.to_dict()
@@ -169,7 +169,7 @@ class EarnStrategy:
         else:
             lock_type = self.lock_type.to_dict()
 
-        yield_source: Dict[str, Any]
+        yield_source: dict[str, Any]
 
         if isinstance(self.yield_source, EarnStrategyYieldStaking):
             yield_source = self.yield_source.to_dict()
@@ -177,14 +177,14 @@ class EarnStrategy:
         else:
             yield_source = self.yield_source.to_dict()
 
-        apr_estimate: Union[Unset, None, Dict[str, Any]] = UNSET
+        apr_estimate: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.apr_estimate, Unset):
             apr_estimate = self.apr_estimate.to_dict() if self.apr_estimate else None
 
         user_cap = self.user_cap
         user_min_allocation = self.user_min_allocation
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -210,7 +210,7 @@ class EarnStrategy:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.earn_strategy_apr_estimate import (
             EarnStrategyAprEstimate,
         )
@@ -244,7 +244,7 @@ class EarnStrategy:
 
         d = src_dict.copy()
 
-        def _parse_allocation_fee(data: object) -> Union[float, int, str]:
+        def _parse_allocation_fee(data: object) -> float | int | str:
             return cast(Union[float, int, str], data)
 
         allocation_fee = _parse_allocation_fee(d.pop("allocation_fee"))
@@ -295,7 +295,7 @@ class EarnStrategy:
 
         can_deallocate = d.pop("can_deallocate")
 
-        def _parse_deallocation_fee(data: object) -> Union[float, int, str]:
+        def _parse_deallocation_fee(data: object) -> float | int | str:
             return cast(Union[float, int, str], data)
 
         deallocation_fee = _parse_deallocation_fee(d.pop("deallocation_fee"))
@@ -362,7 +362,7 @@ class EarnStrategy:
         yield_source = _parse_yield_source(d.pop("yield_source"))
 
         _apr_estimate = d.pop("apr_estimate", UNSET)
-        apr_estimate: Union[Unset, None, EarnStrategyAprEstimate]
+        apr_estimate: Unset | None | EarnStrategyAprEstimate
         if _apr_estimate is None:
             apr_estimate = None
         elif isinstance(_apr_estimate, Unset):
@@ -394,7 +394,7 @@ class EarnStrategy:
         return list_strategies_response_200_result_items_item
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

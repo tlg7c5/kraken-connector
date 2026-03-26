@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -20,15 +20,15 @@ class FeeTierInfo:
         next_volume (Union[Unset, None, str]): volume level of next tier (if not fixed fee. null if at lowest fee tier)
     """
 
-    fee: Union[Unset, str] = UNSET
-    min_fee: Union[Unset, str] = UNSET
-    max_fee: Union[Unset, str] = UNSET
-    next_fee: Union[Unset, None, str] = UNSET
-    tier_volume: Union[Unset, None, str] = UNSET
-    next_volume: Union[Unset, None, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    fee: Unset | str = UNSET
+    min_fee: Unset | str = UNSET
+    max_fee: Unset | str = UNSET
+    next_fee: Unset | None | str = UNSET
+    tier_volume: Unset | None | str = UNSET
+    next_volume: Unset | None | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         fee = self.fee
         min_fee = self.min_fee
         max_fee = self.max_fee
@@ -36,7 +36,7 @@ class FeeTierInfo:
         tier_volume = self.tier_volume
         next_volume = self.next_volume
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if fee is not UNSET:
@@ -55,7 +55,7 @@ class FeeTierInfo:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         fee = d.pop("fee", UNSET)
 
@@ -82,7 +82,7 @@ class FeeTierInfo:
         return fee_tier_info
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -20,11 +20,11 @@ class ListStrategiesResult:
             the end
     """
 
-    items: List["EarnStrategy"]
-    next_cursor: Union[Unset, None, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    items: list["EarnStrategy"]
+    next_cursor: Unset | None | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         items = []
         for items_item_data in self.items:
             items_item = items_item_data.to_dict()
@@ -33,7 +33,7 @@ class ListStrategiesResult:
 
         next_cursor = self.next_cursor
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -46,7 +46,7 @@ class ListStrategiesResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.earn_strategy import (
             EarnStrategy,
         )
@@ -70,7 +70,7 @@ class ListStrategiesResult:
         return list_strategies_response_200_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

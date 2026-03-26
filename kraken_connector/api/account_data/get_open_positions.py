@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: GetOpenPositionsRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/OpenPositions",
@@ -24,7 +24,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[GetOpenPositionsResponse]:
+) -> GetOpenPositionsResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetOpenPositionsResponse.from_dict(response.json())
 
@@ -92,7 +92,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: GetOpenPositionsRequest,
-) -> Optional[GetOpenPositionsResponse]:
+) -> GetOpenPositionsResponse | None:
     """Get Open Positions
 
      Get information about open margin positions.
@@ -152,7 +152,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: GetOpenPositionsRequest,
-) -> Optional[GetOpenPositionsResponse]:
+) -> GetOpenPositionsResponse | None:
     """Get Open Positions
 
      Get information about open margin positions.

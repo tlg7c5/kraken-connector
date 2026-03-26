@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,17 +19,17 @@ class GetLedgersResult:
     """
 
     ledger: Union[Unset, "GetLedgersResultEntries"] = UNSET
-    count: Union[Unset, int] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    count: Unset | int = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        ledger: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        ledger: Unset | dict[str, Any] = UNSET
         if not isinstance(self.ledger, Unset):
             ledger = self.ledger.to_dict()
 
         count = self.count
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if ledger is not UNSET:
@@ -40,12 +40,12 @@ class GetLedgersResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_ledgers_result_entries import GetLedgersResultEntries
 
         d = src_dict.copy()
         _ledger = d.pop("ledger", UNSET)
-        ledger: Union[Unset, GetLedgersResultEntries]
+        ledger: Unset | GetLedgersResultEntries
         if isinstance(_ledger, Unset):
             ledger = UNSET
         else:
@@ -62,7 +62,7 @@ class GetLedgersResult:
         return info_3_ledgers_info
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -10,7 +10,7 @@ from ...security import get_nonce, sign_message
 from ...types import Response
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs() -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/TradeBalance",
@@ -20,7 +20,7 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Any]:
+) -> Any | None:
     if client.raise_on_unexpected_status:
         raise exceptions.UnexpectedStatus(response.status_code, response.content)
     else:

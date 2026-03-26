@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,18 +28,18 @@ class AddExportRequest:
     report: ReportType
     description: str
     nonce: int = get_nonce()
-    format_: Union[Unset, ReportFileFormat] = ReportFileFormat.CSV
-    fields: Union[Unset, str] = "all"
-    starttm: Union[Unset, int] = UNSET
-    endtm: Union[Unset, int] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    format_: Unset | ReportFileFormat = ReportFileFormat.CSV
+    fields: Unset | str = "all"
+    starttm: Unset | int = UNSET
+    endtm: Unset | int = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
         report = self.report.value
 
         description = self.description
-        format_: Union[Unset, str] = UNSET
+        format_: Unset | str = UNSET
         if not isinstance(self.format_, Unset):
             format_ = self.format_.value
 
@@ -47,7 +47,7 @@ class AddExportRequest:
         starttm = self.starttm
         endtm = self.endtm
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -68,7 +68,7 @@ class AddExportRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
@@ -77,7 +77,7 @@ class AddExportRequest:
         description = d.pop("description")
 
         _format_ = d.pop("format", UNSET)
-        format_: Union[Unset, ReportFileFormat]
+        format_: Unset | ReportFileFormat
         format_ = UNSET if isinstance(_format_, Unset) else ReportFileFormat(_format_)
 
         fields = d.pop("fields", UNSET)
@@ -100,7 +100,7 @@ class AddExportRequest:
         return add_export_data
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

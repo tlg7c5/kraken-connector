@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,15 +13,15 @@ class GetRecentSpreadsResult:
         last (Union[Unset, int]): ID to be used as since when polling for new spread data
     """
 
-    last: Union[Unset, int] = UNSET
-    additional_properties: Dict[str, List[List[Union[int, str]]]] = _attrs_field(
+    last: Unset | int = UNSET
+    additional_properties: dict[str, list[list[int | str]]] = _attrs_field(
         init=False, factory=dict
     )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         last = self.last
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = []
             for componentsschemasspread_item_data in prop:
@@ -29,7 +29,7 @@ class GetRecentSpreadsResult:
                 for (
                     componentsschemasspread_item_item_data
                 ) in componentsschemasspread_item_data:
-                    componentsschemasspread_item_item: Union[int, str]
+                    componentsschemasspread_item_item: int | str
 
                     componentsschemasspread_item_item = (
                         componentsschemasspread_item_item_data
@@ -48,7 +48,7 @@ class GetRecentSpreadsResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         last = d.pop("last", UNSET)
 
@@ -69,7 +69,7 @@ class GetRecentSpreadsResult:
 
                     def _parse_componentsschemasspread_item_item(
                         data: object,
-                    ) -> Union[int, str]:
+                    ) -> int | str:
                         return cast(Union[int, str], data)
 
                     componentsschemasspread_item_item = (
@@ -90,13 +90,13 @@ class GetRecentSpreadsResult:
         return spread_2_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> List[List[Union[int, str]]]:
+    def __getitem__(self, key: str) -> list[list[int | str]]:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: List[List[Union[int, str]]]) -> None:
+    def __setitem__(self, key: str, value: list[list[int | str]]) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

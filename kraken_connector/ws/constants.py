@@ -180,3 +180,15 @@ class LiquidityIndicator(StrEnum):
 
     def __str__(self) -> str:
         return str(self.value)
+
+
+class ConnectionState(StrEnum):
+    """WebSocket connection state machine states."""
+
+    DISCONNECTED = "disconnected"
+    CONNECTING = "connecting"
+    CONNECTED = "connected"
+    RECONNECTING = "reconnecting"
+
+    def __str__(self) -> str:
+        return str(self.value)

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: CreateSubaccountRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/CreateSubaccount",
@@ -24,7 +24,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[CreateSubaccountResponse]:
+) -> CreateSubaccountResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = CreateSubaccountResponse.from_dict(response.json())
 
@@ -90,7 +90,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: CreateSubaccountRequest,
-) -> Optional[CreateSubaccountResponse]:
+) -> CreateSubaccountResponse | None:
     """Create Subaccount
 
      Create a trading subaccount.
@@ -146,7 +146,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: CreateSubaccountRequest,
-) -> Optional[CreateSubaccountResponse]:
+) -> CreateSubaccountResponse | None:
     """Create Subaccount
 
      Create a trading subaccount.

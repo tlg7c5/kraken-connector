@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: GetDepositMethodsRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/DepositMethods",
@@ -24,7 +24,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[GetDepositMethodsResponse]:
+) -> GetDepositMethodsResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetDepositMethodsResponse.from_dict(response.json())
 
@@ -92,7 +92,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: GetDepositMethodsRequest,
-) -> Optional[GetDepositMethodsResponse]:
+) -> GetDepositMethodsResponse | None:
     """Get Deposit Methods
 
      Retrieve methods available for depositing a particular asset.
@@ -152,7 +152,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: GetDepositMethodsRequest,
-) -> Optional[GetDepositMethodsResponse]:
+) -> GetDepositMethodsResponse | None:
     """Get Deposit Methods
 
      Retrieve methods available for depositing a particular asset.

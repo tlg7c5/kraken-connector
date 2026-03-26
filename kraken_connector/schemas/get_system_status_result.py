@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,18 +21,18 @@ class GetSystemStatusResult:
         timestamp (Union[Unset, str]): Current timestamp (RFC3339)
     """
 
-    status: Union[Unset, SystemStatus] = UNSET
-    timestamp: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    status: Unset | SystemStatus = UNSET
+    timestamp: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        status: Union[Unset, str] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        status: Unset | str = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
 
         timestamp = self.timestamp
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if status is not UNSET:
@@ -43,10 +43,10 @@ class GetSystemStatusResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         _status = d.pop("status", UNSET)
-        status: Union[Unset, SystemStatus]
+        status: Unset | SystemStatus
         status = UNSET if isinstance(_status, Unset) else SystemStatus(_status)
 
         timestamp = d.pop("timestamp", UNSET)
@@ -60,7 +60,7 @@ class GetSystemStatusResult:
         return get_system_status_response_200_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

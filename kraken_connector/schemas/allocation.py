@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -36,20 +36,20 @@ class Allocation:
     strategy_id: str
     total_rewarded: "AllocationTotalRewarded"
     payout: Union[Unset, None, "AllocationPayout"] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         amount_allocated = self.amount_allocated.to_dict()
 
         native_asset = self.native_asset
         strategy_id = self.strategy_id
         total_rewarded = self.total_rewarded.to_dict()
 
-        payout: Union[Unset, None, Dict[str, Any]] = UNSET
+        payout: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.payout, Unset):
             payout = self.payout.to_dict() if self.payout else None
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -65,7 +65,7 @@ class Allocation:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.allocation_amount import (
             AllocationAmount,
         )
@@ -86,7 +86,7 @@ class Allocation:
         total_rewarded = AllocationTotalRewarded.from_dict(d.pop("total_rewarded"))
 
         _payout = d.pop("payout", UNSET)
-        payout: Union[Unset, None, AllocationPayout]
+        payout: Unset | None | AllocationPayout
         if _payout is None:
             payout = None
         elif isinstance(_payout, Unset):
@@ -106,7 +106,7 @@ class Allocation:
         return list_allocations_response_200_result_items_item
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

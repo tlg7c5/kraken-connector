@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,53 +22,53 @@ class AssetTickerInfo:
         o (Union[Unset, str]): Today's opening price
     """
 
-    a: Union[Unset, List[str]] = UNSET
-    b: Union[Unset, List[str]] = UNSET
-    c: Union[Unset, List[str]] = UNSET
-    v: Union[Unset, List[str]] = UNSET
-    p: Union[Unset, List[str]] = UNSET
-    t: Union[Unset, List[int]] = UNSET
-    l: Union[Unset, List[str]] = UNSET
-    h: Union[Unset, List[str]] = UNSET
-    o: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    a: Unset | list[str] = UNSET
+    b: Unset | list[str] = UNSET
+    c: Unset | list[str] = UNSET
+    v: Unset | list[str] = UNSET
+    p: Unset | list[str] = UNSET
+    t: Unset | list[int] = UNSET
+    l: Unset | list[str] = UNSET
+    h: Unset | list[str] = UNSET
+    o: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        a: Union[Unset, List[str]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        a: Unset | list[str] = UNSET
         if not isinstance(self.a, Unset):
             a = self.a
 
-        b: Union[Unset, List[str]] = UNSET
+        b: Unset | list[str] = UNSET
         if not isinstance(self.b, Unset):
             b = self.b
 
-        c: Union[Unset, List[str]] = UNSET
+        c: Unset | list[str] = UNSET
         if not isinstance(self.c, Unset):
             c = self.c
 
-        v: Union[Unset, List[str]] = UNSET
+        v: Unset | list[str] = UNSET
         if not isinstance(self.v, Unset):
             v = self.v
 
-        p: Union[Unset, List[str]] = UNSET
+        p: Unset | list[str] = UNSET
         if not isinstance(self.p, Unset):
             p = self.p
 
-        t: Union[Unset, List[int]] = UNSET
+        t: Unset | list[int] = UNSET
         if not isinstance(self.t, Unset):
             t = self.t
 
-        l: Union[Unset, List[str]] = UNSET
+        l: Unset | list[str] = UNSET
         if not isinstance(self.l, Unset):
             l = self.l
 
-        h: Union[Unset, List[str]] = UNSET
+        h: Unset | list[str] = UNSET
         if not isinstance(self.h, Unset):
             h = self.h
 
         o = self.o
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if a is not UNSET:
@@ -93,23 +93,23 @@ class AssetTickerInfo:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
-        a = cast(List[str], d.pop("a", UNSET))
+        a = cast(list[str], d.pop("a", UNSET))
 
-        b = cast(List[str], d.pop("b", UNSET))
+        b = cast(list[str], d.pop("b", UNSET))
 
-        c = cast(List[str], d.pop("c", UNSET))
+        c = cast(list[str], d.pop("c", UNSET))
 
-        v = cast(List[str], d.pop("v", UNSET))
+        v = cast(list[str], d.pop("v", UNSET))
 
-        p = cast(List[str], d.pop("p", UNSET))
+        p = cast(list[str], d.pop("p", UNSET))
 
-        t = cast(List[int], d.pop("t", UNSET))
+        t = cast(list[int], d.pop("t", UNSET))
 
-        l = cast(List[str], d.pop("l", UNSET))
+        l = cast(list[str], d.pop("l", UNSET))
 
-        h = cast(List[str], d.pop("h", UNSET))
+        h = cast(list[str], d.pop("h", UNSET))
 
         o = d.pop("o", UNSET)
 
@@ -129,7 +129,7 @@ class AssetTickerInfo:
         return asset_ticker_info
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

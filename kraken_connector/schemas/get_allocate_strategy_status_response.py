@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union, cast
+from typing import TYPE_CHECKING, Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,18 +19,18 @@ class GetAllocateStrategyStatusResponse:
         result (Union[Unset, None, GetAllocateStrategyStatusResult]): Status of async earn operation
     """
 
-    error: List[str]
+    error: list[str]
     result: Union[Unset, None, "GetAllocateStrategyStatusResult"] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         error = self.error
 
-        result: Union[Unset, None, Dict[str, Any]] = UNSET
+        result: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.result, Unset):
             result = self.result.to_dict() if self.result else None
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -43,16 +43,16 @@ class GetAllocateStrategyStatusResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_allocate_strategy_status_result import (
             GetAllocateStrategyStatusResult,
         )
 
         d = src_dict.copy()
-        error = cast(List[str], d.pop("error"))
+        error = cast(list[str], d.pop("error"))
 
         _result = d.pop("result", UNSET)
-        result: Union[Unset, None, GetAllocateStrategyStatusResult]
+        result: Unset | None | GetAllocateStrategyStatusResult
         if _result is None:
             result = None
         elif isinstance(_result, Unset):
@@ -69,7 +69,7 @@ class GetAllocateStrategyStatusResponse:
         return get_allocate_strategy_status_response_200
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

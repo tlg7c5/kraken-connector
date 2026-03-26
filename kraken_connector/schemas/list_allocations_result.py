@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -25,12 +25,12 @@ class ListAllocationsResult:
     """
 
     converted_asset: str
-    items: List["Allocation"]
+    items: list["Allocation"]
     total_allocated: str
     total_rewarded: str
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         converted_asset = self.converted_asset
         items = []
         for items_item_data in self.items:
@@ -41,7 +41,7 @@ class ListAllocationsResult:
         total_allocated = self.total_allocated
         total_rewarded = self.total_rewarded
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -55,7 +55,7 @@ class ListAllocationsResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.allocation import (
             Allocation,
         )
@@ -85,7 +85,7 @@ class ListAllocationsResult:
         return list_allocations_response_200_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

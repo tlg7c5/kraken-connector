@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -12,10 +12,10 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["asset"] = asset
 
     params["aclass"] = aclass
@@ -30,8 +30,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetAssetInfoResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetAssetInfoResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetAssetInfoResponse.from_dict(response.json())
 
@@ -50,7 +50,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[GetAssetInfoResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -62,9 +62,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
 ) -> Response[GetAssetInfoResponse]:
     """Get Asset Info
 
@@ -96,10 +96,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Optional[GetAssetInfoResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> GetAssetInfoResponse | None:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -125,9 +125,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
 ) -> Response[GetAssetInfoResponse]:
     """Get Asset Info
 
@@ -157,10 +157,10 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Optional[GetAssetInfoResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> GetAssetInfoResponse | None:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.

@@ -1,5 +1,5 @@
 """Instrument channel data models for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 
@@ -25,11 +25,11 @@ class InstrumentAsset:
     precision: int
     precision_display: int
     borrowable: bool
-    collateral_value: Union[Unset, float] = UNSET
-    margin_rate: Union[Unset, float] = UNSET
+    collateral_value: Unset | float = UNSET
+    margin_rate: Unset | float = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "id": self.id,
             "status": self.status,
             "precision": self.precision,
@@ -43,7 +43,7 @@ class InstrumentAsset:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             id=d.pop("id"),
@@ -91,13 +91,13 @@ class InstrumentPair:
     cost_precision: int
     cost_min: float
     marginable: bool
-    margin_initial: Union[Unset, float] = UNSET
-    position_limit_long: Union[Unset, float] = UNSET
-    position_limit_short: Union[Unset, float] = UNSET
-    has_index: Union[Unset, bool] = UNSET
+    margin_initial: Unset | float = UNSET
+    position_limit_long: Unset | float = UNSET
+    position_limit_short: Unset | float = UNSET
+    has_index: Unset | bool = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "symbol": self.symbol,
             "base": self.base,
             "quote": self.quote,
@@ -122,7 +122,7 @@ class InstrumentPair:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             symbol=d.pop("symbol"),
@@ -153,17 +153,17 @@ class InstrumentData:
         pairs: List of trading pair reference data.
     """
 
-    assets: List[InstrumentAsset]
-    pairs: List[InstrumentPair]
+    assets: list[InstrumentAsset]
+    pairs: list[InstrumentPair]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "assets": [a.to_dict() for a in self.assets],
             "pairs": [p.to_dict() for p in self.pairs],
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         assets = [InstrumentAsset.from_dict(a) for a in d.pop("assets", [])]
         pairs = [InstrumentPair.from_dict(p) for p in d.pop("pairs", [])]

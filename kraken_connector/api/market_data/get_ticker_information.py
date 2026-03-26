@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -12,9 +12,9 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    pair: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    pair: Unset | None | str = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -27,8 +27,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetTickerResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetTickerResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetTickerResponse.from_dict(response.json())
 
@@ -47,7 +47,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[GetTickerResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -59,8 +59,8 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
 ) -> Response[GetTickerResponse]:
     """Get Ticker Information
 
@@ -91,9 +91,9 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
-) -> Optional[GetTickerResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
+) -> GetTickerResponse | None:
     """Get Ticker Information
 
      Note: Today's prices start at midnight UTC. Leaving the pair parameter blank will return tickers for
@@ -118,8 +118,8 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
 ) -> Response[GetTickerResponse]:
     """Get Ticker Information
 
@@ -148,9 +148,9 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
-) -> Optional[GetTickerResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
+) -> GetTickerResponse | None:
     """Get Ticker Information
 
      Note: Today's prices start at midnight UTC. Leaving the pair parameter blank will return tickers for

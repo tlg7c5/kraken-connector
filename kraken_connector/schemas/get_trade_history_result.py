@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,17 +18,17 @@ class GetTradeHistoryResult:
         trades (Union[Unset, GetTradeHistoryResultTrades]): Trade info
     """
 
-    count: Union[Unset, int] = UNSET
+    count: Unset | int = UNSET
     trades: Union[Unset, "GetTradeHistoryResultTrades"] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         count = self.count
-        trades: Union[Unset, Dict[str, Any]] = UNSET
+        trades: Unset | dict[str, Any] = UNSET
         if not isinstance(self.trades, Unset):
             trades = self.trades.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if count is not UNSET:
@@ -39,7 +39,7 @@ class GetTradeHistoryResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_trade_history_result_trades import (
             GetTradeHistoryResultTrades,
         )
@@ -48,7 +48,7 @@ class GetTradeHistoryResult:
         count = d.pop("count", UNSET)
 
         _trades = d.pop("trades", UNSET)
-        trades: Union[Unset, GetTradeHistoryResultTrades]
+        trades: Unset | GetTradeHistoryResultTrades
         if isinstance(_trades, Unset):
             trades = UNSET
         else:
@@ -63,7 +63,7 @@ class GetTradeHistoryResult:
         return trade_history
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

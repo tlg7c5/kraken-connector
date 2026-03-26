@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -26,11 +26,11 @@ class WithdrawFundsRequest:
     key: str
     amount: str
     nonce: int = get_nonce()
-    address: Union[Unset, str] = UNSET
-    max_fee: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    address: Unset | str = UNSET
+    max_fee: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
         asset = self.asset
         key = self.key
@@ -38,7 +38,7 @@ class WithdrawFundsRequest:
         address = self.address
         max_fee = self.max_fee
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -56,7 +56,7 @@ class WithdrawFundsRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
@@ -83,7 +83,7 @@ class WithdrawFundsRequest:
         return withdrawal
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

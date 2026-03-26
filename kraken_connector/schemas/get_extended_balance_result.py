@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,14 +18,14 @@ class GetExtendedBalanceResult:
     """
 
     asset: Union[Unset, "ExtendedBalance"] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        asset: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        asset: Unset | dict[str, Any] = UNSET
         if not isinstance(self.asset, Unset):
             asset = self.asset.to_dict()
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if asset is not UNSET:
@@ -34,12 +34,12 @@ class GetExtendedBalanceResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.extended_balance import ExtendedBalance
 
         d = src_dict.copy()
         _asset = d.pop("asset", UNSET)
-        asset: Union[Unset, ExtendedBalance]
+        asset: Unset | ExtendedBalance
         if isinstance(_asset, Unset):
             asset = UNSET
         else:
@@ -53,7 +53,7 @@ class GetExtendedBalanceResult:
         return balanceex_2_extended_balance
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

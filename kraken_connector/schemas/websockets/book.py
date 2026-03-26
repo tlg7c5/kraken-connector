@@ -1,6 +1,6 @@
 """Data models for Order book subscription messasges on websockets."""
 
-from typing import Any, Dict, List, Literal, Optional, Self, Union
+from typing import Any, Literal, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -31,10 +31,10 @@ class PriceLevel:
     price: str
     volume: str
     timestamp: str
-    update_type: Optional[Literal["r"]] = None
+    update_type: Literal["r"] | None = None
 
     @classmethod
-    def from_message(cls, message: List) -> Self:
+    def from_message(cls, message: list) -> Self:
         """Instantiate a PriceLevel object from the message context."""
         return cls(*message)
 
@@ -48,11 +48,11 @@ class OrderBookSnapshot:
         bid_side: List of price levels, descending from best bid.
     """
 
-    ask_side: List[PriceLevel] = _attrs_field(alias="as", factory=list)
-    bid_side: List[PriceLevel] = _attrs_field(alias="bs", factory=list)
+    ask_side: list[PriceLevel] = _attrs_field(alias="as", factory=list)
+    bid_side: list[PriceLevel] = _attrs_field(alias="bs", factory=list)
 
     @classmethod
-    def from_message(cls, message: Dict) -> Self:
+    def from_message(cls, message: dict) -> Self:
         """Instantiate a OrderBookUpdate object from the message context."""
         message_copy = message.copy()
         ask_side = [PriceLevel.from_message(i) for i in message_copy.get("as", [])]
@@ -72,12 +72,12 @@ class OrderBookUpdate:
             container in the message. See [calculation details](https://docs.kraken.com/websockets/#book-checksum).
     """
 
-    ask_updates: List[PriceLevel] = _attrs_field(alias="a", factory=list)
-    bid_updates: List[PriceLevel] = _attrs_field(alias="b", factory=list)
-    checksum: Union[int, Unset] = _attrs_field(alias="c", default=UNSET)
+    ask_updates: list[PriceLevel] = _attrs_field(alias="a", factory=list)
+    bid_updates: list[PriceLevel] = _attrs_field(alias="b", factory=list)
+    checksum: int | Unset = _attrs_field(alias="c", default=UNSET)
 
     @classmethod
-    def from_message(cls, message: Dict) -> Self:
+    def from_message(cls, message: dict) -> Self:
         """Instantiate a OrderBookUpdate object from the message context."""
         message_copy = message.copy()
         ask_container = {}
@@ -224,12 +224,12 @@ class OrderBookMessage:
     """
 
     channel_id: int = _attrs_field()
-    order_book_update: Union[OrderBookSnapshot, OrderBookUpdate] = _attrs_field()
+    order_book_update: OrderBookSnapshot | OrderBookUpdate = _attrs_field()
     channel_name: str = _attrs_field()
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: List[Any]):
+    def from_message(cls, message: list[Any]):
         """Convert raw message from websocke to OHLCMessage."""
         chanel_id = message[0]
         if "as" in message[1]:

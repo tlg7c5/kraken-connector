@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -11,7 +11,7 @@ from ...security import get_nonce, sign_message
 from ...types import Response, Unset
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs() -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/TradeVolume",
@@ -21,7 +21,7 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[TradeVolumeResponse]:
+) -> TradeVolumeResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = TradeVolumeResponse.from_dict(response.json())
 
@@ -87,7 +87,7 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[TradeVolumeResponse]:
+) -> TradeVolumeResponse | None:
     """Get Trade TradeVolumeResponse
 
      Returns 30 day USD trading volume and resulting fee schedule for any asset pair(s) provided.
@@ -146,7 +146,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-) -> Optional[TradeVolumeResponse]:
+) -> TradeVolumeResponse | None:
     """Get Trade TradeVolumeResponse
 
      Returns 30 day USD trading volume and resulting fee schedule for any asset pair(s) provided.

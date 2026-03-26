@@ -1,6 +1,6 @@
 """Data models for spread feed messasges on websockets."""
 
-from typing import Any, List, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -25,7 +25,7 @@ class Spread:
     ask_volume: float
 
     @classmethod
-    def from_message(cls, message: List) -> Self:
+    def from_message(cls, message: list) -> Self:
         """Instantiate a Spread object from the message context."""
 
         return cls(*message)
@@ -67,7 +67,7 @@ class SpreadMessage:
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: List[Any]):
+    def from_message(cls, message: list[Any]):
         """Convert raw message from websocke to OHLCMessage."""
         channel_id = message[0]
         spread = Spread.from_message(message[1])

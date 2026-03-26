@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: ExportStatusRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/ExportStatus",
@@ -24,7 +24,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[ExportStatusResponse]:
+) -> ExportStatusResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = ExportStatusResponse.from_dict(response.json())
 
@@ -94,7 +94,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: ExportStatusRequest,
-) -> Optional[ExportStatusResponse]:
+) -> ExportStatusResponse | None:
     """Get Export Report Status
 
      Get status of requested data exports.
@@ -154,7 +154,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: ExportStatusRequest,
-) -> Optional[ExportStatusResponse]:
+) -> ExportStatusResponse | None:
     """Get Export Report Status
 
      Get status of requested data exports.

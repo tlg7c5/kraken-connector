@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -27,22 +27,22 @@ class ListStrategiesRequest:
     """
 
     nonce: "ListStrategiesRequestNonce"
-    ascending: Union[Unset, None, bool] = UNSET
-    asset: Union[Unset, None, str] = UNSET
-    cursor: Union[Unset, None, str] = UNSET
-    limit: Union[Unset, None, int] = UNSET
-    lock_type: Union[Unset, None, List[StrategyLockType]] = UNSET
-    otp: Union[Unset, None, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    ascending: Unset | None | bool = UNSET
+    asset: Unset | None | str = UNSET
+    cursor: Unset | None | str = UNSET
+    limit: Unset | None | int = UNSET
+    lock_type: Unset | None | list[StrategyLockType] = UNSET
+    otp: Unset | None | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce.to_dict()
 
         ascending = self.ascending
         asset = self.asset
         cursor = self.cursor
         limit = self.limit
-        lock_type: Union[Unset, None, List[str]] = UNSET
+        lock_type: Unset | None | list[str] = UNSET
         if not isinstance(self.lock_type, Unset):
             if self.lock_type is None:
                 lock_type = None
@@ -55,7 +55,7 @@ class ListStrategiesRequest:
 
         otp = self.otp
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -78,7 +78,7 @@ class ListStrategiesRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.list_strategies_request_nonce import (
             ListStrategiesRequestNonce,
         )
@@ -117,7 +117,7 @@ class ListStrategiesRequest:
         return list_strategies_json_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

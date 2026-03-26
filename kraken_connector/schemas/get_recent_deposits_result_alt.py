@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,17 +19,17 @@ class GetRecentDepositsResultAlt:
     """
 
     deposit: Union[Unset, "Deposit"] = UNSET
-    next_cursor: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    next_cursor: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        deposit: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        deposit: Unset | dict[str, Any] = UNSET
         if not isinstance(self.deposit, Unset):
             deposit = self.deposit.to_dict()
 
         next_cursor = self.next_cursor
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if deposit is not UNSET:
@@ -40,12 +40,12 @@ class GetRecentDepositsResultAlt:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.deposit import Deposit
 
         d = src_dict.copy()
         _deposit = d.pop("deposit", UNSET)
-        deposit: Union[Unset, Deposit]
+        deposit: Unset | Deposit
         deposit = UNSET if isinstance(_deposit, Unset) else Deposit.from_dict(_deposit)
 
         next_cursor = d.pop("next_cursor", UNSET)
@@ -59,7 +59,7 @@ class GetRecentDepositsResultAlt:
         return recent_2_result_type_1
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

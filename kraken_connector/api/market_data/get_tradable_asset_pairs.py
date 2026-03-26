@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -15,13 +15,13 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    pair: Union[Unset, None, str] = UNSET,
-    info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    pair: Unset | None | str = UNSET,
+    info: Unset | None | TradableAssetPairInfo = TradableAssetPairInfo.INFO,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
-    json_info: Union[Unset, None, str] = UNSET
+    json_info: Unset | None | str = UNSET
     if not isinstance(info, Unset):
         json_info = info.value if info else None
 
@@ -37,8 +37,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetTradableAssetPairsResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetTradableAssetPairsResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetTradableAssetPairsResponse.from_dict(response.json())
 
@@ -57,7 +57,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[GetTradableAssetPairsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -69,9 +69,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
-    info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
+    info: Unset | None | TradableAssetPairInfo = TradableAssetPairInfo.INFO,
 ) -> Response[GetTradableAssetPairsResponse]:
     """Get Tradable Asset Pairs
 
@@ -104,10 +104,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
-    info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Optional[GetTradableAssetPairsResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
+    info: Unset | None | TradableAssetPairInfo = TradableAssetPairInfo.INFO,
+) -> GetTradableAssetPairsResponse | None:
     """Get Tradable Asset Pairs
 
      Get tradable asset pairs
@@ -134,9 +134,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
-    info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
+    info: Unset | None | TradableAssetPairInfo = TradableAssetPairInfo.INFO,
 ) -> Response[GetTradableAssetPairsResponse]:
     """Get Tradable Asset Pairs
 
@@ -167,10 +167,10 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    pair: Union[Unset, None, str] = UNSET,
-    info: Union[Unset, None, TradableAssetPairInfo] = TradableAssetPairInfo.INFO,
-) -> Optional[GetTradableAssetPairsResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    pair: Unset | None | str = UNSET,
+    info: Unset | None | TradableAssetPairInfo = TradableAssetPairInfo.INFO,
+) -> GetTradableAssetPairsResponse | None:
     """Get Tradable Asset Pairs
 
      Get tradable asset pairs

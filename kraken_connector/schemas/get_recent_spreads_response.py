@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union, cast
+from typing import TYPE_CHECKING, Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,19 +18,19 @@ class GetRecentSpreadsResponse:
     """
 
     result: Union[Unset, "GetRecentSpreadsResult"] = UNSET
-    error: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    error: Unset | list[str] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        result: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        result: Unset | dict[str, Any] = UNSET
         if not isinstance(self.result, Unset):
             result = self.result.to_dict()
 
-        error: Union[Unset, List[str]] = UNSET
+        error: Unset | list[str] = UNSET
         if not isinstance(self.error, Unset):
             error = self.error
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if result is not UNSET:
@@ -41,18 +41,18 @@ class GetRecentSpreadsResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_recent_spreads_result import GetRecentSpreadsResult
 
         d = src_dict.copy()
         _result = d.pop("result", UNSET)
-        result: Union[Unset, GetRecentSpreadsResult]
+        result: Unset | GetRecentSpreadsResult
         if isinstance(_result, Unset):
             result = UNSET
         else:
             result = GetRecentSpreadsResult.from_dict(_result)
 
-        error = cast(List[str], d.pop("error", UNSET))
+        error = cast(list[str], d.pop("error", UNSET))
 
         spread_2 = cls(
             result=result,
@@ -63,7 +63,7 @@ class GetRecentSpreadsResponse:
         return spread_2
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,12 +19,12 @@ class EarnStrategyLockFlex:
     """
 
     type: StrategyLockType.FLEX
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         type = self.type.value
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -35,7 +35,7 @@ class EarnStrategyLockFlex:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         type = StrategyLockType(d.pop("type"))
 
@@ -49,7 +49,7 @@ class EarnStrategyLockFlex:
         return list_strategies_response_200_result_items_item_lock_type_type_0
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

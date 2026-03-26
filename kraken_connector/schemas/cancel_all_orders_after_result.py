@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -15,15 +15,15 @@ class CancelAllOrdersAfterResult:
             the timer is extended or disabled
     """
 
-    current_time: Union[Unset, str] = UNSET
-    trigger_time: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    current_time: Unset | str = UNSET
+    trigger_time: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         current_time = self.current_time
         trigger_time = self.trigger_time
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if current_time is not UNSET:
@@ -34,7 +34,7 @@ class CancelAllOrdersAfterResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         current_time = d.pop("currentTime", UNSET)
 
@@ -49,7 +49,7 @@ class CancelAllOrdersAfterResult:
         return cancel_all_orders_after_response_200_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

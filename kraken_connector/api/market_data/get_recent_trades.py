@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -13,10 +13,10 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     pair: str,
-    since: Union[Unset, None, str] = UNSET,
-    count: Union[Unset, None, int] = 1000,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    since: Unset | None | str = UNSET,
+    count: Unset | None | int = 1000,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
     params["since"] = since
@@ -33,8 +33,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[RecentTradesResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> RecentTradesResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = RecentTradesResponse.from_dict(response.json())
 
@@ -53,7 +53,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[RecentTradesResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -65,10 +65,10 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, str] = UNSET,
-    count: Union[Unset, None, int] = 1000,
+    since: Unset | None | str = UNSET,
+    count: Unset | None | int = 1000,
 ) -> Response[RecentTradesResponse]:
     """Get Recent RecentTradesResponse
 
@@ -102,11 +102,11 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, str] = UNSET,
-    count: Union[Unset, None, int] = 1000,
-) -> Optional[RecentTradesResponse]:
+    since: Unset | None | str = UNSET,
+    count: Unset | None | int = 1000,
+) -> RecentTradesResponse | None:
     """Get Recent RecentTradesResponse
 
      Returns the last 1000 trades by default
@@ -134,10 +134,10 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, str] = UNSET,
-    count: Union[Unset, None, int] = 1000,
+    since: Unset | None | str = UNSET,
+    count: Unset | None | int = 1000,
 ) -> Response[RecentTradesResponse]:
     """Get Recent RecentTradesResponse
 
@@ -169,11 +169,11 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, str] = UNSET,
-    count: Union[Unset, None, int] = 1000,
-) -> Optional[RecentTradesResponse]:
+    since: Unset | None | str = UNSET,
+    count: Unset | None | int = 1000,
+) -> RecentTradesResponse | None:
     """Get Recent RecentTradesResponse
 
      Returns the last 1000 trades by default

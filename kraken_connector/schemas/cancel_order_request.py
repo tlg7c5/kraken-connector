@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -14,17 +14,17 @@ class CancelOrderRequest:
         txid (Union[int, str]): Open order transaction ID (txid) or user reference (userref)
     """
 
-    txid: Union[int, str]
+    txid: int | str
     nonce: int = get_nonce()
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
-        txid: Union[int, str]
+        txid: int | str
 
         txid = self.txid
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -36,11 +36,11 @@ class CancelOrderRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
-        def _parse_txid(data: object) -> Union[int, str]:
+        def _parse_txid(data: object) -> int | str:
             return cast(Union[int, str], data)
 
         txid = _parse_txid(d.pop("txid"))
@@ -54,7 +54,7 @@ class CancelOrderRequest:
         return cancel_open_order_request_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

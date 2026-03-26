@@ -1,6 +1,6 @@
 """Data models for OHLC candles feeds on websockets."""
 
-from typing import Any, List, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -40,7 +40,7 @@ class OHLC:
     count: int
 
     @classmethod
-    def from_message(cls, message: List) -> Self:
+    def from_message(cls, message: list) -> Self:
         """Instantiate a OHLC object from the message context."""
 
         return cls(*message)
@@ -86,7 +86,7 @@ class OHLCMessage:
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: List[Any]) -> Self:
+    def from_message(cls, message: list[Any]) -> Self:
         """Convert raw message from websocke to OHLCMessage."""
         channel_id = message[0]
         ohlc = OHLC.from_message(message[1])

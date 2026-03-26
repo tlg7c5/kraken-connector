@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,20 +28,20 @@ class EditOrderResult:
     """
 
     descr: Union[Unset, "EditOrderResultDescr"] = UNSET
-    txid: Union[Unset, str] = UNSET
-    newuserref: Union[Unset, str] = UNSET
-    olduserref: Union[Unset, str] = UNSET
-    orders_cancelled: Union[Unset, int] = UNSET
-    originaltxid: Union[Unset, str] = UNSET
-    status: Union[Unset, str] = UNSET
-    volume: Union[Unset, str] = UNSET
-    price: Union[Unset, str] = UNSET
-    price2: Union[Unset, str] = UNSET
-    error_message: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    txid: Unset | str = UNSET
+    newuserref: Unset | str = UNSET
+    olduserref: Unset | str = UNSET
+    orders_cancelled: Unset | int = UNSET
+    originaltxid: Unset | str = UNSET
+    status: Unset | str = UNSET
+    volume: Unset | str = UNSET
+    price: Unset | str = UNSET
+    price2: Unset | str = UNSET
+    error_message: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        descr: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        descr: Unset | dict[str, Any] = UNSET
         if not isinstance(self.descr, Unset):
             descr = self.descr.to_dict()
 
@@ -56,7 +56,7 @@ class EditOrderResult:
         price2 = self.price2
         error_message = self.error_message
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if descr is not UNSET:
@@ -85,12 +85,12 @@ class EditOrderResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.edit_order_result_descr import EditOrderResultDescr
 
         d = src_dict.copy()
         _descr = d.pop("descr", UNSET)
-        descr: Union[Unset, EditOrderResultDescr]
+        descr: Unset | EditOrderResultDescr
         if isinstance(_descr, Unset):
             descr = UNSET
         else:
@@ -134,7 +134,7 @@ class EditOrderResult:
         return edit_2_order_edited
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

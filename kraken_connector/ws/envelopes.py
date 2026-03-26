@@ -1,5 +1,5 @@
 """Request/response envelope types for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,11 +18,11 @@ class WSRequest:
     """
 
     method: str
-    params: Dict[str, Any] = _attrs_field(factory=dict)
-    req_id: Union[Unset, int] = UNSET
+    params: dict[str, Any] = _attrs_field(factory=dict)
+    req_id: Unset | int = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "method": self.method,
             "params": self.params,
         }
@@ -31,7 +31,7 @@ class WSRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         method = d.pop("method")
         params = d.pop("params", {})
@@ -53,14 +53,14 @@ class WSResponse:
     """
 
     method: str
-    result: Dict[str, Any]
+    result: dict[str, Any]
     success: bool
     time_in: str
     time_out: str
-    req_id: Union[Unset, int] = UNSET
+    req_id: Unset | int = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "method": self.method,
             "result": self.result,
             "success": self.success,
@@ -72,7 +72,7 @@ class WSResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         method = d.pop("method")
         result = d.pop("result")
@@ -108,10 +108,10 @@ class WSErrorResponse:
     success: bool
     time_in: str
     time_out: str
-    req_id: Union[Unset, int] = UNSET
+    req_id: Unset | int = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "method": self.method,
             "error": self.error,
             "success": self.success,
@@ -123,7 +123,7 @@ class WSErrorResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         method = d.pop("method")
         error = d.pop("error")
@@ -153,9 +153,9 @@ class WSDataMessage:
 
     channel: str
     type: str
-    data: List[Any]
+    data: list[Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "channel": self.channel,
             "type": self.type,
@@ -163,7 +163,7 @@ class WSDataMessage:
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         channel = d.pop("channel")
         type_ = d.pop("type")
@@ -179,16 +179,16 @@ class PingRequest:
         req_id: Optional client-originated ID echoed in pong response.
     """
 
-    req_id: Union[Unset, int] = UNSET
+    req_id: Unset | int = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"method": "ping"}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"method": "ping"}
         if not isinstance(self.req_id, Unset):
             field_dict["req_id"] = self.req_id
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         req_id = d.pop("req_id", UNSET)
         return cls(req_id=req_id)
@@ -204,12 +204,12 @@ class PongResponse:
         time_out: Response transmission timestamp (RFC3339).
     """
 
-    req_id: Union[Unset, int] = UNSET
-    time_in: Union[Unset, str] = UNSET
-    time_out: Union[Unset, str] = UNSET
+    req_id: Unset | int = UNSET
+    time_in: Unset | str = UNSET
+    time_out: Unset | str = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"method": "pong"}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"method": "pong"}
         if not isinstance(self.req_id, Unset):
             field_dict["req_id"] = self.req_id
         if not isinstance(self.time_in, Unset):
@@ -219,7 +219,7 @@ class PongResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         d.pop("method", None)
         req_id = d.pop("req_id", UNSET)

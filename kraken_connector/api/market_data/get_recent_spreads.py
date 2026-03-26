@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -13,9 +13,9 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     pair: str,
-    since: Union[Unset, None, int] = UNSET,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    since: Unset | None | int = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
     params["since"] = since
@@ -30,8 +30,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetRecentSpreadsResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetRecentSpreadsResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetRecentSpreadsResponse.from_dict(response.json())
 
@@ -50,7 +50,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[GetRecentSpreadsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -62,9 +62,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, int] = UNSET,
+    since: Unset | None | int = UNSET,
 ) -> Response[GetRecentSpreadsResponse]:
     """Get Recent Spreads
 
@@ -96,10 +96,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, int] = UNSET,
-) -> Optional[GetRecentSpreadsResponse]:
+    since: Unset | None | int = UNSET,
+) -> GetRecentSpreadsResponse | None:
     """Get Recent Spreads
 
      Returns the last ~200 top-of-book spreads for a given pair
@@ -125,9 +125,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, int] = UNSET,
+    since: Unset | None | int = UNSET,
 ) -> Response[GetRecentSpreadsResponse]:
     """Get Recent Spreads
 
@@ -157,10 +157,10 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    since: Union[Unset, None, int] = UNSET,
-) -> Optional[GetRecentSpreadsResponse]:
+    since: Unset | None | int = UNSET,
+) -> GetRecentSpreadsResponse | None:
     """Get Recent Spreads
 
      Returns the last ~200 top-of-book spreads for a given pair

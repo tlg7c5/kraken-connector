@@ -1,6 +1,6 @@
 """Data models for ticker messages on websockets."""
 
-from typing import Any, Dict, List, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -47,7 +47,7 @@ class GenericTickerValueFloat:
     last_24_hours: float
 
     @classmethod
-    def from_message(cls, message: List[Any]) -> Self:
+    def from_message(cls, message: list[Any]) -> Self:
         """Instantiate a GenericTickerValue object from the message context."""
         return cls(*message)
 
@@ -60,7 +60,7 @@ class GenericTickerValueInt:
     last_24_hours: int
 
     @classmethod
-    def from_message(cls, message: List[Any]) -> Self:
+    def from_message(cls, message: list[Any]) -> Self:
         """Instantiate a GenericTickerValue object from the message context."""
         return cls(*message)
 
@@ -92,7 +92,7 @@ class Ticker:
     open: GenericTickerValueFloat = _attrs_field(alias="o")
 
     @classmethod
-    def from_message(cls, message: Dict[str, Any]) -> Self:
+    def from_message(cls, message: dict[str, Any]) -> Self:
         """Instantiate a GenericTickerValue object from the message context."""
         d = message.copy()
         a = OrderBookEntry.from_message(d.pop("a"))
@@ -176,7 +176,7 @@ class TickerMessage:
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: List[Any]):
+    def from_message(cls, message: list[Any]):
         """Convert raw message from websocke to TicketMessage."""
         channel_id = message[0]
         ticker = Ticker.from_message(message[1])

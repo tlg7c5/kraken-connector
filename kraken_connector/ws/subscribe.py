@@ -1,5 +1,5 @@
 """Subscription parameter models for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -16,12 +16,12 @@ class TickerParams:
         event_trigger: Optional trigger filter — "bbo" or "trades".
     """
 
-    symbol: List[str] = _attrs_field(factory=list)
-    event_trigger: Union[Unset, str] = UNSET
+    symbol: list[str] = _attrs_field(factory=list)
+    event_trigger: Unset | str = UNSET
     channel: str = "ticker"
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "channel": self.channel,
             "symbol": self.symbol,
         }
@@ -30,7 +30,7 @@ class TickerParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "ticker"),
@@ -48,11 +48,11 @@ class BookParams:
         depth: Book depth — 10, 25, 100, 500, or 1000.
     """
 
-    symbol: List[str] = _attrs_field(factory=list)
+    symbol: list[str] = _attrs_field(factory=list)
     depth: int = 10
     channel: str = "book"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "channel": self.channel,
             "symbol": self.symbol,
@@ -60,7 +60,7 @@ class BookParams:
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "book"),
@@ -78,12 +78,12 @@ class TradeParams:
         snapshot: Whether to receive a snapshot of recent trades on subscribe.
     """
 
-    symbol: List[str] = _attrs_field(factory=list)
-    snapshot: Union[Unset, bool] = UNSET
+    symbol: list[str] = _attrs_field(factory=list)
+    snapshot: Unset | bool = UNSET
     channel: str = "trade"
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "channel": self.channel,
             "symbol": self.symbol,
         }
@@ -92,7 +92,7 @@ class TradeParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "trade"),
@@ -110,11 +110,11 @@ class OHLCParams:
         interval: Candle interval in minutes (1, 5, 15, 30, 60, 240, 1440, 10080, 21600).
     """
 
-    symbol: List[str] = _attrs_field(factory=list)
+    symbol: list[str] = _attrs_field(factory=list)
     interval: int = 1
     channel: str = "ohlc"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "channel": self.channel,
             "symbol": self.symbol,
@@ -122,7 +122,7 @@ class OHLCParams:
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "ohlc"),
@@ -139,17 +139,17 @@ class InstrumentParams:
         include_tokenized_assets: Whether to include tokenized assets.
     """
 
-    include_tokenized_assets: Union[Unset, bool] = UNSET
+    include_tokenized_assets: Unset | bool = UNSET
     channel: str = "instrument"
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"channel": self.channel}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"channel": self.channel}
         if not isinstance(self.include_tokenized_assets, Unset):
             field_dict["include_tokenized_assets"] = self.include_tokenized_assets
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "instrument"),
@@ -170,14 +170,14 @@ class ExecutionsParams:
     """
 
     token: str = ""
-    snap_orders: Union[Unset, bool] = UNSET
-    snap_trades: Union[Unset, bool] = UNSET
-    order_status: Union[Unset, str] = UNSET
-    ratecounter: Union[Unset, bool] = UNSET
+    snap_orders: Unset | bool = UNSET
+    snap_trades: Unset | bool = UNSET
+    order_status: Unset | str = UNSET
+    ratecounter: Unset | bool = UNSET
     channel: str = "executions"
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "channel": self.channel,
             "token": self.token,
         }
@@ -192,7 +192,7 @@ class ExecutionsParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "executions"),
@@ -214,11 +214,11 @@ class BalancesParams:
     """
 
     token: str = ""
-    snapshot: Union[Unset, bool] = UNSET
+    snapshot: Unset | bool = UNSET
     channel: str = "balances"
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "channel": self.channel,
             "token": self.token,
         }
@@ -227,7 +227,7 @@ class BalancesParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             channel=d.pop("channel", "balances"),

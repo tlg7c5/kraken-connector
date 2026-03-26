@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,15 +13,15 @@ class RecentTradesResult:
         last (Union[Unset, str]): ID to be used as since when polling for new trade data
     """
 
-    last: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, List[List[Union[float, str]]]] = _attrs_field(
+    last: Unset | str = UNSET
+    additional_properties: dict[str, list[list[float | str]]] = _attrs_field(
         init=False, factory=dict
     )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         last = self.last
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = []
             for componentsschemastrade_item_data in prop:
@@ -29,7 +29,7 @@ class RecentTradesResult:
                 for (
                     componentsschemastrade_item_item_data
                 ) in componentsschemastrade_item_data:
-                    componentsschemastrade_item_item: Union[float, str]
+                    componentsschemastrade_item_item: float | str
 
                     componentsschemastrade_item_item = (
                         componentsschemastrade_item_item_data
@@ -46,7 +46,7 @@ class RecentTradesResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         last = d.pop("last", UNSET)
 
@@ -67,7 +67,7 @@ class RecentTradesResult:
 
                     def _parse_componentsschemastrade_item_item(
                         data: object,
-                    ) -> Union[float, str]:
+                    ) -> float | str:
                         return cast(Union[float, str], data)
 
                     componentsschemastrade_item_item = (
@@ -86,13 +86,13 @@ class RecentTradesResult:
         return trades_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> List[List[Union[float, str]]]:
+    def __getitem__(self, key: str) -> list[list[float | str]]:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: List[List[Union[float, str]]]) -> None:
+    def __setitem__(self, key: str, value: list[list[float | str]]) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

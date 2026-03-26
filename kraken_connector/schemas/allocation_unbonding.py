@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,12 +22,12 @@ class AllocationUnbonding:
     """
 
     allocation_count: int
-    allocations: List["AllocationUnbondingEntry"]
+    allocations: list["AllocationUnbondingEntry"]
     converted: str
     native: str
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         allocation_count = self.allocation_count
         allocations = []
         for allocations_item_data in self.allocations:
@@ -38,7 +38,7 @@ class AllocationUnbonding:
         converted = self.converted
         native = self.native
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -52,7 +52,7 @@ class AllocationUnbonding:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.allocation_unbonding_entry import (
             AllocationUnbondingEntry,
         )
@@ -88,7 +88,7 @@ class AllocationUnbonding:
         )
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

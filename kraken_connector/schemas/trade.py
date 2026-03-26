@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -44,31 +44,31 @@ class Trade:
             <br><sub><sup>Only present if trade opened a position</sub></sup>
     """
 
-    ordertxid: Union[Unset, str] = UNSET
-    postxid: Union[Unset, str] = UNSET
-    pair: Union[Unset, str] = UNSET
-    time: Union[Unset, float] = UNSET
-    type: Union[Unset, str] = UNSET
-    ordertype: Union[Unset, str] = UNSET
-    price: Union[Unset, str] = UNSET
-    cost: Union[Unset, str] = UNSET
-    fee: Union[Unset, str] = UNSET
-    vol: Union[Unset, str] = UNSET
-    margin: Union[Unset, str] = UNSET
-    leverage: Union[Unset, str] = UNSET
-    misc: Union[Unset, str] = UNSET
-    trade_id: Union[Unset, int] = UNSET
-    posstatus: Union[Unset, str] = UNSET
-    cprice: Union[Unset, Any] = UNSET
-    ccost: Union[Unset, Any] = UNSET
-    cfee: Union[Unset, Any] = UNSET
-    cvol: Union[Unset, Any] = UNSET
-    cmargin: Union[Unset, Any] = UNSET
-    net: Union[Unset, Any] = UNSET
-    trades: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    ordertxid: Unset | str = UNSET
+    postxid: Unset | str = UNSET
+    pair: Unset | str = UNSET
+    time: Unset | float = UNSET
+    type: Unset | str = UNSET
+    ordertype: Unset | str = UNSET
+    price: Unset | str = UNSET
+    cost: Unset | str = UNSET
+    fee: Unset | str = UNSET
+    vol: Unset | str = UNSET
+    margin: Unset | str = UNSET
+    leverage: Unset | str = UNSET
+    misc: Unset | str = UNSET
+    trade_id: Unset | int = UNSET
+    posstatus: Unset | str = UNSET
+    cprice: Unset | Any = UNSET
+    ccost: Unset | Any = UNSET
+    cfee: Unset | Any = UNSET
+    cvol: Unset | Any = UNSET
+    cmargin: Unset | Any = UNSET
+    net: Unset | Any = UNSET
+    trades: Unset | list[str] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         ordertxid = self.ordertxid
         postxid = self.postxid
         pair = self.pair
@@ -90,11 +90,11 @@ class Trade:
         cvol = self.cvol
         cmargin = self.cmargin
         net = self.net
-        trades: Union[Unset, List[str]] = UNSET
+        trades: Unset | list[str] = UNSET
         if not isinstance(self.trades, Unset):
             trades = self.trades
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if ordertxid is not UNSET:
@@ -145,7 +145,7 @@ class Trade:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         ordertxid = d.pop("ordertxid", UNSET)
 
@@ -189,7 +189,7 @@ class Trade:
 
         net = d.pop("net", UNSET)
 
-        trades = cast(List[str], d.pop("trades", UNSET))
+        trades = cast(list[str], d.pop("trades", UNSET))
 
         trade = cls(
             ordertxid=ordertxid,
@@ -220,7 +220,7 @@ class Trade:
         return trade
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

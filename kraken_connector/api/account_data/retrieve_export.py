@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: RetrieveExportRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/RetrieveExport",
@@ -24,7 +24,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[RetrieveExportResponse]:
+) -> RetrieveExportResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = RetrieveExportResponse.from_dict(response.content)
 
@@ -92,7 +92,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: RetrieveExportRequest,
-) -> Optional[RetrieveExportResponse]:
+) -> RetrieveExportResponse | None:
     """Retrieve Data Export
 
      Retrieve a processed data export
@@ -152,7 +152,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: RetrieveExportRequest,
-) -> Optional[RetrieveExportResponse]:
+) -> RetrieveExportResponse | None:
     """Retrieve Data Export
 
      Retrieve a processed data export

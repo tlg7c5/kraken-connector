@@ -5,7 +5,7 @@ Note:
     are dictionary objects with the value set on the 'event' key dictating
     the type of message.
 """
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -40,15 +40,15 @@ class SubscriptionRequest:
     """
 
     name: SubscriptionType
-    depth: Union[Unset, BookDepth] = UNSET
-    interval: Union[Unset, OhlcInterval] = UNSET
-    rate_counter: Union[Unset, bool] = _attrs_field(alias="ratecounter", default=UNSET)
-    snapshot: Union[Unset, bool] = UNSET
-    token: Union[Unset, str] = UNSET
-    consolidate_taker: (Union[Unset, bool]) = UNSET
+    depth: Unset | BookDepth = UNSET
+    interval: Unset | OhlcInterval = UNSET
+    rate_counter: Unset | bool = _attrs_field(alias="ratecounter", default=UNSET)
+    snapshot: Unset | bool = UNSET
+    token: Unset | str = UNSET
+    consolidate_taker: (Unset | bool) = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {}
         field_dict["name"] = str(self.name)
         if not isinstance(self.depth, Unset):
             field_dict["depth"] = str(self.depth)
@@ -66,7 +66,7 @@ class SubscriptionRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         name = d.pop("name")
         depth = d.pop("depth", UNSET)
@@ -109,15 +109,13 @@ class SubscriptionStatusSubscriptionResponse:
     """
 
     name: SubscriptionType
-    depth: Union[Unset, BookDepth] = UNSET
-    interval: Union[Unset, OhlcInterval] = UNSET
-    max_rate_count: Union[Unset, int] = _attrs_field(
-        alias="maxratecount", default=UNSET
-    )
-    token: Union[Unset, str] = UNSET
+    depth: Unset | BookDepth = UNSET
+    interval: Unset | OhlcInterval = UNSET
+    max_rate_count: Unset | int = _attrs_field(alias="maxratecount", default=UNSET)
+    token: Unset | str = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {}
         field_dict["name"] = str(self.name)
 
         if not isinstance(self.depth, Unset):
@@ -132,7 +130,7 @@ class SubscriptionStatusSubscriptionResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         name = d.pop("name")
         depth = d.pop("depth", UNSET)
@@ -202,19 +200,19 @@ class SubcribeRequest:
     """
 
     subscription: SubscriptionRequest
-    reqid: Union[Unset, int] = _attrs_field(default=UNSET, converter=_check_reqid)
-    pair: Union[Unset, List[str]] = UNSET
+    reqid: Unset | int = _attrs_field(default=UNSET, converter=_check_reqid)
+    pair: Unset | list[str] = UNSET
     _event: EventType = EventType.SUBSCRIBE
 
-    def to_dict(self) -> Dict[str, Any]:
-        reqid: Union[Unset, int] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        reqid: Unset | int = UNSET
         if not isinstance(self.reqid, Unset):
             reqid = self.reqid
-        pair: Union[Unset, List[str]] = UNSET
+        pair: Unset | list[str] = UNSET
         if not isinstance(self.pair, Unset):
             pair = self.pair
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict["event"] = str(self._event)
         if reqid is not UNSET:
             field_dict["reqid"] = reqid
@@ -225,7 +223,7 @@ class SubcribeRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         d.pop("name")
         reqid = d.pop("reqid", UNSET)
@@ -259,12 +257,12 @@ class UnsubscribeSubscriptionRequest:
     """
 
     name: SubscriptionType
-    depth: Union[Unset, BookDepth] = UNSET
-    interval: Union[Unset, OhlcInterval] = UNSET
-    token: Union[Unset, str] = UNSET
+    depth: Unset | BookDepth = UNSET
+    interval: Unset | OhlcInterval = UNSET
+    token: Unset | str = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {}
         field_dict["name"] = str(self.name)
         if not isinstance(self.depth, Unset):
             field_dict["depth"] = str(self.depth)
@@ -276,7 +274,7 @@ class UnsubscribeSubscriptionRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         name = d.pop("name")
         depth = d.pop("depth", UNSET)
@@ -340,25 +338,25 @@ class UnsubcribeRequest:
     """
 
     subscription: UnsubscribeSubscriptionRequest
-    reqid: Union[Unset, int] = _attrs_field(default=UNSET, converter=_check_reqid)
-    channel_id: Union[Unset, int] = _attrs_field(
+    reqid: Unset | int = _attrs_field(default=UNSET, converter=_check_reqid)
+    channel_id: Unset | int = _attrs_field(
         alias="channelID", default=UNSET, converter=_check_reqid
     )
-    pair: Union[Unset, List[str]] = UNSET
+    pair: Unset | list[str] = UNSET
     _event: EventType = EventType.UNSUBSCRIBE
 
-    def to_dict(self) -> Dict[str, Any]:
-        reqid: Union[Unset, int] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        reqid: Unset | int = UNSET
         if not isinstance(self.reqid, Unset):
             reqid = self.reqid
-        pair: Union[Unset, List[str]] = UNSET
+        pair: Unset | list[str] = UNSET
         if not isinstance(self.pair, Unset):
             pair = self.pair
-        channel_id: Union[Unset, int] = UNSET
+        channel_id: Unset | int = UNSET
         if not isinstance(self.channel_id, Unset):
             channel_id = self.channel_id
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict["event"] = str(self._event)
         if reqid is not UNSET:
             field_dict["reqid"] = reqid
@@ -371,7 +369,7 @@ class UnsubcribeRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         reqid = d.pop("reqid", UNSET)
         pair = d.pop("pair", UNSET)

@@ -1,5 +1,5 @@
 """Book (Level 2) channel data models for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 
@@ -18,11 +18,11 @@ class BookLevel:
     price: float
     qty: float
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {"price": self.price, "qty": self.qty}
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(price=d.pop("price"), qty=d.pop("qty"))
 
@@ -40,13 +40,13 @@ class BookData:
     """
 
     symbol: str
-    bids: List[BookLevel]
-    asks: List[BookLevel]
-    checksum: Union[Unset, int] = UNSET
-    timestamp: Union[Unset, str] = UNSET
+    bids: list[BookLevel]
+    asks: list[BookLevel]
+    checksum: Unset | int = UNSET
+    timestamp: Unset | str = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "symbol": self.symbol,
             "bids": [level.to_dict() for level in self.bids],
             "asks": [level.to_dict() for level in self.asks],
@@ -58,7 +58,7 @@ class BookData:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         symbol = d.pop("symbol")
         bids = [BookLevel.from_dict(b) for b in d.pop("bids", [])]

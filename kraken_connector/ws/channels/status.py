@@ -1,5 +1,5 @@
 """Status channel data model for Kraken WebSocket API v2."""
-from typing import Any, Dict, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 
@@ -20,7 +20,7 @@ class StatusData:
     connection_id: int
     version: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "system": self.system,
             "api_version": self.api_version,
@@ -29,7 +29,7 @@ class StatusData:
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             system=d.pop("system"),

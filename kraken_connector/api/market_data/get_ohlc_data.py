@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -14,13 +14,13 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
-    json_interval: Union[Unset, None, int] = UNSET
+    json_interval: Unset | None | int = UNSET
     if not isinstance(interval, Unset):
         json_interval = interval.value if interval else None
 
@@ -38,8 +38,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[OhlcResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> OhlcResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = OhlcResponse.from_dict(response.json())
 
@@ -58,7 +58,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[OhlcResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -70,10 +70,10 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
 ) -> Response[OhlcResponse]:
     """Get OHLC Data
 
@@ -108,11 +108,11 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Optional[OhlcResponse]:
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> OhlcResponse | None:
     """Get OHLC Data
 
      Note: the last entry in the OHLC array is for the current, not-yet-committed frame and will always
@@ -141,10 +141,10 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
 ) -> Response[OhlcResponse]:
     """Get OHLC Data
 
@@ -177,11 +177,11 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Optional[OhlcResponse]:
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> OhlcResponse | None:
     """Get OHLC Data
 
      Note: the last entry in the OHLC array is for the current, not-yet-committed frame and will always

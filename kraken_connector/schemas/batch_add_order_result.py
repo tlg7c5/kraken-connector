@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -16,11 +16,11 @@ class BatchAddOrderResult:
         orders (Union[Unset, List['BatchAddOrderResultItem']]):
     """
 
-    orders: Union[Unset, List["BatchAddOrderResultItem"]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    orders: Unset | list["BatchAddOrderResultItem"] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        orders: Union[Unset, List[Dict[str, Any]]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        orders: Unset | list[dict[str, Any]] = UNSET
         if not isinstance(self.orders, Unset):
             orders = []
             for orders_item_data in self.orders:
@@ -28,7 +28,7 @@ class BatchAddOrderResult:
 
                 orders.append(orders_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if orders is not UNSET:
@@ -37,7 +37,7 @@ class BatchAddOrderResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.batch_add_order_result_item import BatchAddOrderResultItem
 
         d = src_dict.copy()
@@ -56,7 +56,7 @@ class BatchAddOrderResult:
         return batchadd_2_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

@@ -1,6 +1,6 @@
 """Functions for handling conversion to a form expected by Kraken."""
 
-from typing import List, Literal
+from typing import Literal
 
 from ..constants.trading import OrderFlags
 
@@ -14,7 +14,7 @@ def boolean_to_message(value: bool) -> Literal["true"] | Literal["false"]:
     return "true" if value else "false"
 
 
-def order_flags_to_message(flags: List[OrderFlags]) -> str:
+def order_flags_to_message(flags: list[OrderFlags]) -> str:
     """Convert List of flags to comma separated values of flags.
 
     Args:

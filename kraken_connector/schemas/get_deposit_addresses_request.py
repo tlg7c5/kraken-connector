@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,19 +22,19 @@ class GetDepositAddressesRequest:
     asset: str
     method: str
     nonce: int = get_nonce()
-    new: Union[Unset, bool] = False
-    amount: Union[Unset, float, int, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    new: Unset | bool = False
+    amount: Unset | float | int | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
         asset = self.asset
         method = self.method
         new = self.new
-        amount: Union[Unset, float, int, str]
+        amount: Unset | float | int | str
         amount = UNSET if isinstance(self.amount, Unset) else self.amount
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -51,7 +51,7 @@ class GetDepositAddressesRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
@@ -61,7 +61,7 @@ class GetDepositAddressesRequest:
 
         new = d.pop("new", UNSET)
 
-        def _parse_amount(data: object) -> Union[Unset, float, int, str]:
+        def _parse_amount(data: object) -> Unset | float | int | str:
             if isinstance(data, Unset):
                 return data
             return cast(Union[Unset, float, int, str], data)
@@ -80,7 +80,7 @@ class GetDepositAddressesRequest:
         return addresses
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

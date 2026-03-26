@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,19 +17,19 @@ class WithdrawalInfoResult:
         fee (Union[Unset, str]): Amount of fees that will be paid
     """
 
-    method: Union[Unset, str] = UNSET
-    limit: Union[Unset, str] = UNSET
-    amount: Union[Unset, str] = UNSET
-    fee: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    method: Unset | str = UNSET
+    limit: Unset | str = UNSET
+    amount: Unset | str = UNSET
+    fee: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         method = self.method
         limit = self.limit
         amount = self.amount
         fee = self.fee
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if method is not UNSET:
@@ -44,7 +44,7 @@ class WithdrawalInfoResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         method = d.pop("method", UNSET)
 
@@ -65,7 +65,7 @@ class WithdrawalInfoResult:
         return info_5_withdrawal_info
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

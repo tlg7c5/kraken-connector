@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -16,7 +16,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: CancelWithdrawalRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/WithdrawCancel",
@@ -26,7 +26,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[CancelWithdrawalResponse]:
+) -> CancelWithdrawalResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = CancelWithdrawalResponse.from_dict(response.json())
 
@@ -95,7 +95,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: CancelWithdrawalRequest,
-) -> Optional[CancelWithdrawalResponse]:
+) -> CancelWithdrawalResponse | None:
     """Request WithdrawFundsRequest Cancelation
 
      Cancel a recently requested withdrawal, if it has not already been successfully processed.
@@ -157,7 +157,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: CancelWithdrawalRequest,
-) -> Optional[CancelWithdrawalResponse]:
+) -> CancelWithdrawalResponse | None:
     """Request WithdrawFundsRequest Cancelation
 
      Cancel a recently requested withdrawal, if it has not already been successfully processed.

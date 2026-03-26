@@ -5,7 +5,7 @@ Note:
     objects with the value set on the 'event' key dictating the type of message.
 """
 import logging
-from typing import Any, Dict, LiteralString, Self, Union
+from typing import Any, LiteralString, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -39,15 +39,15 @@ class PingRequest:
         reqid (Union[Unset,int]): Optional - client originated ID reflected in response message.
     """
 
-    reqid: Union[Unset, int] = _attrs_field(default=UNSET, converter=_check_reqid)
+    reqid: Unset | int = _attrs_field(default=UNSET, converter=_check_reqid)
     _event: LiteralString = EventType.PING.value
 
-    def to_dict(self) -> Dict[str, Any]:
-        reqid: Union[Unset, int] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        reqid: Unset | int = UNSET
         if not isinstance(self.reqid, Unset):
             reqid = self.reqid
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict["event"] = self._event
         if reqid is not UNSET:
             field_dict["reqid"] = reqid
@@ -55,7 +55,7 @@ class PingRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         reqid = d.pop("reqid", UNSET)
 
@@ -73,14 +73,14 @@ class PongResponse:
     """
 
     _event: LiteralString = EventType.PONG.value
-    reqid: Union[Unset, int] = _attrs_field(default=UNSET, converter=_check_reqid)
+    reqid: Unset | int = _attrs_field(default=UNSET, converter=_check_reqid)
 
-    def to_dict(self) -> Dict[str, Any]:
-        reqid: Union[Unset, int] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        reqid: Unset | int = UNSET
         if not isinstance(self.reqid, Unset):
             reqid = self.reqid
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict["event"] = self._event
         if reqid is not UNSET:
             field_dict["reqid"] = reqid
@@ -88,7 +88,7 @@ class PongResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         event = d.pop("event")
 
@@ -106,15 +106,15 @@ class SystemStatusResponse:
 
     status: SystemStatus
     version: str
-    connectionID: Union[Unset, int] = UNSET
+    connectionID: Unset | int = UNSET
     _event: LiteralString = EventType.SYSTEM_STATUS.value
 
-    def to_dict(self) -> Dict[str, Any]:
-        connectionID: Union[Unset, int] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        connectionID: Unset | int = UNSET
         if not isinstance(self.connectionID, Unset):
             connectionID = self.connectionID
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict["event"] = str(self._event)
         field_dict["status"] = str(self.status)
         field_dict["version"] = self.version
@@ -124,7 +124,7 @@ class SystemStatusResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         event = d.pop("event")
         status = d.pop("status")
@@ -214,27 +214,27 @@ class SubscriptionStatusResponse:
     channel_name: str = _attrs_field(alias="channelName")
     status: SubscriptionStatus
     subscription: SubscriptionStatusSubscriptionResponse
-    reqid: Union[Unset, int] = _attrs_field(default=UNSET, converter=_check_reqid)
-    pair: Union[Unset, str] = UNSET
-    error_message: Union[Unset, str] = _attrs_field(alias="errorMessage", default=UNSET)
-    channel_id: Union[Unset, int] = _attrs_field(alias="channelID", default=UNSET)
+    reqid: Unset | int = _attrs_field(default=UNSET, converter=_check_reqid)
+    pair: Unset | str = UNSET
+    error_message: Unset | str = _attrs_field(alias="errorMessage", default=UNSET)
+    channel_id: Unset | int = _attrs_field(alias="channelID", default=UNSET)
     _event: LiteralString = EventType.SYSTEM_STATUS.value
 
-    def to_dict(self) -> Dict[str, Any]:
-        reqid: Union[Unset, int] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        reqid: Unset | int = UNSET
         if not isinstance(self.reqid, Unset):
             reqid = self.reqid
-        pair: Union[Unset, str] = UNSET
+        pair: Unset | str = UNSET
         if not isinstance(self.pair, Unset):
             pair = self.pair
-        error_message: Union[Unset, str] = UNSET
+        error_message: Unset | str = UNSET
         if not isinstance(self.error_message, Unset):
             error_message = self.error_message
-        channel_id: Union[Unset, int] = UNSET
+        channel_id: Unset | int = UNSET
         if not isinstance(self.channel_id, Unset):
             channel_id = self.channel_id
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict["channel_name"] = self.channel_name
         field_dict["event"] = str(self._event)
         field_dict["status"] = str(self.status)
@@ -251,7 +251,7 @@ class SubscriptionStatusResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         event = d.pop("event")
         status = d.pop("status")

@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Dict, List, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,9 +23,9 @@ class AllocationBondingEntry:
     created_at: datetime.datetime
     expires: datetime.datetime
     native: str
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         converted = self.converted
         created_at = self.created_at.isoformat()
 
@@ -33,7 +33,7 @@ class AllocationBondingEntry:
 
         native = self.native
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -47,7 +47,7 @@ class AllocationBondingEntry:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         converted = d.pop("converted")
 
@@ -70,7 +70,7 @@ class AllocationBondingEntry:
         return list_allocations_response_200_result_items_item_amount_allocated_bonding_allocations_item
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

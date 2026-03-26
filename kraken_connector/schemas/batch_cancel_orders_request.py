@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,11 +19,11 @@ class BatchCancelOrdersRequest:
         orders (List['BatchCancelOrdersRequestItem']):
     """
 
-    orders: List["BatchCancelOrdersRequestItem"]
+    orders: list["BatchCancelOrdersRequestItem"]
     nonce: int = get_nonce()
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
         orders = []
         for orders_item_data in self.orders:
@@ -31,7 +31,7 @@ class BatchCancelOrdersRequest:
 
             orders.append(orders_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -43,7 +43,7 @@ class BatchCancelOrdersRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.batch_cancel_orders_request_item import (
             BatchCancelOrdersRequestItem,
         )
@@ -67,7 +67,7 @@ class BatchCancelOrdersRequest:
         return batch_cancel_open_orders_request_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

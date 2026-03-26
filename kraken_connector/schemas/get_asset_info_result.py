@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self
+from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -11,14 +11,14 @@ if TYPE_CHECKING:
 class GetAssetInfoResult:
     """ """
 
-    additional_properties: Dict[str, "AssetInfo"] = _attrs_field(
+    additional_properties: dict[str, "AssetInfo"] = _attrs_field(
         init=False, factory=dict
     )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         pass
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = prop.to_dict()
 
@@ -27,7 +27,7 @@ class GetAssetInfoResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.asset_info import AssetInfo
 
         d = src_dict.copy()
@@ -43,7 +43,7 @@ class GetAssetInfoResult:
         return info_2_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> "AssetInfo":

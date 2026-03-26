@@ -16,8 +16,10 @@ from .channels import (
     TickerData,
     TradeData,
 )
+from .client import KrakenWSClient
 from .constants import (
     ChannelName,
+    ConnectionState,
     ExecType,
     FeePreference,
     LiquidityIndicator,
@@ -68,6 +70,8 @@ from .trading import (
 )
 
 __all__ = [
+    # Client
+    "KrakenWSClient",
     # Channel data
     "BalanceLedgerUpdate",
     "BalanceSnapshot",
@@ -86,6 +90,7 @@ __all__ = [
     "TradeData",
     # Constants
     "ChannelName",
+    "ConnectionState",
     "ExecType",
     "FeePreference",
     "LiquidityIndicator",

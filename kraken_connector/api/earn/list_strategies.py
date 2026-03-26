@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -15,7 +15,7 @@ from ...types import Response, Unset
 def _get_kwargs(
     *,
     json_body: ListStrategiesRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     json_json_body = json_body.to_dict()
 
     return {
@@ -27,7 +27,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[ListStrategiesResponse]:
+) -> ListStrategiesResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = ListStrategiesResponse.from_dict(response.json())
 
@@ -109,7 +109,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     json_body: ListStrategiesRequest,
-) -> Optional[ListStrategiesResponse]:
+) -> ListStrategiesResponse | None:
     """List Earn Strategies
 
      List earn strategies along with their parameters.
@@ -197,7 +197,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     json_body: ListStrategiesRequest,
-) -> Optional[ListStrategiesResponse]:
+) -> ListStrategiesResponse | None:
     """List Earn Strategies
 
      List earn strategies along with their parameters.

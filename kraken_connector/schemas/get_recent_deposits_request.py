@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,23 +22,23 @@ class GetRecentDepositsRequest:
     """
 
     nonce: int = get_nonce()
-    asset: Union[Unset, str] = UNSET
-    method: Union[Unset, str] = UNSET
-    start: Union[Unset, str] = UNSET
-    end: Union[Unset, str] = UNSET
-    cursor: Union[Unset, bool, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    asset: Unset | str = UNSET
+    method: Unset | str = UNSET
+    start: Unset | str = UNSET
+    end: Unset | str = UNSET
+    cursor: Unset | bool | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
         asset = self.asset
         method = self.method
         start = self.start
         end = self.end
-        cursor: Union[Unset, bool, str]
+        cursor: Unset | bool | str
         cursor = UNSET if isinstance(self.cursor, Unset) else self.cursor
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -59,7 +59,7 @@ class GetRecentDepositsRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
@@ -71,7 +71,7 @@ class GetRecentDepositsRequest:
 
         end = d.pop("end", UNSET)
 
-        def _parse_cursor(data: object) -> Union[Unset, bool, str]:
+        def _parse_cursor(data: object) -> Unset | bool | str:
             if isinstance(data, Unset):
                 return data
             return cast(Union[Unset, bool, str], data)
@@ -91,7 +91,7 @@ class GetRecentDepositsRequest:
         return get_status_of_recent_deposits_request_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

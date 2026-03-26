@@ -1,5 +1,5 @@
 """Ticker channel data model for Kraken WebSocket API v2."""
-from typing import Any, Dict, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 
@@ -38,7 +38,7 @@ class TickerData:
     change_pct: float
     timestamp: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "symbol": self.symbol,
             "bid": self.bid,
@@ -56,7 +56,7 @@ class TickerData:
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             symbol=d.pop("symbol"),

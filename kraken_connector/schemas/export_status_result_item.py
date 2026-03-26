@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -29,31 +29,31 @@ class ExportStatusResultItem:
         asset (Union[Unset, str]):
     """
 
-    id: Union[Unset, str] = UNSET
-    descr: Union[Unset, str] = UNSET
-    format_: Union[Unset, str] = UNSET
-    report: Union[Unset, str] = UNSET
-    subtype: Union[Unset, str] = UNSET
-    status: Union[Unset, ReportRequestStatus] = UNSET
-    flags: Union[Unset, str] = UNSET
-    fields: Union[Unset, str] = UNSET
-    createdtm: Union[Unset, str] = UNSET
-    expiretm: Union[Unset, str] = UNSET
-    starttm: Union[Unset, str] = UNSET
-    completedtm: Union[Unset, str] = UNSET
-    datastarttm: Union[Unset, str] = UNSET
-    dataendtm: Union[Unset, str] = UNSET
-    aclass: Union[Unset, str] = UNSET
-    asset: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    id: Unset | str = UNSET
+    descr: Unset | str = UNSET
+    format_: Unset | str = UNSET
+    report: Unset | str = UNSET
+    subtype: Unset | str = UNSET
+    status: Unset | ReportRequestStatus = UNSET
+    flags: Unset | str = UNSET
+    fields: Unset | str = UNSET
+    createdtm: Unset | str = UNSET
+    expiretm: Unset | str = UNSET
+    starttm: Unset | str = UNSET
+    completedtm: Unset | str = UNSET
+    datastarttm: Unset | str = UNSET
+    dataendtm: Unset | str = UNSET
+    aclass: Unset | str = UNSET
+    asset: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         id = self.id
         descr = self.descr
         format_ = self.format_
         report = self.report
         subtype = self.subtype
-        status: Union[Unset, str] = UNSET
+        status: Unset | str = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
 
@@ -68,7 +68,7 @@ class ExportStatusResultItem:
         aclass = self.aclass
         asset = self.asset
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if id is not UNSET:
@@ -107,7 +107,7 @@ class ExportStatusResultItem:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         id = d.pop("id", UNSET)
 
@@ -120,7 +120,7 @@ class ExportStatusResultItem:
         subtype = d.pop("subtype", UNSET)
 
         _status = d.pop("status", UNSET)
-        status: Union[Unset, ReportRequestStatus]
+        status: Unset | ReportRequestStatus
         status = UNSET if isinstance(_status, Unset) else ReportRequestStatus(_status)
 
         flags = d.pop("flags", UNSET)
@@ -166,7 +166,7 @@ class ExportStatusResultItem:
         return export_status_response_200_result_item
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

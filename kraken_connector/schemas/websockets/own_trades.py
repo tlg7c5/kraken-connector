@@ -1,6 +1,6 @@
 """Data models for ownTrades private messasges on websockets."""
 
-from typing import Any, Dict, List, Self
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -44,7 +44,7 @@ class OwnTrade:
     userref: int
 
     @classmethod
-    def from_message(cls, message: Dict[str, Any]) -> Self:
+    def from_message(cls, message: dict[str, Any]) -> Self:
         """Instantiate a Spread object from the message context."""
         src_copy = message.copy()
         order_id = src_copy.get("ordertxid")
@@ -161,12 +161,12 @@ class OwnTradeMessage:
         ```
     """
 
-    trades: Dict[str, OwnTrade] = _attrs_field()
+    trades: dict[str, OwnTrade] = _attrs_field()
     channel_name: str = _attrs_field()
     sequence: int = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: List[Any]):
+    def from_message(cls, message: list[Any]):
         """Convert raw message from websocket to OwnTradeMessage."""
         trades = {}
         for i in message[0]:

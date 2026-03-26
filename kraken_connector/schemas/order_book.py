@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -15,18 +15,18 @@ class OrderBook:
         bids (Union[Unset, List[List[Union[int, str]]]]): Bid side array of entries `[<price>, <volume>, <timestamp>]`
     """
 
-    asks: Union[Unset, List[List[Union[int, str]]]] = UNSET
-    bids: Union[Unset, List[List[Union[int, str]]]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    asks: Unset | list[list[int | str]] = UNSET
+    bids: Unset | list[list[int | str]] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        asks: Union[Unset, List[List[Union[int, str]]]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        asks: Unset | list[list[int | str]] = UNSET
         if not isinstance(self.asks, Unset):
             asks = []
             for asks_item_data in self.asks:
                 asks_item = []
                 for asks_item_item_data in asks_item_data:
-                    asks_item_item: Union[int, str]
+                    asks_item_item: int | str
 
                     asks_item_item = asks_item_item_data
 
@@ -34,13 +34,13 @@ class OrderBook:
 
                 asks.append(asks_item)
 
-        bids: Union[Unset, List[List[Union[int, str]]]] = UNSET
+        bids: Unset | list[list[int | str]] = UNSET
         if not isinstance(self.bids, Unset):
             bids = []
             for bids_item_data in self.bids:
                 bids_item = []
                 for bids_item_item_data in bids_item_data:
-                    bids_item_item: Union[int, str]
+                    bids_item_item: int | str
 
                     bids_item_item = bids_item_item_data
 
@@ -48,7 +48,7 @@ class OrderBook:
 
                 bids.append(bids_item)
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if asks is not UNSET:
@@ -59,7 +59,7 @@ class OrderBook:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         asks = []
         _asks = d.pop("asks", UNSET)
@@ -68,7 +68,7 @@ class OrderBook:
             _asks_item = asks_item_data
             for asks_item_item_data in _asks_item:
 
-                def _parse_asks_item_item(data: object) -> Union[int, str]:
+                def _parse_asks_item_item(data: object) -> int | str:
                     return cast(Union[int, str], data)
 
                 asks_item_item = _parse_asks_item_item(asks_item_item_data)
@@ -84,7 +84,7 @@ class OrderBook:
             _bids_item = bids_item_data
             for bids_item_item_data in _bids_item:
 
-                def _parse_bids_item_item(data: object) -> Union[int, str]:
+                def _parse_bids_item_item(data: object) -> int | str:
                     return cast(Union[int, str], data)
 
                 bids_item_item = _parse_bids_item_item(bids_item_item_data)
@@ -102,7 +102,7 @@ class OrderBook:
         return order_book
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

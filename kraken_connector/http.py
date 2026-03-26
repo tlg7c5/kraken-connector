@@ -1,5 +1,5 @@
 import ssl
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Self, Union
+from typing import TYPE_CHECKING, Any, Optional, Self
 
 import httpx
 from attrs import define, evolve, field
@@ -39,21 +39,21 @@ class HTTPClient:
 
     raise_on_unexpected_status: bool = field(default=False, kw_only=True)
     _base_url: str
-    _cookies: Dict[str, str] = field(factory=dict, kw_only=True)
-    _headers: Dict[str, str] = field(factory=dict, kw_only=True)
-    _timeout: Optional[httpx.Timeout] = field(default=None, kw_only=True)
-    _verify_ssl: Union[str, bool, ssl.SSLContext] = field(default=True, kw_only=True)
+    _cookies: dict[str, str] = field(factory=dict, kw_only=True)
+    _headers: dict[str, str] = field(factory=dict, kw_only=True)
+    _timeout: httpx.Timeout | None = field(default=None, kw_only=True)
+    _verify_ssl: str | bool | ssl.SSLContext = field(default=True, kw_only=True)
     _follow_redirects: bool = field(default=False, kw_only=True)
-    _httpx_args: Dict[str, Any] = field(factory=dict, kw_only=True)
+    _httpx_args: dict[str, Any] = field(factory=dict, kw_only=True)
     _resilience: Optional["ResilienceConfig"] = field(default=None, kw_only=True)
-    _client: Optional[httpx.Client] = field(default=None, init=False)
-    _async_client: Optional[httpx.AsyncClient] = field(default=None, init=False)
+    _client: httpx.Client | None = field(default=None, init=False)
+    _async_client: httpx.AsyncClient | None = field(default=None, init=False)
 
-    def with_headers(self, headers: Dict[str, str]) -> Self:
+    def with_headers(self, headers: dict[str, str]) -> Self:
         """Get a new client matching this one with additional headers"""
         return evolve(self, headers={**self._headers, **headers})
 
-    def with_cookies(self, cookies: Dict[str, str]) -> Self:
+    def with_cookies(self, cookies: dict[str, str]) -> Self:
         """Get a new client matching this one with additional cookies"""
         return evolve(self, cookies={**self._cookies, **cookies})
 
@@ -73,13 +73,13 @@ class HTTPClient:
         self._client = client
         return self
 
-    def _build_httpx_kwargs(self, *, is_async: bool = False) -> Dict[str, Any]:
+    def _build_httpx_kwargs(self, *, is_async: bool = False) -> dict[str, Any]:
         """Build kwargs for httpx.Client or httpx.AsyncClient construction.
 
         Injects retry transport and logging event hooks when a
         :class:`~kraken_connector.resilience.ResilienceConfig` is set.
         """
-        kwargs: Dict[str, Any] = {
+        kwargs: dict[str, Any] = {
             "base_url": self._base_url,
             "cookies": self._cookies,
             "headers": self._headers,
@@ -106,7 +106,7 @@ class HTTPClient:
                     kwargs["transport"] = RetryTransport(sync_base, self._resilience)
             if self._resilience.enable_logging:
                 hooks = make_event_hooks(self._resilience)
-                existing: Dict[str, List[Any]] = kwargs.pop("event_hooks", {})
+                existing: dict[str, list[Any]] = kwargs.pop("event_hooks", {})
                 kwargs["event_hooks"] = {
                     "request": existing.get("request", []) + hooks["request"],
                     "response": existing.get("response", []) + hooks["response"],
@@ -172,8 +172,8 @@ class HTTPAuthenticatedClient(HTTPClient):
         auth_header_name: The name of the Authorization header
     """
 
-    _api_key: Optional[str] = field(default=None, kw_only=True, repr=False)
-    _api_secret: Optional[str] = field(default=None, kw_only=True, repr=False)
+    _api_key: str | None = field(default=None, kw_only=True, repr=False)
+    _api_secret: str | None = field(default=None, kw_only=True, repr=False)
     _follow_redirects: bool = field(default=False, kw_only=True)
 
     auth_header_name: str = "API-Key"

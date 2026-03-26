@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -15,16 +15,16 @@ class DeallocateStrategyResponse:
             occurred.
     """
 
-    error: List[str]
-    result: Union[Unset, None, bool] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    error: list[str]
+    result: Unset | None | bool = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         error = self.error
 
         result = self.result
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -37,9 +37,9 @@ class DeallocateStrategyResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
-        error = cast(List[str], d.pop("error"))
+        error = cast(list[str], d.pop("error"))
 
         result = d.pop("result", UNSET)
 
@@ -52,7 +52,7 @@ class DeallocateStrategyResponse:
         return deallocate_strategy_response_200
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

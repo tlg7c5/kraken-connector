@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -105,28 +105,28 @@ class AddOrderRequest:
     volume: str
     pair: str
     nonce: int = get_nonce()
-    userref: Union[Unset, int] = UNSET
-    displayvol: Union[Unset, str] = UNSET
-    price: Union[Unset, str] = UNSET
-    price2: Union[Unset, str] = UNSET
-    trigger: Union[Unset, Trigger] = Trigger.LAST
-    leverage: Union[Unset, str] = UNSET
-    reduce_only: Union[Unset, bool] = False
-    stptype: Union[
-        Unset, SelfTradePreventionStrategy
-    ] = SelfTradePreventionStrategy.CANCEL_NEWEST
-    oflags: Union[Unset, str] = UNSET
-    timeinforce: Union[Unset, TimeInForce] = TimeInForce.GTC
-    starttm: Union[Unset, str] = UNSET
-    expiretm: Union[Unset, str] = UNSET
-    closeordertype: Union[Unset, ConditionalCloseOrderType] = UNSET
-    closeprice: Union[Unset, str] = UNSET
-    closeprice2: Union[Unset, str] = UNSET
-    deadline: Union[Unset, str] = UNSET
-    validate: Union[Unset, bool] = False
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    userref: Unset | int = UNSET
+    displayvol: Unset | str = UNSET
+    price: Unset | str = UNSET
+    price2: Unset | str = UNSET
+    trigger: Unset | Trigger = Trigger.LAST
+    leverage: Unset | str = UNSET
+    reduce_only: Unset | bool = False
+    stptype: Unset | SelfTradePreventionStrategy = (
+        SelfTradePreventionStrategy.CANCEL_NEWEST
+    )
+    oflags: Unset | str = UNSET
+    timeinforce: Unset | TimeInForce = TimeInForce.GTC
+    starttm: Unset | str = UNSET
+    expiretm: Unset | str = UNSET
+    closeordertype: Unset | ConditionalCloseOrderType = UNSET
+    closeprice: Unset | str = UNSET
+    closeprice2: Unset | str = UNSET
+    deadline: Unset | str = UNSET
+    validate: Unset | bool = False
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
         ordertype = self.ordertype.value
 
@@ -138,24 +138,24 @@ class AddOrderRequest:
         displayvol = self.displayvol
         price = self.price
         price2 = self.price2
-        trigger: Union[Unset, str] = UNSET
+        trigger: Unset | str = UNSET
         if not isinstance(self.trigger, Unset):
             trigger = self.trigger.value
 
         leverage = self.leverage
         reduce_only = self.reduce_only
-        stptype: Union[Unset, str] = UNSET
+        stptype: Unset | str = UNSET
         if not isinstance(self.stptype, Unset):
             stptype = self.stptype.value
 
         oflags = self.oflags
-        timeinforce: Union[Unset, str] = UNSET
+        timeinforce: Unset | str = UNSET
         if not isinstance(self.timeinforce, Unset):
             timeinforce = self.timeinforce.value
 
         starttm = self.starttm
         expiretm = self.expiretm
-        closeordertype: Union[Unset, str] = UNSET
+        closeordertype: Unset | str = UNSET
         if not isinstance(self.closeordertype, Unset):
             closeordertype = self.closeordertype.value
 
@@ -164,7 +164,7 @@ class AddOrderRequest:
         deadline = self.deadline
         validate = self.validate
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -213,7 +213,7 @@ class AddOrderRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
@@ -234,7 +234,7 @@ class AddOrderRequest:
         price2 = d.pop("price2", UNSET)
 
         _trigger = d.pop("trigger", UNSET)
-        trigger: Union[Unset, Trigger]
+        trigger: Unset | Trigger
         trigger = UNSET if isinstance(_trigger, Unset) else Trigger(_trigger)
 
         leverage = d.pop("leverage", UNSET)
@@ -242,7 +242,7 @@ class AddOrderRequest:
         reduce_only = d.pop("reduce_only", UNSET)
 
         _stptype = d.pop("stptype", UNSET)
-        stptype: Union[Unset, SelfTradePreventionStrategy]
+        stptype: Unset | SelfTradePreventionStrategy
         if isinstance(_stptype, Unset):
             stptype = UNSET
         else:
@@ -251,7 +251,7 @@ class AddOrderRequest:
         oflags = d.pop("oflags", UNSET)
 
         _timeinforce = d.pop("timeinforce", UNSET)
-        timeinforce: Union[Unset, TimeInForce]
+        timeinforce: Unset | TimeInForce
         if isinstance(_timeinforce, Unset):
             timeinforce = UNSET
         else:
@@ -262,7 +262,7 @@ class AddOrderRequest:
         expiretm = d.pop("expiretm", UNSET)
 
         _closeordertype = d.pop("close[ordertype]", UNSET)
-        closeordertype: Union[Unset, ConditionalCloseOrderType]
+        closeordertype: Unset | ConditionalCloseOrderType
         if isinstance(_closeordertype, Unset):
             closeordertype = UNSET
         else:
@@ -305,7 +305,7 @@ class AddOrderRequest:
         return add_standard_order_request_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

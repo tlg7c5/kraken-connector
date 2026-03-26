@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -15,7 +15,7 @@ from ...types import Response
 
 def _get_kwargs(
     form_data: BatchCancelOrdersRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/CancelOrderBatch",
@@ -25,7 +25,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Any]:
+) -> Any | None:
     if response.status_code == HTTPStatus.OK:
         return None
     if client.raise_on_unexpected_status:

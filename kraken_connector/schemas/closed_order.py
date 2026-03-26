@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union, cast
+from typing import TYPE_CHECKING, Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -58,39 +58,39 @@ class ClosedOrder:
         reason (Union[Unset, str]): Additional info on status (if any)
     """
 
-    refid: Union[Unset, None, str] = UNSET
-    userref: Union[Unset, None, int] = UNSET
-    status: Union[Unset, OrderStatus] = UNSET
-    opentm: Union[Unset, float] = UNSET
-    starttm: Union[Unset, float] = UNSET
-    expiretm: Union[Unset, float] = UNSET
+    refid: Unset | None | str = UNSET
+    userref: Unset | None | int = UNSET
+    status: Unset | OrderStatus = UNSET
+    opentm: Unset | float = UNSET
+    starttm: Unset | float = UNSET
+    expiretm: Unset | float = UNSET
     descr: Union[Unset, "OpenOrderOrderDescription"] = UNSET
-    vol: Union[Unset, str] = UNSET
-    vol_exec: Union[Unset, str] = UNSET
-    cost: Union[Unset, str] = UNSET
-    fee: Union[Unset, str] = UNSET
-    price: Union[Unset, str] = UNSET
-    stopprice: Union[Unset, str] = UNSET
-    limitprice: Union[Unset, str] = UNSET
-    trigger: Union[Unset, OrderTrigger] = OrderTrigger.LAST
-    misc: Union[Unset, str] = UNSET
-    oflags: Union[Unset, str] = UNSET
-    trades: Union[Unset, List[str]] = UNSET
-    closetm: Union[Unset, float] = UNSET
-    reason: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    vol: Unset | str = UNSET
+    vol_exec: Unset | str = UNSET
+    cost: Unset | str = UNSET
+    fee: Unset | str = UNSET
+    price: Unset | str = UNSET
+    stopprice: Unset | str = UNSET
+    limitprice: Unset | str = UNSET
+    trigger: Unset | OrderTrigger = OrderTrigger.LAST
+    misc: Unset | str = UNSET
+    oflags: Unset | str = UNSET
+    trades: Unset | list[str] = UNSET
+    closetm: Unset | float = UNSET
+    reason: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         refid = self.refid
         userref = self.userref
-        status: Union[Unset, str] = UNSET
+        status: Unset | str = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
 
         opentm = self.opentm
         starttm = self.starttm
         expiretm = self.expiretm
-        descr: Union[Unset, Dict[str, Any]] = UNSET
+        descr: Unset | dict[str, Any] = UNSET
         if not isinstance(self.descr, Unset):
             descr = self.descr.to_dict()
 
@@ -101,20 +101,20 @@ class ClosedOrder:
         price = self.price
         stopprice = self.stopprice
         limitprice = self.limitprice
-        trigger: Union[Unset, str] = UNSET
+        trigger: Unset | str = UNSET
         if not isinstance(self.trigger, Unset):
             trigger = self.trigger.value
 
         misc = self.misc
         oflags = self.oflags
-        trades: Union[Unset, List[str]] = UNSET
+        trades: Unset | list[str] = UNSET
         if not isinstance(self.trades, Unset):
             trades = self.trades
 
         closetm = self.closetm
         reason = self.reason
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if refid is not UNSET:
@@ -161,7 +161,7 @@ class ClosedOrder:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.open_order_order_description import OpenOrderOrderDescription
 
         d = src_dict.copy()
@@ -170,7 +170,7 @@ class ClosedOrder:
         userref = d.pop("userref", UNSET)
 
         _status = d.pop("status", UNSET)
-        status: Union[Unset, OrderStatus]
+        status: Unset | OrderStatus
         status = UNSET if isinstance(_status, Unset) else OrderStatus(_status)
 
         opentm = d.pop("opentm", UNSET)
@@ -180,7 +180,7 @@ class ClosedOrder:
         expiretm = d.pop("expiretm", UNSET)
 
         _descr = d.pop("descr", UNSET)
-        descr: Union[Unset, OpenOrderOrderDescription]
+        descr: Unset | OpenOrderOrderDescription
         if isinstance(_descr, Unset):
             descr = UNSET
         else:
@@ -201,14 +201,14 @@ class ClosedOrder:
         limitprice = d.pop("limitprice", UNSET)
 
         _trigger = d.pop("trigger", UNSET)
-        trigger: Union[Unset, OrderTrigger]
+        trigger: Unset | OrderTrigger
         trigger = UNSET if isinstance(_trigger, Unset) else OrderTrigger(_trigger)
 
         misc = d.pop("misc", UNSET)
 
         oflags = d.pop("oflags", UNSET)
 
-        trades = cast(List[str], d.pop("trades", UNSET))
+        trades = cast(list[str], d.pop("trades", UNSET))
 
         closetm = d.pop("closetm", UNSET)
 
@@ -241,7 +241,7 @@ class ClosedOrder:
         return closed_order
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -10,7 +10,7 @@ from ...schemas.get_system_status_response import GetSystemStatusResponse
 from ...types import Response, Unset
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs() -> dict[str, Any]:
     return {
         "method": "get",
         "url": f"{API_VERSION_PREFIX}/public/SystemStatus",
@@ -18,8 +18,8 @@ def _get_kwargs() -> Dict[str, Any]:
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetSystemStatusResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetSystemStatusResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = GetSystemStatusResponse.from_dict(response.json())
 
@@ -38,7 +38,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[GetSystemStatusResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -50,7 +50,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
 ) -> Response[GetSystemStatusResponse]:
     """Get System Status
 
@@ -75,8 +75,8 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Optional[GetSystemStatusResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+) -> GetSystemStatusResponse | None:
     """Get System Status
 
      Get the current system status or trading mode.
@@ -96,7 +96,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
 ) -> Response[GetSystemStatusResponse]:
     """Get System Status
 
@@ -119,8 +119,8 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Optional[GetSystemStatusResponse]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+) -> GetSystemStatusResponse | None:
     """Get System Status
 
      Get the current system status or trading mode.

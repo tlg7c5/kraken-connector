@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -32,28 +32,28 @@ class GetOpenPositionsResultEntry:
         oflags (Union[Unset, str]): Comma delimited list of opening order flags
     """
 
-    ordertxid: Union[Unset, str] = UNSET
-    posstatus: Union[Unset, PositionStatus] = UNSET
-    pair: Union[Unset, str] = UNSET
-    time: Union[Unset, float] = UNSET
-    type: Union[Unset, str] = UNSET
-    ordertype: Union[Unset, str] = UNSET
-    cost: Union[Unset, str] = UNSET
-    fee: Union[Unset, str] = UNSET
-    vol: Union[Unset, str] = UNSET
-    vol_closed: Union[Unset, str] = UNSET
-    margin: Union[Unset, str] = UNSET
-    value: Union[Unset, str] = UNSET
-    net: Union[Unset, str] = UNSET
-    terms: Union[Unset, str] = UNSET
-    rollovertm: Union[Unset, str] = UNSET
-    misc: Union[Unset, str] = UNSET
-    oflags: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    ordertxid: Unset | str = UNSET
+    posstatus: Unset | PositionStatus = UNSET
+    pair: Unset | str = UNSET
+    time: Unset | float = UNSET
+    type: Unset | str = UNSET
+    ordertype: Unset | str = UNSET
+    cost: Unset | str = UNSET
+    fee: Unset | str = UNSET
+    vol: Unset | str = UNSET
+    vol_closed: Unset | str = UNSET
+    margin: Unset | str = UNSET
+    value: Unset | str = UNSET
+    net: Unset | str = UNSET
+    terms: Unset | str = UNSET
+    rollovertm: Unset | str = UNSET
+    misc: Unset | str = UNSET
+    oflags: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         ordertxid = self.ordertxid
-        posstatus: Union[Unset, str] = UNSET
+        posstatus: Unset | str = UNSET
         if not isinstance(self.posstatus, Unset):
             posstatus = self.posstatus.value
 
@@ -73,7 +73,7 @@ class GetOpenPositionsResultEntry:
         misc = self.misc
         oflags = self.oflags
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if ordertxid is not UNSET:
@@ -114,12 +114,12 @@ class GetOpenPositionsResultEntry:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         ordertxid = d.pop("ordertxid", UNSET)
 
         _posstatus = d.pop("posstatus", UNSET)
-        posstatus: Union[Unset, PositionStatus]
+        posstatus: Unset | PositionStatus
         if isinstance(_posstatus, Unset):
             posstatus = UNSET
         else:
@@ -181,7 +181,7 @@ class GetOpenPositionsResultEntry:
         return get_open_positions_response_200_result_additional_property
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

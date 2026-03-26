@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -12,14 +12,14 @@ if TYPE_CHECKING:
 class GetOrdersInfoResult:
     """ """
 
-    additional_properties: Dict[str, Union["ClosedOrder", "OpenOrder"]] = _attrs_field(
+    additional_properties: dict[str, Union["ClosedOrder", "OpenOrder"]] = _attrs_field(
         init=False, factory=dict
     )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         from ..schemas.open_order import OpenOrder
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             if isinstance(prop, OpenOrder):
                 field_dict[prop_name] = prop.to_dict()
@@ -32,7 +32,7 @@ class GetOrdersInfoResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.closed_order import ClosedOrder
         from ..schemas.open_order import OpenOrder
 
@@ -67,7 +67,7 @@ class GetOrdersInfoResult:
         return query_2_result
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Union["ClosedOrder", "OpenOrder"]:

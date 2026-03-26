@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -13,9 +13,9 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Dict[str, Any]:
-    params: Dict[str, Any] = {}
+    count: Unset | None | int = 100,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
     params["count"] = count
@@ -30,8 +30,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[OrderBookResponse]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> OrderBookResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = OrderBookResponse.from_dict(response.json())
 
@@ -50,7 +50,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
 ) -> Response[OrderBookResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -62,9 +62,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
+    count: Unset | None | int = 100,
 ) -> Response[OrderBookResponse]:
     """Get Order Book
 
@@ -94,10 +94,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Optional[OrderBookResponse]:
+    count: Unset | None | int = 100,
+) -> OrderBookResponse | None:
     """Get Order Book
 
     Args:
@@ -121,9 +121,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
+    count: Unset | None | int = 100,
 ) -> Response[OrderBookResponse]:
     """Get Order Book
 
@@ -151,10 +151,10 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Optional[OrderBookResponse]:
+    count: Unset | None | int = 100,
+) -> OrderBookResponse | None:
     """Get Order Book
 
     Args:

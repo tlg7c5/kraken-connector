@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,19 +22,19 @@ class BatchAddOrderResultItem:
     """
 
     descr: Union[Unset, "BatchAddOrderResultItemDescr"] = UNSET
-    error: Union[Unset, str] = UNSET
-    txid: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    error: Unset | str = UNSET
+    txid: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
-        descr: Union[Unset, Dict[str, Any]] = UNSET
+    def to_dict(self) -> dict[str, Any]:
+        descr: Unset | dict[str, Any] = UNSET
         if not isinstance(self.descr, Unset):
             descr = self.descr.to_dict()
 
         error = self.error
         txid = self.txid
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if descr is not UNSET:
@@ -47,14 +47,14 @@ class BatchAddOrderResultItem:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.batch_add_order_result_item_descr import (
             BatchAddOrderResultItemDescr,
         )
 
         d = src_dict.copy()
         _descr = d.pop("descr", UNSET)
-        descr: Union[Unset, BatchAddOrderResultItemDescr]
+        descr: Unset | BatchAddOrderResultItemDescr
         if isinstance(_descr, Unset):
             descr = UNSET
         else:
@@ -74,7 +74,7 @@ class BatchAddOrderResultItem:
         return batchadd_2_result_orders_item
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

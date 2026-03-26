@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
@@ -13,7 +13,7 @@ from ...types import Response, Unset
 
 def _get_kwargs(
     form_data: AccountTransferRequest,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     return {
         "method": "post",
         "url": f"{API_VERSION_PREFIX}/private/AccountTransfer",
@@ -23,7 +23,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[AccountTransferResponse]:
+) -> AccountTransferResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = AccountTransferResponse.from_dict(response.json())
 
@@ -90,7 +90,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: AccountTransferRequest,
-) -> Optional[AccountTransferResponse]:
+) -> AccountTransferResponse | None:
     """Account Transfer
 
      Transfer funds to and from master and subaccounts. **Note:** `AccountTransfer` must be called by the
@@ -148,7 +148,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: AccountTransferRequest,
-) -> Optional[AccountTransferResponse]:
+) -> AccountTransferResponse | None:
     """Account Transfer
 
      Transfer funds to and from master and subaccounts. **Note:** `AccountTransfer` must be called by the

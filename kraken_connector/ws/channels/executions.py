@@ -1,5 +1,5 @@
 """Executions channel data models for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 
@@ -18,11 +18,11 @@ class ExecutionFee:
     asset: str
     qty: float
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {"asset": self.asset, "qty": self.qty}
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(asset=d.pop("asset"), qty=d.pop("qty"))
 
@@ -64,31 +64,31 @@ class ExecutionData:
 
     exec_type: str
     order_id: str
-    symbol: Union[Unset, str] = UNSET
-    order_status: Union[Unset, str] = UNSET
-    side: Union[Unset, str] = UNSET
-    order_type: Union[Unset, str] = UNSET
-    order_qty: Union[Unset, float] = UNSET
-    limit_price: Union[Unset, float] = UNSET
-    time_in_force: Union[Unset, str] = UNSET
-    order_userref: Union[Unset, int] = UNSET
-    cl_ord_id: Union[Unset, str] = UNSET
-    timestamp: Union[Unset, str] = UNSET
-    cum_qty: Union[Unset, float] = UNSET
-    cum_cost: Union[Unset, float] = UNSET
-    avg_price: Union[Unset, float] = UNSET
-    exec_id: Union[Unset, str] = UNSET
-    trade_id: Union[Unset, int] = UNSET
-    last_qty: Union[Unset, float] = UNSET
-    last_price: Union[Unset, float] = UNSET
-    cost: Union[Unset, float] = UNSET
-    liquidity_ind: Union[Unset, str] = UNSET
-    fees: Union[Unset, List[ExecutionFee]] = UNSET
-    fee_usd_equiv: Union[Unset, float] = UNSET
-    margin: Union[Unset, bool] = UNSET
+    symbol: Unset | str = UNSET
+    order_status: Unset | str = UNSET
+    side: Unset | str = UNSET
+    order_type: Unset | str = UNSET
+    order_qty: Unset | float = UNSET
+    limit_price: Unset | float = UNSET
+    time_in_force: Unset | str = UNSET
+    order_userref: Unset | int = UNSET
+    cl_ord_id: Unset | str = UNSET
+    timestamp: Unset | str = UNSET
+    cum_qty: Unset | float = UNSET
+    cum_cost: Unset | float = UNSET
+    avg_price: Unset | float = UNSET
+    exec_id: Unset | str = UNSET
+    trade_id: Unset | int = UNSET
+    last_qty: Unset | float = UNSET
+    last_price: Unset | float = UNSET
+    cost: Unset | float = UNSET
+    liquidity_ind: Unset | str = UNSET
+    fees: Unset | list[ExecutionFee] = UNSET
+    fee_usd_equiv: Unset | float = UNSET
+    margin: Unset | bool = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "exec_type": self.exec_type,
             "order_id": self.order_id,
         }
@@ -139,12 +139,12 @@ class ExecutionData:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         exec_type = d.pop("exec_type")
         order_id = d.pop("order_id")
         fees_raw = d.pop("fees", UNSET)
-        fees: Union[Unset, List[ExecutionFee]] = UNSET
+        fees: Unset | list[ExecutionFee] = UNSET
         if not isinstance(fees_raw, Unset):
             fees = [ExecutionFee.from_dict(f) for f in fees_raw]
         return cls(

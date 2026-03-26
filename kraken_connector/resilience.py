@@ -9,11 +9,7 @@ from typing import (
     Any,
     AsyncGenerator,
     Callable,
-    Dict,
     Generator,
-    List,
-    Tuple,
-    Type,
 )
 
 import httpx
@@ -22,7 +18,7 @@ from attrs import define, field
 _logger = logging.getLogger("kraken_connector")
 
 # Default set of httpx exceptions that indicate a transient network error.
-_DEFAULT_RETRYABLE_EXCEPTIONS: Tuple[Type[Exception], ...] = (
+_DEFAULT_RETRYABLE_EXCEPTIONS: tuple[type[Exception], ...] = (
     httpx.ConnectError,
     httpx.ConnectTimeout,
     httpx.ReadTimeout,
@@ -46,7 +42,7 @@ class KrakenTier(str, Enum):
 
 
 # Tier parameters: (max_tokens, decay_rate per second)
-_TIER_PARAMS: Dict[KrakenTier, Tuple[float, float]] = {
+_TIER_PARAMS: dict[KrakenTier, tuple[float, float]] = {
     KrakenTier.STARTER: (15.0, 0.33),
     KrakenTier.INTERMEDIATE: (20.0, 0.5),
     KrakenTier.PRO: (20.0, 1.0),
@@ -72,7 +68,7 @@ class ResilienceConfig:
     max_retries: int = 0
     backoff_base: float = 0.5
     backoff_max: float = 30.0
-    retryable_exceptions: Tuple[Type[Exception], ...] = field(
+    retryable_exceptions: tuple[type[Exception], ...] = field(
         default=_DEFAULT_RETRYABLE_EXCEPTIONS,
     )
     enable_logging: bool = False
@@ -221,7 +217,7 @@ class RateLimiter:
         yield
 
 
-def make_event_hooks(config: ResilienceConfig) -> Dict[str, List[Callable[..., Any]]]:
+def make_event_hooks(config: ResilienceConfig) -> dict[str, list[Callable[..., Any]]]:
     """Build httpx event_hooks for request/response logging."""
     level = config.log_level
 

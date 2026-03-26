@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union
+from typing import TYPE_CHECKING, Any, Self, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -45,28 +45,28 @@ class AllocationAmount:
     exit_queue: Union[Unset, None, "AllocationExitQueue"] = UNSET
     pending: Union[Unset, None, "AllocationPending"] = UNSET
     unbonding: Union[Unset, None, "AllocationUnbonding"] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         total = self.total.to_dict()
 
-        bonding: Union[Unset, None, Dict[str, Any]] = UNSET
+        bonding: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.bonding, Unset):
             bonding = self.bonding.to_dict() if self.bonding else None
 
-        exit_queue: Union[Unset, None, Dict[str, Any]] = UNSET
+        exit_queue: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.exit_queue, Unset):
             exit_queue = self.exit_queue.to_dict() if self.exit_queue else None
 
-        pending: Union[Unset, None, Dict[str, Any]] = UNSET
+        pending: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.pending, Unset):
             pending = self.pending.to_dict() if self.pending else None
 
-        unbonding: Union[Unset, None, Dict[str, Any]] = UNSET
+        unbonding: Unset | None | dict[str, Any] = UNSET
         if not isinstance(self.unbonding, Unset):
             unbonding = self.unbonding.to_dict() if self.unbonding else None
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -85,7 +85,7 @@ class AllocationAmount:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.allocation_bonding import (
             AllocationBonding,
         )
@@ -106,7 +106,7 @@ class AllocationAmount:
         total = AllocationTotal.from_dict(d.pop("total"))
 
         _bonding = d.pop("bonding", UNSET)
-        bonding: Union[Unset, None, AllocationBonding]
+        bonding: Unset | None | AllocationBonding
         if _bonding is None:
             bonding = None
         elif isinstance(_bonding, Unset):
@@ -115,11 +115,7 @@ class AllocationAmount:
             bonding = AllocationBonding.from_dict(_bonding)
 
         _exit_queue = d.pop("exit_queue", UNSET)
-        exit_queue: Union[
-            Unset,
-            None,
-            AllocationExitQueue,
-        ]
+        exit_queue: Unset | None | AllocationExitQueue
         if _exit_queue is None:
             exit_queue = None
         elif isinstance(_exit_queue, Unset):
@@ -128,7 +124,7 @@ class AllocationAmount:
             exit_queue = AllocationExitQueue.from_dict(_exit_queue)
 
         _pending = d.pop("pending", UNSET)
-        pending: Union[Unset, None, AllocationPending]
+        pending: Unset | None | AllocationPending
         if _pending is None:
             pending = None
         elif isinstance(_pending, Unset):
@@ -137,11 +133,7 @@ class AllocationAmount:
             pending = AllocationPending.from_dict(_pending)
 
         _unbonding = d.pop("unbonding", UNSET)
-        unbonding: Union[
-            Unset,
-            None,
-            AllocationUnbonding,
-        ]
+        unbonding: Unset | None | AllocationUnbonding
         if _unbonding is None:
             unbonding = None
         elif isinstance(_unbonding, Unset):
@@ -163,7 +155,7 @@ class AllocationAmount:
         return list_allocations_response_200_result_items_item_amount_allocated
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

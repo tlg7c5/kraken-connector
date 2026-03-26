@@ -1,7 +1,7 @@
 """Data models for openOrders private messasges on websockets."""
 
 from datetime import datetime
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,17 +28,17 @@ class OrderDescription:
     """
 
     pair: str
-    position_id: Union[str, Unset]
+    position_id: str | Unset
     type_order: TypeOrder
     order_type: OrderType
     price: float
-    price2: Union[float, Unset]
-    leverage: Union[float, Unset]
+    price2: float | Unset
+    leverage: float | Unset
     order: str
-    close: Union[str, Unset]
+    close: str | Unset
 
     @classmethod
-    def from_message(cls, message: Dict[str, Any]) -> Self:
+    def from_message(cls, message: dict[str, Any]) -> Self:
         """Instantiate an OrderDescription object from the message context."""
         src_copy = message.copy()
         pair = src_copy.get("pair")
@@ -83,11 +83,11 @@ class ConditionalCloseOrder:
 
     order_type: OrderType
     price: float
-    price2: Union[float, Unset]
+    price2: float | Unset
     order_flags: str
 
     @classmethod
-    def from_message(cls, message: Dict[str, Any]) -> Self:
+    def from_message(cls, message: dict[str, Any]) -> Self:
         """Instantiate an ConditionalCloseOrder object from the message context."""
         src_copy = message.copy()
         order_type = src_copy.get("ordertype")
@@ -158,32 +158,32 @@ class Order:
             subscription request.  See [trading rate limits](https://support.kraken.com/hc/en-us/articles/360045239571)
     """
 
-    referral_id: Union[str, Unset]
-    userref: Union[int, Unset]
+    referral_id: str | Unset
+    userref: int | Unset
     status: OrderStatus
-    open_time: Union[datetime, Unset]
-    start_time: Union[datetime, Unset]
-    display_volume: Union[float, Unset]
-    display_volume_remain: Union[float, Unset]
-    expire_time: Union[datetime, Unset]
-    contingent: Union[ConditionalCloseOrder, Unset]
-    description: Union[OrderDescription, Unset]
-    last_updated: Union[datetime, Unset]
-    volume: Union[float, Unset]
-    volume_executed: Union[float, Unset]
-    cost: Union[float, Unset]
-    fee: Union[float, Unset]
-    average_price: Union[float, Unset]
-    stop_price: Union[float, Unset]
-    limit_price: Union[float, Unset]
-    misc: Union[str, Unset]
-    order_flags: Union[str, Unset]
-    time_in_force: Union[str, Unset]
-    cancel_reason: Union[str, Unset]
-    rate_count: Union[int, Unset]
+    open_time: datetime | Unset
+    start_time: datetime | Unset
+    display_volume: float | Unset
+    display_volume_remain: float | Unset
+    expire_time: datetime | Unset
+    contingent: ConditionalCloseOrder | Unset
+    description: OrderDescription | Unset
+    last_updated: datetime | Unset
+    volume: float | Unset
+    volume_executed: float | Unset
+    cost: float | Unset
+    fee: float | Unset
+    average_price: float | Unset
+    stop_price: float | Unset
+    limit_price: float | Unset
+    misc: str | Unset
+    order_flags: str | Unset
+    time_in_force: str | Unset
+    cancel_reason: str | Unset
+    rate_count: int | Unset
 
     @classmethod
-    def from_message(cls, message: Dict[str, Any]) -> Self:
+    def from_message(cls, message: dict[str, Any]) -> Self:
         """Instantiate an Order object from the message context."""
         src_copy = message.copy()
         referral_id = src_copy.get("refid", UNSET)
@@ -422,12 +422,12 @@ class OpenOrderMessage:
         ```
     """
 
-    open_orders: Dict[str, Order] = _attrs_field()
+    open_orders: dict[str, Order] = _attrs_field()
     channel_name: str = _attrs_field()
     sequence: int = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: List[Any]):
+    def from_message(cls, message: list[Any]):
         """Convert raw message from websocket to OpenOrderMessage."""
         open_orders = {}
         for i in message[0]:

@@ -1,5 +1,5 @@
 """Balances channel data models for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 
@@ -20,11 +20,11 @@ class BalanceWallet:
     id: str
     balance: float
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {"type": self.type, "id": self.id, "balance": self.balance}
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(type=d.pop("type"), id=d.pop("id"), balance=d.pop("balance"))
 
@@ -43,9 +43,9 @@ class BalanceSnapshot:
     asset: str
     asset_class: str
     balance: float
-    wallets: List[BalanceWallet]
+    wallets: list[BalanceWallet]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "asset": self.asset,
             "asset_class": self.asset_class,
@@ -54,7 +54,7 @@ class BalanceSnapshot:
         }
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         wallets = [BalanceWallet.from_dict(w) for w in d.pop("wallets", [])]
         return cls(
@@ -96,11 +96,11 @@ class BalanceLedgerUpdate:
     type: str
     wallet_type: str
     wallet_id: str
-    subtype: Union[Unset, str] = UNSET
-    category: Union[Unset, str] = UNSET
+    subtype: Unset | str = UNSET
+    category: Unset | str = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "asset": self.asset,
             "asset_class": self.asset_class,
             "amount": self.amount,
@@ -120,7 +120,7 @@ class BalanceLedgerUpdate:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             asset=d.pop("asset"),

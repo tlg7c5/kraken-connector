@@ -3,7 +3,7 @@
 Routes raw JSON strings to typed model instances.
 """
 import json
-from typing import Any, Dict, List, Union
+from typing import Any, Union
 
 from .channels.balances import BalanceLedgerUpdate, BalanceSnapshot
 from .channels.book import BookData
@@ -26,7 +26,7 @@ WSMessage = Union[
 ]
 
 # Channel name → data item deserializer.
-_CHANNEL_PARSERS: Dict[str, Any] = {
+_CHANNEL_PARSERS: dict[str, Any] = {
     "ticker": TickerData.from_dict,
     "book": BookData.from_dict,
     "trade": TradeData.from_dict,
@@ -38,7 +38,7 @@ _CHANNEL_PARSERS: Dict[str, Any] = {
 _BALANCE_SNAPSHOT_TYPES = ("snapshot",)
 
 
-def _parse_data_items(channel: str, msg_type: str, raw_items: List[Any]) -> List[Any]:
+def _parse_data_items(channel: str, msg_type: str, raw_items: list[Any]) -> list[Any]:
     """Deserialize data array items into typed models."""
     # Instrument channel: single object with assets + pairs, not a list of items.
     if channel == "instrument":
@@ -89,7 +89,7 @@ def parse_message(raw: str) -> WSMessage:
         ValueError: If the message cannot be classified.
         json.JSONDecodeError: If the input is not valid JSON.
     """
-    msg: Dict[str, Any] = json.loads(raw)
+    msg: dict[str, Any] = json.loads(raw)
 
     # 1. Heartbeat — minimal message with just "channel": "heartbeat".
     channel = msg.get("channel")

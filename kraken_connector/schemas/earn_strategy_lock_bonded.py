@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -43,11 +43,11 @@ class EarnStrategyLockBonded:
     type: StrategyLockType.BONDED
     unbonding_period: int
     unbonding_rewards: bool
-    bonding_period_variable: Union[Unset, bool] = False
-    unbonding_period_variable: Union[Unset, bool] = False
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    bonding_period_variable: Unset | bool = False
+    unbonding_period_variable: Unset | bool = False
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         bonding_period = self.bonding_period
         bonding_rewards = self.bonding_rewards
         exit_queue_period = self.exit_queue_period
@@ -59,7 +59,7 @@ class EarnStrategyLockBonded:
         bonding_period_variable = self.bonding_period_variable
         unbonding_period_variable = self.unbonding_period_variable
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -80,7 +80,7 @@ class EarnStrategyLockBonded:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         bonding_period = d.pop("bonding_period")
 
@@ -118,7 +118,7 @@ class EarnStrategyLockBonded:
         return list_strategies_response_200_result_items_item_lock_type_type_1
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

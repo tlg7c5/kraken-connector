@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -32,21 +32,21 @@ class Deposit:
             transaction
     """
 
-    method: Union[Unset, str] = UNSET
-    aclass: Union[Unset, str] = UNSET
-    asset: Union[Unset, str] = UNSET
-    refid: Union[Unset, str] = UNSET
-    txid: Union[Unset, str] = UNSET
-    info: Union[Unset, str] = UNSET
-    amount: Union[Unset, str] = UNSET
-    fee: Union[Unset, Any] = UNSET
-    time: Union[Unset, int] = UNSET
-    status: Union[Unset, Any] = UNSET
-    status_prop: Union[Unset, DepositStatus] = UNSET
-    originators: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    method: Unset | str = UNSET
+    aclass: Unset | str = UNSET
+    asset: Unset | str = UNSET
+    refid: Unset | str = UNSET
+    txid: Unset | str = UNSET
+    info: Unset | str = UNSET
+    amount: Unset | str = UNSET
+    fee: Unset | Any = UNSET
+    time: Unset | int = UNSET
+    status: Unset | Any = UNSET
+    status_prop: Unset | DepositStatus = UNSET
+    originators: Unset | list[str] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         method = self.method
         aclass = self.aclass
         asset = self.asset
@@ -57,15 +57,15 @@ class Deposit:
         fee = self.fee
         time = self.time
         status = self.status
-        status_prop: Union[Unset, str] = UNSET
+        status_prop: Unset | str = UNSET
         if not isinstance(self.status_prop, Unset):
             status_prop = self.status_prop.value
 
-        originators: Union[Unset, List[str]] = UNSET
+        originators: Unset | list[str] = UNSET
         if not isinstance(self.originators, Unset):
             originators = self.originators
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if method is not UNSET:
@@ -96,7 +96,7 @@ class Deposit:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         method = d.pop("method", UNSET)
 
@@ -119,13 +119,13 @@ class Deposit:
         status = d.pop("status", UNSET)
 
         _status_prop = d.pop("status-prop", UNSET)
-        status_prop: Union[Unset, DepositStatus]
+        status_prop: Unset | DepositStatus
         if isinstance(_status_prop, Unset):
             status_prop = UNSET
         else:
             status_prop = DepositStatus(_status_prop)
 
-        originators = cast(List[str], d.pop("originators", UNSET))
+        originators = cast(list[str], d.pop("originators", UNSET))
 
         deposit = cls(
             method=method,
@@ -146,7 +146,7 @@ class Deposit:
         return deposit
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

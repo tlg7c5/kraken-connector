@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Self, Union, cast
+from typing import TYPE_CHECKING, Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,13 +19,13 @@ class GetRecentDepositsResponse:
     """
 
     result: Union["Deposit", "GetRecentDepositsResultAlt", Unset] = UNSET
-    error: Union[Unset, List[str]] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    error: Unset | list[str] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         from ..schemas.deposit import Deposit
 
-        result: Union[Dict[str, Any], Unset]
+        result: dict[str, Any] | Unset
         if isinstance(self.result, Unset):
             result = UNSET
 
@@ -39,11 +39,11 @@ class GetRecentDepositsResponse:
             if not isinstance(self.result, Unset):
                 result = self.result.to_dict()
 
-        error: Union[Unset, List[str]] = UNSET
+        error: Unset | list[str] = UNSET
         if not isinstance(self.error, Unset):
             error = self.error
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if result is not UNSET:
@@ -54,7 +54,7 @@ class GetRecentDepositsResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         from ..schemas.deposit import Deposit
         from ..schemas.get_recent_deposits_result_alt import GetRecentDepositsResultAlt
 
@@ -69,7 +69,7 @@ class GetRecentDepositsResponse:
                 if not isinstance(data, dict):
                     raise TypeError()
                 _result_type_0 = data
-                result_type_0: Union[Unset, Deposit]
+                result_type_0: Unset | Deposit
                 if isinstance(_result_type_0, Unset):
                     result_type_0 = UNSET
                 else:
@@ -81,7 +81,7 @@ class GetRecentDepositsResponse:
             if not isinstance(data, dict):
                 raise TypeError()
             _result_type_1 = data
-            result_type_1: Union[Unset, GetRecentDepositsResultAlt]
+            result_type_1: Unset | GetRecentDepositsResultAlt
             if isinstance(_result_type_1, Unset):
                 result_type_1 = UNSET
             else:
@@ -91,7 +91,7 @@ class GetRecentDepositsResponse:
 
         result = _parse_result(d.pop("result", UNSET))
 
-        error = cast(List[str], d.pop("error", UNSET))
+        error = cast(list[str], d.pop("error", UNSET))
 
         recent_2 = cls(
             result=result,
@@ -102,7 +102,7 @@ class GetRecentDepositsResponse:
         return recent_2
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

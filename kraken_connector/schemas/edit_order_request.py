@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -48,23 +48,23 @@ class EditOrderRequest:
         validate (Union[Unset, bool]): Validate inputs only. Do not submit order.
     """
 
-    txid: Union[int, str]
+    txid: int | str
     pair: str
     nonce: int = get_nonce()
-    userref: Union[Unset, int] = UNSET
-    volume: Union[Unset, str] = UNSET
-    displayvol: Union[Unset, str] = UNSET
-    price: Union[Unset, str] = UNSET
-    price2: Union[Unset, str] = UNSET
-    oflags: Union[Unset, Any] = UNSET
-    deadline: Union[Unset, str] = UNSET
-    cancel_response: Union[Unset, bool] = UNSET
-    validate: Union[Unset, bool] = False
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    userref: Unset | int = UNSET
+    volume: Unset | str = UNSET
+    displayvol: Unset | str = UNSET
+    price: Unset | str = UNSET
+    price2: Unset | str = UNSET
+    oflags: Unset | Any = UNSET
+    deadline: Unset | str = UNSET
+    cancel_response: Unset | bool = UNSET
+    validate: Unset | bool = False
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         nonce = self.nonce
-        txid: Union[int, str]
+        txid: int | str
 
         txid = self.txid
 
@@ -79,7 +79,7 @@ class EditOrderRequest:
         cancel_response = self.cancel_response
         validate = self.validate
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -110,11 +110,11 @@ class EditOrderRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
-        def _parse_txid(data: object) -> Union[int, str]:
+        def _parse_txid(data: object) -> int | str:
             return cast(Union[int, str], data)
 
         txid = _parse_txid(d.pop("txid"))
@@ -158,7 +158,7 @@ class EditOrderRequest:
         return edit_standard_order_request_body
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

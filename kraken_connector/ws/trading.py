@@ -1,5 +1,5 @@
 """Trading method parameter and result models for Kraken WebSocket API v2."""
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,10 +23,10 @@ class OrderTrigger:
 
     reference: str
     price: float
-    price_type: Union[Unset, str] = UNSET
+    price_type: Unset | str = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "reference": self.reference,
             "price": self.price,
         }
@@ -35,7 +35,7 @@ class OrderTrigger:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             reference=d.pop("reference"),
@@ -55,11 +55,11 @@ class ConditionalClose:
     """
 
     order_type: str
-    limit_price: Union[Unset, float] = UNSET
-    trigger_price: Union[Unset, float] = UNSET
+    limit_price: Unset | float = UNSET
+    trigger_price: Unset | float = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"order_type": self.order_type}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"order_type": self.order_type}
         if not isinstance(self.limit_price, Unset):
             field_dict["limit_price"] = self.limit_price
         if not isinstance(self.trigger_price, Unset):
@@ -67,7 +67,7 @@ class ConditionalClose:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             order_type=d.pop("order_type"),
@@ -116,27 +116,27 @@ class AddOrderParams:
     order_type: str
     order_qty: float
     token: str
-    limit_price: Union[Unset, float] = UNSET
-    limit_price_type: Union[Unset, str] = UNSET
-    triggers: Union[Unset, OrderTrigger] = UNSET
-    time_in_force: Union[Unset, str] = UNSET
-    margin: Union[Unset, bool] = UNSET
-    post_only: Union[Unset, bool] = UNSET
-    reduce_only: Union[Unset, bool] = UNSET
-    effective_time: Union[Unset, str] = UNSET
-    expire_time: Union[Unset, str] = UNSET
-    deadline: Union[Unset, str] = UNSET
-    cl_ord_id: Union[Unset, str] = UNSET
-    order_userref: Union[Unset, int] = UNSET
-    conditional: Union[Unset, ConditionalClose] = UNSET
-    display_qty: Union[Unset, float] = UNSET
-    fee_preference: Union[Unset, str] = UNSET
-    stp_type: Union[Unset, str] = UNSET
-    cash_order_qty: Union[Unset, float] = UNSET
-    validate: Union[Unset, bool] = UNSET
+    limit_price: Unset | float = UNSET
+    limit_price_type: Unset | str = UNSET
+    triggers: Unset | OrderTrigger = UNSET
+    time_in_force: Unset | str = UNSET
+    margin: Unset | bool = UNSET
+    post_only: Unset | bool = UNSET
+    reduce_only: Unset | bool = UNSET
+    effective_time: Unset | str = UNSET
+    expire_time: Unset | str = UNSET
+    deadline: Unset | str = UNSET
+    cl_ord_id: Unset | str = UNSET
+    order_userref: Unset | int = UNSET
+    conditional: Unset | ConditionalClose = UNSET
+    display_qty: Unset | float = UNSET
+    fee_preference: Unset | str = UNSET
+    stp_type: Unset | str = UNSET
+    cash_order_qty: Unset | float = UNSET
+    validate: Unset | bool = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "symbol": self.symbol,
             "side": self.side,
             "order_type": self.order_type,
@@ -182,14 +182,14 @@ class AddOrderParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         triggers_raw = d.pop("triggers", UNSET)
-        triggers: Union[Unset, OrderTrigger] = UNSET
+        triggers: Unset | OrderTrigger = UNSET
         if not isinstance(triggers_raw, Unset):
             triggers = OrderTrigger.from_dict(triggers_raw)
         conditional_raw = d.pop("conditional", UNSET)
-        conditional: Union[Unset, ConditionalClose] = UNSET
+        conditional: Unset | ConditionalClose = UNSET
         if not isinstance(conditional_raw, Unset):
             conditional = ConditionalClose.from_dict(conditional_raw)
         return cls(
@@ -244,19 +244,19 @@ class EditOrderParams:
     order_id: str
     symbol: str
     token: str
-    order_qty: Union[Unset, float] = UNSET
-    limit_price: Union[Unset, float] = UNSET
-    display_qty: Union[Unset, float] = UNSET
-    post_only: Union[Unset, bool] = UNSET
-    reduce_only: Union[Unset, bool] = UNSET
-    deadline: Union[Unset, str] = UNSET
-    fee_preference: Union[Unset, str] = UNSET
-    order_userref: Union[Unset, int] = UNSET
-    validate: Union[Unset, bool] = UNSET
-    triggers: Union[Unset, OrderTrigger] = UNSET
+    order_qty: Unset | float = UNSET
+    limit_price: Unset | float = UNSET
+    display_qty: Unset | float = UNSET
+    post_only: Unset | bool = UNSET
+    reduce_only: Unset | bool = UNSET
+    deadline: Unset | str = UNSET
+    fee_preference: Unset | str = UNSET
+    order_userref: Unset | int = UNSET
+    validate: Unset | bool = UNSET
+    triggers: Unset | OrderTrigger = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "order_id": self.order_id,
             "symbol": self.symbol,
             "token": self.token,
@@ -284,10 +284,10 @@ class EditOrderParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         triggers_raw = d.pop("triggers", UNSET)
-        triggers: Union[Unset, OrderTrigger] = UNSET
+        triggers: Unset | OrderTrigger = UNSET
         if not isinstance(triggers_raw, Unset):
             triggers = OrderTrigger.from_dict(triggers_raw)
         return cls(
@@ -320,11 +320,11 @@ class CancelOrderParams:
     """
 
     token: str
-    order_id: Union[Unset, List[str]] = UNSET
-    cl_ord_id: Union[Unset, List[str]] = UNSET
+    order_id: Unset | list[str] = UNSET
+    cl_ord_id: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"token": self.token}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"token": self.token}
         if not isinstance(self.order_id, Unset):
             field_dict["order_id"] = self.order_id
         if not isinstance(self.cl_ord_id, Unset):
@@ -332,7 +332,7 @@ class CancelOrderParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             token=d.pop("token"),
@@ -351,11 +351,11 @@ class CancelAllParams:
 
     token: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {"token": self.token}
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(token=d.pop("token"))
 
@@ -374,12 +374,12 @@ class BatchAddParams:
 
     symbol: str
     token: str
-    orders: List[AddOrderParams] = _attrs_field(factory=list)
-    deadline: Union[Unset, str] = UNSET
-    validate: Union[Unset, bool] = UNSET
+    orders: list[AddOrderParams] = _attrs_field(factory=list)
+    deadline: Unset | str = UNSET
+    validate: Unset | bool = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "symbol": self.symbol,
             "token": self.token,
             "orders": [o.to_dict() for o in self.orders],
@@ -391,7 +391,7 @@ class BatchAddParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         orders = [AddOrderParams.from_dict(o) for o in d.pop("orders", [])]
         return cls(
@@ -414,11 +414,11 @@ class BatchCancelParams:
     """
 
     token: str
-    orders: List[str] = _attrs_field(factory=list)
-    cl_ord_id: Union[Unset, List[str]] = UNSET
+    orders: list[str] = _attrs_field(factory=list)
+    cl_ord_id: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "token": self.token,
             "orders": self.orders,
         }
@@ -427,7 +427,7 @@ class BatchCancelParams:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             token=d.pop("token"),
@@ -453,12 +453,12 @@ class AddOrderResult:
     """
 
     order_id: str
-    cl_ord_id: Union[Unset, str] = UNSET
-    order_userref: Union[Unset, int] = UNSET
-    warnings: Union[Unset, List[str]] = UNSET
+    cl_ord_id: Unset | str = UNSET
+    order_userref: Unset | int = UNSET
+    warnings: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"order_id": self.order_id}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"order_id": self.order_id}
         if not isinstance(self.cl_ord_id, Unset):
             field_dict["cl_ord_id"] = self.cl_ord_id
         if not isinstance(self.order_userref, Unset):
@@ -468,7 +468,7 @@ class AddOrderResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             order_id=d.pop("order_id"),
@@ -492,10 +492,10 @@ class EditOrderResult:
 
     order_id: str
     original_order_id: str
-    warnings: Union[Unset, List[str]] = UNSET
+    warnings: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
             "order_id": self.order_id,
             "original_order_id": self.original_order_id,
         }
@@ -504,7 +504,7 @@ class EditOrderResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             order_id=d.pop("order_id"),
@@ -524,11 +524,11 @@ class CancelOrderResult:
     """
 
     order_id: str
-    cl_ord_id: Union[Unset, str] = UNSET
-    warnings: Union[Unset, List[str]] = UNSET
+    cl_ord_id: Unset | str = UNSET
+    warnings: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"order_id": self.order_id}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"order_id": self.order_id}
         if not isinstance(self.cl_ord_id, Unset):
             field_dict["cl_ord_id"] = self.cl_ord_id
         if not isinstance(self.warnings, Unset):
@@ -536,7 +536,7 @@ class CancelOrderResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             order_id=d.pop("order_id"),
@@ -555,16 +555,16 @@ class CancelAllResult:
     """
 
     count: int
-    warnings: Union[Unset, List[str]] = UNSET
+    warnings: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"count": self.count}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"count": self.count}
         if not isinstance(self.warnings, Unset):
             field_dict["warnings"] = self.warnings
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             count=d.pop("count"),
@@ -580,13 +580,13 @@ class BatchAddResult:
         orders: List of individual order results.
     """
 
-    orders: List[AddOrderResult] = _attrs_field(factory=list)
+    orders: list[AddOrderResult] = _attrs_field(factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {"orders": [o.to_dict() for o in self.orders]}
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         orders = [AddOrderResult.from_dict(o) for o in d.pop("orders", [])]
         return cls(orders=orders)
@@ -602,16 +602,16 @@ class BatchCancelResult:
     """
 
     count: int
-    warnings: Union[Unset, List[str]] = UNSET
+    warnings: Unset | list[str] = UNSET
 
-    def to_dict(self) -> Dict[str, Any]:
-        field_dict: Dict[str, Any] = {"count": self.count}
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {"count": self.count}
         if not isinstance(self.warnings, Unset):
             field_dict["warnings"] = self.warnings
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         return cls(
             count=d.pop("count"),
