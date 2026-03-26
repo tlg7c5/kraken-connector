@@ -32,8 +32,27 @@ from .subscriptions import (
     _make_sub_key,
 )
 from .token import TokenManager
+from .trading import (
+    AddOrderParams,
+    AmendOrderParams,
+    BatchAddParams,
+    BatchCancelParams,
+    CancelAllOrdersAfterParams,
+    CancelAllParams,
+    CancelOrderParams,
+    EditOrderParams,
+)
 
 _logger = logging.getLogger("kraken_connector.ws")
+
+
+class TradingError(Exception):
+    """Raised when a trading method request is rejected by the server."""
+
+    def __init__(self, error: str, req_id: int | None = None) -> None:
+        self.error = error
+        self.req_id = req_id
+        super().__init__(error)
 
 
 class KrakenWSClient:
@@ -296,6 +315,129 @@ class KrakenWSClient:
 
         self._subscriptions.pop(key, None)
         return response
+
+    # ------------------------------------------------------------------
+    # Trading methods
+    # ------------------------------------------------------------------
+
+    async def _send_trading_request(
+        self, method: str, params: dict[str, Any]
+    ) -> WSResponse:
+        """Send a trading request with req_id correlation.
+
+        Auto-injects token from TokenManager if available and not
+        already present in params.
+
+        Args:
+            method: Trading method name (e.g. "add_order").
+            params: Serialized method parameters.
+
+        Returns:
+            The server's success response.
+
+        Raises:
+            TradingError: If the server rejects the request.
+            asyncio.TimeoutError: If no response within request_timeout.
+            RuntimeError: If not connected.
+        """
+        if self._state != ConnectionState.CONNECTED or self._ws is None:
+            raise RuntimeError(f"Cannot send {method}: state is {self._state.value}")
+
+        if self._token_manager is not None and "token" not in params:
+            params["token"] = await self._token_manager.get_token()
+
+        self._sub_req_counter += 1
+        req_id = self._sub_req_counter
+
+        future: asyncio.Future[
+            WSResponse | WSErrorResponse
+        ] = asyncio.get_event_loop().create_future()
+        self._pending_requests[req_id] = future
+
+        request = WSRequest(method=method, params=params, req_id=req_id)
+        await self._ws.send(json.dumps(request.to_dict()))
+
+        try:
+            response = await asyncio.wait_for(future, timeout=self.request_timeout)
+        except asyncio.TimeoutError:
+            self._pending_requests.pop(req_id, None)
+            raise
+
+        if isinstance(response, WSErrorResponse):
+            raise TradingError(response.error, req_id=req_id)
+
+        return response
+
+    async def add_order(self, params: AddOrderParams) -> WSResponse:
+        """Place a single order.
+
+        Raises:
+            TradingError: If the server rejects the order.
+        """
+        return await self._send_trading_request("add_order", params.to_dict())
+
+    async def amend_order(self, params: AmendOrderParams) -> WSResponse:
+        """Amend an order in-place (preserves queue priority).
+
+        Raises:
+            TradingError: If the server rejects the amendment.
+        """
+        return await self._send_trading_request("amend_order", params.to_dict())
+
+    async def edit_order(self, params: EditOrderParams) -> WSResponse:
+        """Edit an order (cancel-and-replace, new order_id).
+
+        Raises:
+            TradingError: If the server rejects the edit.
+        """
+        return await self._send_trading_request("edit_order", params.to_dict())
+
+    async def cancel_order(self, params: CancelOrderParams) -> WSResponse:
+        """Cancel one or more orders.
+
+        Raises:
+            TradingError: If the server rejects the cancellation.
+        """
+        return await self._send_trading_request("cancel_order", params.to_dict())
+
+    async def cancel_all(self, params: CancelAllParams) -> WSResponse:
+        """Cancel all open orders.
+
+        Raises:
+            TradingError: If the server rejects the request.
+        """
+        return await self._send_trading_request("cancel_all", params.to_dict())
+
+    async def cancel_all_orders_after(
+        self, params: CancelAllOrdersAfterParams
+    ) -> WSResponse:
+        """Set/refresh/disable the dead man's switch.
+
+        Send timeout > 0 to set or refresh the timer.
+        Send timeout = 0 to disable it.
+
+        Raises:
+            TradingError: If the server rejects the request.
+        """
+        return await self._send_trading_request(
+            "cancel_all_orders_after", params.to_dict()
+        )
+
+    async def batch_add(self, params: BatchAddParams) -> WSResponse:
+        """Place 2-15 orders on a single pair.
+
+        Raises:
+            TradingError: If the server rejects the batch.
+        """
+        return await self._send_trading_request("batch_add", params.to_dict())
+
+    async def batch_cancel(self, params: BatchCancelParams) -> WSResponse:
+        """Cancel 2-50 orders.
+
+        Raises:
+            TradingError: If the server rejects the batch.
+        """
+        return await self._send_trading_request("batch_cancel", params.to_dict())
 
     async def __aenter__(self) -> "KrakenWSClient":
         await self.connect()

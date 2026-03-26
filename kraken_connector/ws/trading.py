@@ -404,6 +404,76 @@ class BatchAddParams:
 
 
 @_attrs_define
+class AmendOrderParams:
+    """Parameters for the amend_order trading method.
+
+    Amend modifies an order in-place — same order_id, preserves queue priority.
+
+    Attributes:
+        order_id: Order to amend.
+        token: Authentication token.
+        order_qty: New order quantity.
+        limit_price: New limit price.
+        display_qty: New display quantity (iceberg).
+        post_only: New post-only flag.
+        reduce_only: New reduce-only flag.
+        deadline: Response deadline (RFC3339).
+        trigger_price: New trigger price.
+        trigger_price_type: Price interpretation ("static", "pct", "quote").
+    """
+
+    order_id: str
+    token: str
+    order_qty: Unset | float = UNSET
+    limit_price: Unset | float = UNSET
+    display_qty: Unset | float = UNSET
+    post_only: Unset | bool = UNSET
+    reduce_only: Unset | bool = UNSET
+    deadline: Unset | str = UNSET
+    trigger_price: Unset | float = UNSET
+    trigger_price_type: Unset | str = UNSET
+
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
+            "order_id": self.order_id,
+            "token": self.token,
+        }
+        if not isinstance(self.order_qty, Unset):
+            field_dict["order_qty"] = self.order_qty
+        if not isinstance(self.limit_price, Unset):
+            field_dict["limit_price"] = self.limit_price
+        if not isinstance(self.display_qty, Unset):
+            field_dict["display_qty"] = self.display_qty
+        if not isinstance(self.post_only, Unset):
+            field_dict["post_only"] = self.post_only
+        if not isinstance(self.reduce_only, Unset):
+            field_dict["reduce_only"] = self.reduce_only
+        if not isinstance(self.deadline, Unset):
+            field_dict["deadline"] = self.deadline
+        if not isinstance(self.trigger_price, Unset):
+            field_dict["trigger_price"] = self.trigger_price
+        if not isinstance(self.trigger_price_type, Unset):
+            field_dict["trigger_price_type"] = self.trigger_price_type
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
+        d = src_dict.copy()
+        return cls(
+            order_id=d.pop("order_id"),
+            token=d.pop("token"),
+            order_qty=d.pop("order_qty", UNSET),
+            limit_price=d.pop("limit_price", UNSET),
+            display_qty=d.pop("display_qty", UNSET),
+            post_only=d.pop("post_only", UNSET),
+            reduce_only=d.pop("reduce_only", UNSET),
+            deadline=d.pop("deadline", UNSET),
+            trigger_price=d.pop("trigger_price", UNSET),
+            trigger_price_type=d.pop("trigger_price_type", UNSET),
+        )
+
+
+@_attrs_define
 class BatchCancelParams:
     """Parameters for the batch_cancel trading method.
 
@@ -434,6 +504,30 @@ class BatchCancelParams:
             orders=d.pop("orders", []),
             cl_ord_id=d.pop("cl_ord_id", UNSET),
         )
+
+
+@_attrs_define
+class CancelAllOrdersAfterParams:
+    """Parameters for the cancel_all_orders_after trading method.
+
+    Dead man's switch — auto-cancel all orders after timeout expires
+    without being refreshed. Send timeout=0 to disable.
+
+    Attributes:
+        token: Authentication token.
+        timeout: Seconds until auto-cancel. 0 disables the timer.
+    """
+
+    token: str
+    timeout: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"token": self.token, "timeout": self.timeout}
+
+    @classmethod
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
+        d = src_dict.copy()
+        return cls(token=d.pop("token"), timeout=d.pop("timeout"))
 
 
 # ---------------------------------------------------------------------------
@@ -593,6 +687,41 @@ class BatchAddResult:
 
 
 @_attrs_define
+class AmendOrderResult:
+    """Result from a successful amend_order response.
+
+    Amend preserves the original order_id and queue priority.
+
+    Attributes:
+        order_id: The amended order identifier (unchanged).
+        amend_id: Unique identifier for this amend operation.
+        warnings: List of warning messages.
+    """
+
+    order_id: str
+    amend_id: str
+    warnings: Unset | list[str] = UNSET
+
+    def to_dict(self) -> dict[str, Any]:
+        field_dict: dict[str, Any] = {
+            "order_id": self.order_id,
+            "amend_id": self.amend_id,
+        }
+        if not isinstance(self.warnings, Unset):
+            field_dict["warnings"] = self.warnings
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
+        d = src_dict.copy()
+        return cls(
+            order_id=d.pop("order_id"),
+            amend_id=d.pop("amend_id"),
+            warnings=d.pop("warnings", UNSET),
+        )
+
+
+@_attrs_define
 class BatchCancelResult:
     """Result from a successful batch_cancel response.
 
@@ -616,4 +745,31 @@ class BatchCancelResult:
         return cls(
             count=d.pop("count"),
             warnings=d.pop("warnings", UNSET),
+        )
+
+
+@_attrs_define
+class CancelAllOrdersAfterResult:
+    """Result from a successful cancel_all_orders_after response.
+
+    Attributes:
+        current_time: Server time when the request was processed (RFC3339).
+        trigger_time: When orders will be cancelled if not refreshed (RFC3339).
+    """
+
+    current_time: str
+    trigger_time: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "currentTime": self.current_time,
+            "triggerTime": self.trigger_time,
+        }
+
+    @classmethod
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
+        d = src_dict.copy()
+        return cls(
+            current_time=d.pop("currentTime"),
+            trigger_time=d.pop("triggerTime"),
         )

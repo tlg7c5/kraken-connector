@@ -199,6 +199,36 @@ def book_update_json(
     )
 
 
+def trading_response_json(
+    req_id: int,
+    method: str = "add_order",
+    result: dict[str, Any] | None = None,
+    success: bool = True,
+    error: str | None = None,
+) -> str:
+    if success:
+        return json.dumps(
+            {
+                "method": method,
+                "result": result or {},
+                "success": True,
+                "time_in": "2024-01-01T00:00:00Z",
+                "time_out": "2024-01-01T00:00:00Z",
+                "req_id": req_id,
+            }
+        )
+    return json.dumps(
+        {
+            "method": method,
+            "error": error or "Order rejected",
+            "success": False,
+            "time_in": "2024-01-01T00:00:00Z",
+            "time_out": "2024-01-01T00:00:00Z",
+            "req_id": req_id,
+        }
+    )
+
+
 def balances_snapshot_json(sequence: int = 1) -> str:
     return json.dumps(
         {

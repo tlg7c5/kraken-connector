@@ -17,7 +17,7 @@ from .channels import (
     TickerData,
     TradeData,
 )
-from .client import KrakenWSClient
+from .client import KrakenWSClient, TradingError
 from .constants import (
     ChannelName,
     ConnectionState,
@@ -63,10 +63,14 @@ from .token import TokenAcquisitionError, TokenManager
 from .trading import (
     AddOrderParams,
     AddOrderResult,
+    AmendOrderParams,
+    AmendOrderResult,
     BatchAddParams,
     BatchAddResult,
     BatchCancelParams,
     BatchCancelResult,
+    CancelAllOrdersAfterParams,
+    CancelAllOrdersAfterResult,
     CancelAllParams,
     CancelAllResult,
     CancelOrderParams,
@@ -85,6 +89,7 @@ __all__ = [
     "OrderBookManager",
     # Client
     "KrakenWSClient",
+    "TradingError",
     # Channel data
     "BalanceLedgerUpdate",
     "BalanceSnapshot",
@@ -148,10 +153,14 @@ __all__ = [
     # Trading
     "AddOrderParams",
     "AddOrderResult",
+    "AmendOrderParams",
+    "AmendOrderResult",
     "BatchAddParams",
     "BatchAddResult",
     "BatchCancelParams",
     "BatchCancelResult",
+    "CancelAllOrdersAfterParams",
+    "CancelAllOrdersAfterResult",
     "CancelAllParams",
     "CancelAllResult",
     "CancelOrderParams",
