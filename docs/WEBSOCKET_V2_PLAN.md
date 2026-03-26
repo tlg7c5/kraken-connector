@@ -12,6 +12,43 @@ Build a new WebSocket v2 client for the Kraken exchange API, targeting async-fir
 
 ---
 
+## Coverage Matrix
+
+Audit of all Kraken WS v2 features against current implementation status.
+
+### Methods (request/response)
+
+| Method                    | Kraken WS v2 |                   Model                   |     Client Method      | Phase |   Status    |
+| ------------------------- | :----------: | :---------------------------------------: | :--------------------: | :---: | :---------: |
+| `ping` / `pong`           |     Yes      |      `PingRequest` / `PongResponse`       |       Automatic        |   2   |    Done     |
+| `subscribe`               |     Yes      |                `WSRequest`                |  `client.subscribe()`  |   3   |    Done     |
+| `unsubscribe`             |     Yes      |                `WSRequest`                | `client.unsubscribe()` |   3   |    Done     |
+| `add_order`               |     Yes      |    `AddOrderParams` / `AddOrderResult`    |           —            |   6   | Model only  |
+| `amend_order`             |     Yes      |                     —                     |           —            |   6   | Not started |
+| `edit_order`              |     Yes      |   `EditOrderParams` / `EditOrderResult`   |           —            |   6   | Model only  |
+| `cancel_order`            |     Yes      | `CancelOrderParams` / `CancelOrderResult` |           —            |   6   | Model only  |
+| `cancel_all`              |     Yes      |   `CancelAllParams` / `CancelAllResult`   |           —            |   6   | Model only  |
+| `cancel_all_orders_after` |     Yes      |                     —                     |           —            |   6   | Not started |
+| `batch_add`               |     Yes      |    `BatchAddParams` / `BatchAddResult`    |           —            |   6   | Model only  |
+| `batch_cancel`            |     Yes      | `BatchCancelParams` / `BatchCancelResult` |           —            |   6   | Model only  |
+
+### Channels (subscription data feeds)
+
+| Channel      | Kraken WS v2 |          Model           |    Subscribable    | Phase |   Status   |
+| ------------ | :----------: | :----------------------: | :----------------: | :---: | :--------: |
+| `ticker`     |     Yes      |       `TickerData`       |        Yes         |  1/3  |    Done    |
+| `book`       |     Yes      | `BookData` / `BookLevel` |        Yes         |  1/3  |    Done    |
+| `trade`      |     Yes      |       `TradeData`        |        Yes         |  1/3  |    Done    |
+| `ohlc`       |     Yes      |        `OHLCData`        |        Yes         |  1/3  |    Done    |
+| `instrument` |     Yes      |     `InstrumentData`     |        Yes         |  1/3  |    Done    |
+| `executions` |     Yes      |     `ExecutionData`      |    Params only     |   4   | Model only |
+| `balances`   |     Yes      |    `BalanceSnapshot`     |    Params only     |   4   | Model only |
+| `heartbeat`  |     Auto     |    `HeartbeatMessage`    |  Auto (filtered)   |   2   |    Done    |
+| `status`     |     Auto     |       `StatusData`       | Auto (intercepted) |   2   |    Done    |
+| `level3`     |     Yes      |            —             |         —          |   —   |  Deferred  |
+
+---
+
 ## Design Principles
 
 1. **Async-first.** The WebSocket protocol is inherently async. Sync wrappers are out of scope for the initial build — callers run in an asyncio event loop.
@@ -117,14 +154,16 @@ Conventions:
 
 ### Trading Methods (on `wss://ws-auth.kraken.com/v2`)
 
-| Method         | Description                                        |
-| -------------- | -------------------------------------------------- |
-| `add_order`    | Place single order                                 |
-| `edit_order`   | Amend (cancel-and-replace, returns new `order_id`) |
-| `cancel_order` | Cancel one or more orders                          |
-| `cancel_all`   | Cancel all open orders                             |
-| `batch_add`    | Place 2–15 orders on one pair                      |
-| `batch_cancel` | Cancel 2–50 orders                                 |
+| Method                    | Description                                                           |
+| ------------------------- | --------------------------------------------------------------------- |
+| `add_order`               | Place single order                                                    |
+| `amend_order`             | In-place order modification (preserves queue priority, same order_id) |
+| `edit_order`              | Cancel-and-replace (new `order_id`, broader field support)            |
+| `cancel_order`            | Cancel one or more orders                                             |
+| `cancel_all`              | Cancel all open orders                                                |
+| `cancel_all_orders_after` | Dead man's switch — auto-cancel all orders after timeout (in seconds) |
+| `batch_add`               | Place 2–15 orders on one pair                                         |
+| `batch_cancel`            | Cancel 2–50 orders                                                    |
 
 All require `token` in params.
 
@@ -161,7 +200,9 @@ Trading rate limits are shared across REST, WebSocket, and FIX. Per-pair token b
 
 - **Book checksum:** CRC32 over top 10 price levels. Must parse prices/quantities with `Decimal` to avoid float precision drift. Algorithm: for each of top 10 asks (ascending) then top 10 bids (descending), strip decimal point and leading zeros from price and qty, concatenate all into one string, CRC32.
 - **Sequence numbers:** `executions` and `balances` include `sequence` integer. Gaps mean missed messages — must reconnect and re-snapshot.
+- **Amend order vs edit order:** `amend_order` modifies an order in-place (same `order_id`, preserves queue priority). `edit_order` is cancel-and-replace (new `order_id`). `amend_order` is preferred when applicable; `edit_order` covers cases amend cannot (e.g., changing order type). Both return `original_order_id` in the response.
 - **Edit order:** Cancel-and-replace semantics. Response includes `original_order_id`. Triggered stop/take-profit and conditional-close orders cannot be edited.
+- **Dead man's switch (`cancel_all_orders_after`):** Client sends a timeout (in seconds). Server auto-cancels all orders if the timeout expires without being refreshed. Sending `timeout=0` disables the timer. Response includes `currentTime` and `triggerTime`. The bot should call this periodically (e.g., every 15–30s with a 60s timeout) as a safety net against connectivity loss or crashes.
 - **Batch validation:** Entire batch validated before submission. One validation failure rejects the batch. Post-submission, individual failures don't reject remaining orders.
 - **Instrument status:** Pair status transitions are pushed as updates. Client should honor status to avoid order rejections.
 
@@ -179,7 +220,7 @@ Each phase produces a working, tested, committed increment. Later phases build o
 
 - Request/response envelopes (subscribe, unsubscribe, ping/pong, error)
 - Channel data models: ticker, book, trade, ohlc, instrument, level3, executions, balances, heartbeat, status
-- Trading method request/response models: add_order, edit_order, cancel_order, cancel_all, batch_add, batch_cancel
+- Trading method request/response models: add_order, amend_order, edit_order, cancel_order, cancel_all, cancel_all_orders_after, batch_add, batch_cancel
 - `to_dict()` / `from_dict()` serialization on all models
 - Message routing: parse raw JSON → typed model (dispatcher/factory)
 
@@ -265,19 +306,34 @@ Each phase produces a working, tested, committed increment. Later phases build o
 
 ### Phase 6 — Trading Methods
 
-**Goal:** Place, edit, and cancel orders over WebSocket.
+**Goal:** Place, edit, and cancel orders over WebSocket. Includes dead man's switch for safety.
 
 **Scope:**
 
-- `add_order`, `edit_order`, `cancel_order`, `cancel_all` methods on the client
+- `add_order`, `amend_order`, `edit_order`, `cancel_order`, `cancel_all` methods on the client
+- `cancel_all_orders_after` (dead man's switch) — set/refresh/disable auto-cancel timer
 - `batch_add`, `batch_cancel` methods
+- Models for `amend_order` (params + result) and `cancel_all_orders_after` (params + result) — these were not modeled in Phase 1
 - `req_id` correlation for trading responses (async: return awaitable that resolves on server response)
 - Error handling for order rejections
 - Integration with existing `RateLimiter` (caller-controlled, same pattern as REST)
 
+**Methods (8 total):**
+
+| Method                    |   Model Status    | Notes                                           |
+| ------------------------- | :---------------: | ----------------------------------------------- |
+| `add_order`               |      Phase 1      | —                                               |
+| `amend_order`             | **Phase 6 (new)** | In-place modification, preserves queue priority |
+| `edit_order`              |      Phase 1      | Cancel-and-replace                              |
+| `cancel_order`            |      Phase 1      | —                                               |
+| `cancel_all`              |      Phase 1      | —                                               |
+| `cancel_all_orders_after` | **Phase 6 (new)** | Dead man's switch, safety-critical              |
+| `batch_add`               |      Phase 1      | —                                               |
+| `batch_cancel`            |      Phase 1      | —                                               |
+
 **Not in scope:** Order state management, position tracking (caller responsibility).
 
-**Testing:** Mock WS connection. Test request serialization, response correlation, error handling, batch validation rejection.
+**Testing:** Mock WS connection. Test request serialization, response correlation, error handling, batch validation rejection, dead man's switch set/refresh/disable lifecycle.
 
 ---
 
@@ -325,7 +381,7 @@ Phases 5 and 6 are independent of each other and can be built in either order. P
 ## Out of Scope (Initial Build)
 
 - Sync WebSocket API (async only)
-- Level 3 book support (design for extensibility, build later)
+- `level3` channel (design for extensibility, build later — requires special Kraken access)
 - Automatic order management / position tracking
 - Multi-connection load balancing
 - FIX protocol support

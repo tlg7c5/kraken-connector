@@ -38,9 +38,11 @@ class MethodName(StrEnum):
     PING = "ping"
     PONG = "pong"
     ADD_ORDER = "add_order"
+    AMEND_ORDER = "amend_order"
     EDIT_ORDER = "edit_order"
     CANCEL_ORDER = "cancel_order"
     CANCEL_ALL = "cancel_all"
+    CANCEL_ALL_ORDERS_AFTER = "cancel_all_orders_after"
     BATCH_ADD = "batch_add"
     BATCH_CANCEL = "batch_cancel"
 
