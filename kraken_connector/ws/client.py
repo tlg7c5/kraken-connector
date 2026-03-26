@@ -9,11 +9,25 @@ from typing import Any
 import websockets
 from websockets.exceptions import ConnectionClosed
 
+from ..types import Unset
 from .channels.heartbeat import HeartbeatMessage
 from .channels.status import StatusData
 from .constants import ConnectionState
 from .dispatcher import WSMessage, parse_message
-from .envelopes import PingRequest, PongResponse, WSDataMessage, WSRequest
+from .envelopes import (
+    PingRequest,
+    PongResponse,
+    WSDataMessage,
+    WSErrorResponse,
+    WSRequest,
+    WSResponse,
+)
+from .subscriptions import (
+    SubscriptionEntry,
+    SubscriptionError,
+    SubscriptionParams,
+    _make_sub_key,
+)
 
 _logger = logging.getLogger("kraken_connector.ws")
 
@@ -49,6 +63,7 @@ class KrakenWSClient:
         backoff_base: float = 0.5,
         backoff_max: float = 30.0,
         max_reconnect_attempts: int = 10,
+        request_timeout: float = 10.0,
     ) -> None:
         self.url = url
         self.ping_interval = ping_interval
@@ -57,6 +72,7 @@ class KrakenWSClient:
         self.backoff_base = backoff_base
         self.backoff_max = backoff_max
         self.max_reconnect_attempts = max_reconnect_attempts
+        self.request_timeout = request_timeout
 
         self._state = ConnectionState.DISCONNECTED
         self._ws: Any | None = None
@@ -69,6 +85,13 @@ class KrakenWSClient:
         self._stop_event: asyncio.Event = asyncio.Event()
         self._message_queue: asyncio.Queue[WSMessage] = asyncio.Queue()
         self._tasks: list[asyncio.Task[None]] = []
+
+        # Subscription tracking
+        self._sub_req_counter: int = 1_000_000
+        self._subscriptions: dict[tuple[tuple[str, Any], ...], SubscriptionEntry] = {}
+        self._pending_requests: dict[
+            int, asyncio.Future[WSResponse | WSErrorResponse]
+        ] = {}
 
     @property
     def state(self) -> ConnectionState:
@@ -84,6 +107,13 @@ class KrakenWSClient:
     def connection_id(self) -> int | None:
         """Connection ID from the status channel."""
         return self._connection_id
+
+    @property
+    def subscriptions(
+        self,
+    ) -> dict[tuple[tuple[str, Any], ...], SubscriptionEntry]:
+        """Currently tracked subscriptions (read-only copy)."""
+        return dict(self._subscriptions)
 
     async def connect(self) -> None:
         """Open the WebSocket connection and start background tasks.
@@ -113,6 +143,7 @@ class KrakenWSClient:
         """Cleanly shut down the connection and background tasks."""
         self._stop_event.set()
         self._cancel_tasks()
+        self._fail_pending_requests("disconnected")
 
         if self._ws is not None:
             with contextlib.suppress(Exception):
@@ -142,6 +173,103 @@ class KrakenWSClient:
         Blocks until a message is available.
         """
         return await self._message_queue.get()
+
+    async def subscribe(self, params: SubscriptionParams) -> WSResponse:
+        """Subscribe to a channel.
+
+        Args:
+            params: Typed subscription parameters.
+
+        Returns:
+            The server's success response.
+
+        Raises:
+            SubscriptionError: If the server rejects the subscription.
+            asyncio.TimeoutError: If no response within request_timeout.
+            RuntimeError: If not connected.
+        """
+        if self._state != ConnectionState.CONNECTED or self._ws is None:
+            raise RuntimeError(f"Cannot subscribe: state is {self._state.value}")
+
+        self._sub_req_counter += 1
+        req_id = self._sub_req_counter
+
+        future: asyncio.Future[
+            WSResponse | WSErrorResponse
+        ] = asyncio.get_event_loop().create_future()
+        self._pending_requests[req_id] = future
+
+        request = WSRequest(
+            method="subscribe",
+            params=params.to_dict(),
+            req_id=req_id,
+        )
+        await self._ws.send(json.dumps(request.to_dict()))
+
+        try:
+            response = await asyncio.wait_for(future, timeout=self.request_timeout)
+        except asyncio.TimeoutError:
+            self._pending_requests.pop(req_id, None)
+            raise
+
+        if isinstance(response, WSErrorResponse):
+            raise SubscriptionError(response.error, req_id=req_id)
+
+        # Track the subscription.
+        key = _make_sub_key(params)
+        self._subscriptions[key] = SubscriptionEntry(
+            params=params, req_id=req_id, confirmed=True
+        )
+        return response
+
+    async def unsubscribe(self, params: SubscriptionParams) -> WSResponse:
+        """Unsubscribe from a channel.
+
+        Args:
+            params: Typed subscription parameters (must match a tracked sub).
+
+        Returns:
+            The server's success response.
+
+        Raises:
+            KeyError: If no matching subscription is tracked.
+            SubscriptionError: If the server rejects the unsubscribe.
+            asyncio.TimeoutError: If no response within request_timeout.
+            RuntimeError: If not connected.
+        """
+        if self._state != ConnectionState.CONNECTED or self._ws is None:
+            raise RuntimeError(f"Cannot unsubscribe: state is {self._state.value}")
+
+        key = _make_sub_key(params)
+        if key not in self._subscriptions:
+            raise KeyError(f"No tracked subscription for {params.channel}")
+
+        self._sub_req_counter += 1
+        req_id = self._sub_req_counter
+
+        future: asyncio.Future[
+            WSResponse | WSErrorResponse
+        ] = asyncio.get_event_loop().create_future()
+        self._pending_requests[req_id] = future
+
+        request = WSRequest(
+            method="unsubscribe",
+            params=params.to_dict(),
+            req_id=req_id,
+        )
+        await self._ws.send(json.dumps(request.to_dict()))
+
+        try:
+            response = await asyncio.wait_for(future, timeout=self.request_timeout)
+        except asyncio.TimeoutError:
+            self._pending_requests.pop(req_id, None)
+            raise
+
+        if isinstance(response, WSErrorResponse):
+            raise SubscriptionError(response.error, req_id=req_id)
+
+        self._subscriptions.pop(key, None)
+        return response
 
     async def __aenter__(self) -> "KrakenWSClient":
         await self.connect()
@@ -196,6 +324,18 @@ class KrakenWSClient:
                 # Don't enqueue heartbeats — they're transport-level.
                 if isinstance(msg, HeartbeatMessage):
                     continue
+
+                # Correlate subscribe/unsubscribe responses by req_id.
+                if isinstance(msg, (WSResponse, WSErrorResponse)):
+                    req_id = msg.req_id
+                    if (
+                        not isinstance(req_id, Unset)
+                        and req_id in self._pending_requests
+                    ):
+                        future = self._pending_requests.pop(req_id)
+                        if not future.done():
+                            future.set_result(msg)
+                        continue
 
                 await self._message_queue.put(msg)
 
@@ -286,6 +426,7 @@ class KrakenWSClient:
     async def _reconnect(self) -> None:
         """Attempt to reconnect with exponential backoff."""
         self._state = ConnectionState.RECONNECTING
+        self._fail_pending_requests("reconnecting")
 
         if self._ws is not None:
             with contextlib.suppress(Exception):
@@ -317,6 +458,7 @@ class KrakenWSClient:
                 self._reconnect_attempt = 0
                 self._start_tasks()
                 _logger.info("Reconnected successfully")
+                asyncio.create_task(self._resubscribe_all())
                 return
             except Exception as exc:
                 _logger.warning(
@@ -330,6 +472,39 @@ class KrakenWSClient:
         _logger.error(
             "Max reconnect attempts (%d) reached", self.max_reconnect_attempts
         )
+
+    # ------------------------------------------------------------------
+    # Pending request management
+    # ------------------------------------------------------------------
+
+    def _fail_pending_requests(self, reason: str) -> None:
+        """Reject all in-flight request futures with ConnectionError."""
+        for future in self._pending_requests.values():
+            if not future.done():
+                future.set_exception(ConnectionError(reason))
+        self._pending_requests.clear()
+
+    # ------------------------------------------------------------------
+    # Re-subscription
+    # ------------------------------------------------------------------
+
+    async def _resubscribe_all(self) -> None:
+        """Re-subscribe to all tracked subscriptions after reconnect."""
+        if not self._subscriptions:
+            return
+        _logger.info("Re-subscribing to %d channels", len(self._subscriptions))
+        entries = list(self._subscriptions.values())
+        for entry in entries:
+            entry.confirmed = False
+        for entry in entries:
+            try:
+                await self.subscribe(entry.params)
+            except (SubscriptionError, asyncio.TimeoutError) as exc:
+                _logger.error(
+                    "Re-subscribe failed for %s: %s", entry.params.channel, exc
+                )
+                key = _make_sub_key(entry.params)
+                self._subscriptions.pop(key, None)
 
     # ------------------------------------------------------------------
     # Status tracking

@@ -1,12 +1,9 @@
 """Tests for KrakenWSClient connection manager."""
 import asyncio
 import json
-from typing import Any
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from websockets.exceptions import ConnectionClosedOK
-from websockets.frames import Close
 
 from kraken_connector.ws import ConnectionState, KrakenWSClient
 from kraken_connector.ws.envelopes import (
@@ -14,106 +11,14 @@ from kraken_connector.ws.envelopes import (
     WSRequest,
 )
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-
-def _status_json(
-    system: str = "online",
-    connection_id: int = 123,
-    api_version: str = "v2",
-    version: str = "2.0.0",
-) -> str:
-    return json.dumps(
-        {
-            "channel": "status",
-            "type": "update",
-            "data": [
-                {
-                    "system": system,
-                    "api_version": api_version,
-                    "connection_id": connection_id,
-                    "version": version,
-                }
-            ],
-        }
-    )
-
-
-def _heartbeat_json() -> str:
-    return json.dumps({"channel": "heartbeat"})
-
-
-def _pong_json(req_id: int = 1) -> str:
-    return json.dumps(
-        {
-            "method": "pong",
-            "req_id": req_id,
-            "time_in": "2024-01-01T00:00:00Z",
-            "time_out": "2024-01-01T00:00:00Z",
-        }
-    )
-
-
-def _ticker_json() -> str:
-    return json.dumps(
-        {
-            "channel": "ticker",
-            "type": "snapshot",
-            "data": [
-                {
-                    "symbol": "BTC/USD",
-                    "bid": 50000.0,
-                    "bid_qty": 1.0,
-                    "ask": 50001.0,
-                    "ask_qty": 2.0,
-                    "last": 50000.5,
-                    "volume": 100.0,
-                    "vwap": 49999.0,
-                    "low": 49000.0,
-                    "high": 51000.0,
-                    "change": 500.0,
-                    "change_pct": 1.0,
-                    "timestamp": "2024-01-01T00:00:00Z",
-                }
-            ],
-        }
-    )
-
-
-class MockWebSocket:
-    """Mock WebSocket connection for testing."""
-
-    def __init__(self, messages: list[str] | None = None) -> None:
-        self._messages: list[str] = messages or []
-        self._index = 0
-        self.sent: list[str] = []
-        self.closed = False
-        self._close_after: int | None = None
-
-    async def recv(self) -> str:
-        if self.closed:
-            raise ConnectionClosedOK(Close(1000, "closed"), None)
-        if self._close_after is not None and self._index >= self._close_after:
-            self.closed = True
-            raise ConnectionClosedOK(Close(1000, "closed"), None)
-        if self._index < len(self._messages):
-            msg = self._messages[self._index]
-            self._index += 1
-            return msg
-        # Block until cancelled to simulate waiting for messages.
-        await asyncio.sleep(3600)
-        return ""  # unreachable
-
-    async def send(self, data: str) -> None:
-        if self.closed:
-            raise ConnectionClosedOK(Close(1000, "closed"), None)
-        self.sent.append(data)
-
-    async def close(self) -> None:
-        self.closed = True
-
+from .ws_helpers import (
+    MockWebSocket,
+    async_return,
+    heartbeat_json,
+    pong_json,
+    status_json,
+    ticker_json,
+)
 
 # ---------------------------------------------------------------------------
 # TestConfiguration
@@ -166,10 +71,10 @@ class TestConfiguration:
 class TestConnectionLifecycle:
     def test_connect_sets_state_to_connected(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_status_json(), _heartbeat_json()])
+            mock_ws = MockWebSocket([status_json(), heartbeat_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -181,10 +86,10 @@ class TestConnectionLifecycle:
 
     def test_disconnect_sets_state_to_disconnected(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_heartbeat_json()])
+            mock_ws = MockWebSocket([heartbeat_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -196,10 +101,10 @@ class TestConnectionLifecycle:
 
     def test_context_manager_connects_and_disconnects(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_heartbeat_json()])
+            mock_ws = MockWebSocket([heartbeat_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 async with KrakenWSClient(max_reconnect_attempts=0) as client:
                     assert client.state == ConnectionState.CONNECTED
@@ -209,10 +114,10 @@ class TestConnectionLifecycle:
 
     def test_connect_when_already_connected_raises(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_heartbeat_json()])
+            mock_ws = MockWebSocket([heartbeat_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -233,10 +138,10 @@ class TestConnectionLifecycle:
 
     def test_receive_returns_typed_message(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_ticker_json()])
+            mock_ws = MockWebSocket([ticker_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -251,10 +156,10 @@ class TestConnectionLifecycle:
 
     def test_send_serializes_request(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_heartbeat_json()])
+            mock_ws = MockWebSocket([heartbeat_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -283,10 +188,10 @@ class TestConnectionLifecycle:
 class TestHeartbeatMonitoring:
     def test_heartbeat_not_enqueued_to_consumer(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_heartbeat_json(), _ticker_json()])
+            mock_ws = MockWebSocket([heartbeat_json(), ticker_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -304,7 +209,7 @@ class TestHeartbeatMonitoring:
         async def _run() -> None:
             # Mock WS that just hangs (no messages).
             mock_ws = MockWebSocket([])
-            reconnect_ws = MockWebSocket([_heartbeat_json()])
+            reconnect_ws = MockWebSocket([heartbeat_json()])
 
             connect_mock = AsyncMock(side_effect=[mock_ws, reconnect_ws])
 
@@ -333,10 +238,10 @@ class TestHeartbeatMonitoring:
     def test_data_messages_prevent_heartbeat_timeout(self) -> None:
         async def _run() -> None:
             # Ticker messages keep arriving, preventing timeout.
-            mock_ws = MockWebSocket([_ticker_json(), _ticker_json(), _ticker_json()])
+            mock_ws = MockWebSocket([ticker_json(), ticker_json(), ticker_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(
                     heartbeat_timeout=2.0,
@@ -363,10 +268,10 @@ class TestHeartbeatMonitoring:
 class TestPingPong:
     def test_ping_sent_at_interval(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_heartbeat_json(), _pong_json(1)])
+            mock_ws = MockWebSocket([heartbeat_json(), pong_json(1)])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(
                     ping_interval=0.2,
@@ -389,10 +294,10 @@ class TestPingPong:
 
     def test_pong_not_enqueued_to_consumer(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_pong_json(1), _ticker_json()])
+            mock_ws = MockWebSocket([pong_json(1), ticker_json()])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -409,7 +314,7 @@ class TestPingPong:
     def test_ping_timeout_triggers_reconnect(self) -> None:
         async def _run() -> None:
             # WS that never sends a pong.
-            mock_ws = MockWebSocket([_heartbeat_json()])
+            mock_ws = MockWebSocket([heartbeat_json()])
             connect_mock = AsyncMock(side_effect=[mock_ws, MockWebSocket([])])
 
             with patch(
@@ -445,10 +350,10 @@ class TestReconnection:
     def test_reconnect_on_connection_closed(self) -> None:
         async def _run() -> None:
             # First WS closes after 1 message.
-            ws1 = MockWebSocket([_ticker_json()])
+            ws1 = MockWebSocket([ticker_json()])
             ws1._close_after = 1
 
-            ws2 = MockWebSocket([_ticker_json()])
+            ws2 = MockWebSocket([ticker_json()])
 
             connect_mock = AsyncMock(side_effect=[ws1, ws2])
             with patch(
@@ -550,7 +455,7 @@ class TestReconnection:
 
     def test_successful_reconnect_resets_attempt_counter(self) -> None:
         async def _run() -> None:
-            ws_new = MockWebSocket([_heartbeat_json()])
+            ws_new = MockWebSocket([heartbeat_json()])
 
             connect_mock = AsyncMock(
                 side_effect=[
@@ -586,10 +491,10 @@ class TestReconnection:
 class TestStatusTracking:
     def test_status_message_updates_system_status(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_status_json(system="online", connection_id=42)])
+            mock_ws = MockWebSocket([status_json(system="online", connection_id=42)])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -604,10 +509,10 @@ class TestStatusTracking:
 
     def test_status_message_updates_connection_id(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_status_json(system="online", connection_id=99)])
+            mock_ws = MockWebSocket([status_json(system="online", connection_id=99)])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -620,10 +525,10 @@ class TestStatusTracking:
 
     def test_status_message_still_enqueued_to_consumer(self) -> None:
         async def _run() -> None:
-            mock_ws = MockWebSocket([_status_json(system="online", connection_id=1)])
+            mock_ws = MockWebSocket([status_json(system="online", connection_id=1)])
             with patch(
                 "kraken_connector.ws.client.websockets.connect",
-                return_value=_async_return(mock_ws),
+                return_value=async_return(mock_ws),
             ):
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
@@ -635,15 +540,3 @@ class TestStatusTracking:
                 await client.disconnect()
 
         asyncio.run(_run())
-
-
-# ---------------------------------------------------------------------------
-# Helper for async mocking
-# ---------------------------------------------------------------------------
-
-
-def _async_return(value: Any) -> Any:
-    """Create an awaitable that returns value (for patching async functions)."""
-    future: asyncio.Future[Any] = asyncio.get_event_loop().create_future()
-    future.set_result(value)
-    return future

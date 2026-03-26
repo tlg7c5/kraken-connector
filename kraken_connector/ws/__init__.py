@@ -52,6 +52,11 @@ from .subscribe import (
     TickerParams,
     TradeParams,
 )
+from .subscriptions import (
+    SubscriptionEntry,
+    SubscriptionError,
+    SubscriptionParams,
+)
 from .trading import (
     AddOrderParams,
     AddOrderResult,
@@ -114,6 +119,10 @@ __all__ = [
     "WSErrorResponse",
     "WSRequest",
     "WSResponse",
+    # Subscription tracking
+    "SubscriptionEntry",
+    "SubscriptionError",
+    "SubscriptionParams",
     # Subscription params
     "BalancesParams",
     "BookParams",
