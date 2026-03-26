@@ -439,6 +439,10 @@ class KrakenWSClient:
         """
         return await self._send_trading_request("batch_cancel", params.to_dict())
 
+    # ------------------------------------------------------------------
+    # Async context manager and iterator
+    # ------------------------------------------------------------------
+
     async def __aenter__(self) -> "KrakenWSClient":
         await self.connect()
         return self
@@ -450,6 +454,24 @@ class KrakenWSClient:
         exc_tb: Any | None,
     ) -> None:
         await self.disconnect()
+
+    def __aiter__(self) -> "KrakenWSClient":
+        """Allow ``async for msg in client:`` iteration."""
+        return self
+
+    async def __anext__(self) -> WSMessage:
+        """Yield the next message, stopping when disconnected and drained."""
+        if self._state == ConnectionState.DISCONNECTED and self._message_queue.empty():
+            raise StopAsyncIteration
+        try:
+            return await asyncio.wait_for(self._message_queue.get(), timeout=1.0)
+        except asyncio.TimeoutError:
+            if (
+                self._state == ConnectionState.DISCONNECTED
+                and self._message_queue.empty()
+            ):
+                raise StopAsyncIteration from None
+            raise
 
     # ------------------------------------------------------------------
     # Internal tasks

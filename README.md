@@ -131,6 +131,97 @@ client = HTTPClient("https://api.kraken.com", resilience=config)
 
 Logging uses Python's stdlib `logging` module under the logger name `kraken_connector`. Consumers can wire any logging framework (e.g., structlog) via its stdlib integration.
 
+### WebSocket v2
+
+The `ws` package provides a full client for [Kraken's WebSocket v2 API](https://docs.kraken.com/api/docs/websocket-v2/), with typed models, automatic reconnection, order book management, and trading support.
+
+#### Public subscription
+
+```python
+import asyncio
+from kraken_connector.ws import KrakenWSClient
+from kraken_connector.ws.subscribe import TickerParams
+from kraken_connector.ws.envelopes import WSDataMessage
+
+async def main():
+    async with KrakenWSClient() as client:
+        await client.subscribe(TickerParams(symbol=["BTC/USD"]))
+        async for msg in client:
+            if isinstance(msg, WSDataMessage) and msg.channel == "ticker":
+                print(msg.data)
+
+asyncio.run(main())
+```
+
+#### Authenticated subscription
+
+Private channels (executions, balances) require a WebSocket token. `TokenManager` handles token lifecycle automatically:
+
+```python
+from kraken_connector import HTTPAuthenticatedClient
+from kraken_connector.ws import KrakenWSClient, TokenManager
+from kraken_connector.ws.subscribe import ExecutionsParams
+
+auth_client = HTTPAuthenticatedClient(
+    "https://api.kraken.com",
+    api_key="your-api-key",
+    api_secret="your-api-secret",
+)
+tm = TokenManager(auth_client=auth_client)
+
+async with KrakenWSClient(token_manager=tm) as client:
+    await client.subscribe(ExecutionsParams())
+    async for msg in client:
+        print(msg.channel, msg.sequence, msg.data)
+```
+
+#### Trading
+
+All 8 WS v2 trading methods are supported. The token is auto-injected when a `TokenManager` is configured:
+
+```python
+from kraken_connector.ws.trading import AddOrderParams, CancelAllOrdersAfterParams
+
+async with KrakenWSClient(token_manager=tm) as client:
+    # Place a limit order.
+    resp = await client.add_order(
+        AddOrderParams(
+            symbol="BTC/USD",
+            side="buy",
+            order_type="limit",
+            order_qty=0.1,
+            limit_price=26000.0,
+            token="",  # auto-injected by TokenManager
+        )
+    )
+    print("Order placed:", resp.result)
+
+    # Dead man's switch — cancel all orders if no refresh within 60s.
+    await client.cancel_all_orders_after(
+        CancelAllOrdersAfterParams(token="", timeout=60)
+    )
+```
+
+#### Order book management
+
+Subscribe to the `book` channel and the client maintains local order book state with CRC32 checksum validation:
+
+```python
+from kraken_connector.ws import KrakenWSClient
+from kraken_connector.ws.subscribe import BookParams
+from kraken_connector.ws.book import BookChecksumEvent
+
+async with KrakenWSClient() as client:
+    await client.subscribe(BookParams(symbol=["BTC/USD"], depth=10))
+    async for msg in client:
+        if isinstance(msg, BookChecksumEvent):
+            print("Checksum mismatch — resubscribe:", msg.symbol)
+            continue
+        book = client.book_manager.get("BTC/USD")
+        if book:
+            print("Best bid:", book.best_bid, "Best ask:", book.best_ask)
+```
+
 ---
 
 Repository initiated with [fpgmaas/cookiecutter-poetry](https://github.com/fpgmaas/cookiecutter-poetry). Now using [PDM](https://pdm-project.org/) for dependency management.
