@@ -159,6 +159,46 @@ def executions_json(
     )
 
 
+def book_snapshot_json(
+    symbol: str = "BTC/USD",
+    bids: list[dict[str, float]] | None = None,
+    asks: list[dict[str, float]] | None = None,
+) -> str:
+    if bids is None:
+        bids = [{"price": 26000.0, "qty": 1.5}]
+    if asks is None:
+        asks = [{"price": 26001.0, "qty": 2.0}]
+    return json.dumps(
+        {
+            "channel": "book",
+            "type": "snapshot",
+            "data": [{"symbol": symbol, "bids": bids, "asks": asks}],
+        }
+    )
+
+
+def book_update_json(
+    symbol: str = "BTC/USD",
+    bids: list[dict[str, float]] | None = None,
+    asks: list[dict[str, float]] | None = None,
+    checksum: int | None = None,
+) -> str:
+    if bids is None:
+        bids = []
+    if asks is None:
+        asks = []
+    data: dict[str, Any] = {"symbol": symbol, "bids": bids, "asks": asks}
+    if checksum is not None:
+        data["checksum"] = checksum
+    return json.dumps(
+        {
+            "channel": "book",
+            "type": "update",
+            "data": [data],
+        }
+    )
+
+
 def balances_snapshot_json(sequence: int = 1) -> str:
     return json.dumps(
         {

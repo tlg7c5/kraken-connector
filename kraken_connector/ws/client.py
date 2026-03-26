@@ -10,6 +10,7 @@ import websockets
 from websockets.exceptions import ConnectionClosed
 
 from ..types import Unset
+from .book import OrderBookManager
 from .channels.heartbeat import HeartbeatMessage
 from .channels.status import StatusData
 from .constants import ConnectionState
@@ -101,6 +102,9 @@ class KrakenWSClient:
         # Sequence tracking for private channels
         self._sequence_tracker: SequenceTracker = SequenceTracker()
 
+        # Book state management
+        self._book_manager: OrderBookManager = OrderBookManager()
+
     @property
     def state(self) -> ConnectionState:
         """Current connection state (read-only)."""
@@ -115,6 +119,11 @@ class KrakenWSClient:
     def connection_id(self) -> int | None:
         """Connection ID from the status channel."""
         return self._connection_id
+
+    @property
+    def book_manager(self) -> OrderBookManager:
+        """Access the order book manager for reading book state."""
+        return self._book_manager
 
     @property
     def subscriptions(
@@ -343,6 +352,18 @@ class KrakenWSClient:
                         )
                         await self._message_queue.put(gap)
 
+                # Apply book data to the book manager.
+                if isinstance(msg, WSDataMessage) and msg.channel == "book":
+                    checksum_event = self._book_manager.process_message(msg)
+                    if checksum_event is not None:
+                        _logger.warning(
+                            "Book checksum mismatch for %s: expected %d, computed %d",
+                            checksum_event.symbol,
+                            checksum_event.expected,
+                            checksum_event.computed,
+                        )
+                        await self._message_queue.put(checksum_event)
+
                 # Intercept status messages to update internal state.
                 if isinstance(msg, WSDataMessage) and msg.channel == "status":
                     self._handle_status(msg)
@@ -524,6 +545,7 @@ class KrakenWSClient:
         if self._token_manager is not None:
             self._token_manager.invalidate()
         self._sequence_tracker.reset()
+        self._book_manager.clear()
 
         if not self._subscriptions:
             return

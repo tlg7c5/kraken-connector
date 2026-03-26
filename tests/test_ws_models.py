@@ -1,5 +1,6 @@
 """Tests for WebSocket v2 message models and dispatcher."""
 import json
+from decimal import Decimal
 
 import pytest
 
@@ -188,7 +189,7 @@ class TestChannelData:
         assert book.symbol == "BTC/USD"
         assert len(book.bids) == 1
         assert isinstance(book.bids[0], BookLevel)
-        assert book.bids[0].price == 26000.0
+        assert book.bids[0].price == Decimal("26000.0")
         assert book.checksum == 974942666
         assert book.to_dict() == raw
 
@@ -663,7 +664,7 @@ class TestDispatcher:
         msg = parse_message(raw)
         assert isinstance(msg, WSDataMessage)
         assert isinstance(msg.data[0], BookData)
-        assert msg.data[0].bids[0].qty == 0.0
+        assert msg.data[0].bids[0].qty == Decimal("0.0")
 
     def test_status_data_message(self) -> None:
         raw = json.dumps(

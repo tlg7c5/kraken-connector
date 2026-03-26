@@ -1,4 +1,5 @@
 """Kraken WebSocket API v2 client models and utilities."""
+from .book import BookChecksumEvent, ChecksumError, OrderBook, OrderBookManager
 from .channels import (
     BalanceLedgerUpdate,
     BalanceSnapshot,
@@ -77,6 +78,11 @@ from .trading import (
 )
 
 __all__ = [
+    # Book management
+    "BookChecksumEvent",
+    "ChecksumError",
+    "OrderBook",
+    "OrderBookManager",
     # Client
     "KrakenWSClient",
     # Channel data

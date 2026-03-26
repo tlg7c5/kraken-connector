@@ -6,6 +6,7 @@ import json
 from typing import Any, Union
 
 from ..types import UNSET
+from .book import BookChecksumEvent
 from .channels.balances import BalanceLedgerUpdate, BalanceSnapshot
 from .channels.book import BookData
 from .channels.executions import ExecutionData
@@ -26,6 +27,7 @@ WSMessage = Union[
     WSResponse,
     WSErrorResponse,
     SequenceGapEvent,
+    BookChecksumEvent,
 ]
 
 # Channel name → data item deserializer.

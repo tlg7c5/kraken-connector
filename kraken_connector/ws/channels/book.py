@@ -1,4 +1,5 @@
 """Book (Level 2) channel data models for Kraken WebSocket API v2."""
+from decimal import Decimal
 from typing import Any, Self
 
 from attrs import define as _attrs_define
@@ -11,20 +12,23 @@ class BookLevel:
     """A single price level in the order book.
 
     Attributes:
-        price: Price at this level.
-        qty: Quantity at this level. A value of 0 signals level removal.
+        price: Price at this level (Decimal for checksum precision).
+        qty: Quantity at this level (Decimal). A value of 0 signals level removal.
     """
 
-    price: float
-    qty: float
+    price: Decimal
+    qty: Decimal
 
     def to_dict(self) -> dict[str, Any]:
-        return {"price": self.price, "qty": self.qty}
+        return {"price": float(self.price), "qty": float(self.qty)}
 
     @classmethod
     def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
-        return cls(price=d.pop("price"), qty=d.pop("qty"))
+        return cls(
+            price=Decimal(str(d.pop("price"))),
+            qty=Decimal(str(d.pop("qty"))),
+        )
 
 
 @_attrs_define
