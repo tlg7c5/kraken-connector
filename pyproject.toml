@@ -1,9 +1,9 @@
 [project]
 name = "kraken_connector"
-version = "0.0.2"
+version = "0.1.0"
 description = "WS and HTTP clients for Kraken exchange API"
 authors = [
-    {name = "Terry Garner", email = "fterrylgarner@protonmail.com"},
+    {name = "Terry Garner", email = "terrylgarner@protonmail.com"},
 ]
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
