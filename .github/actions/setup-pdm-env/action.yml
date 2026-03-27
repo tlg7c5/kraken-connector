@@ -17,5 +17,5 @@ runs:
         cache: true
 
     - name: Install dependencies
-      run: pdm install --no-interaction
+      run: pdm install
       shell: bash
