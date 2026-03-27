@@ -1,27 +1,26 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...security import get_nonce, sign_message
 from ...types import Response
 
 
-def _get_kwargs() -> Dict[str, Any]:
-    pass
-
+def _get_kwargs() -> dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/TradeBalance",
+        "url": f"{API_VERSION_PREFIX}/private/TradeBalance",
         "data": {"nonce": get_nonce()},
     }
 
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Any]:
+) -> Any | None:
     if client.raise_on_unexpected_status:
         raise exceptions.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -59,16 +58,16 @@ def sync_detailed(
 
     kwargs = _get_kwargs()
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = secured_client.get_httpx_client().request(**kwargs)
+    response = secured_client.get_or_create_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -93,15 +92,15 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs()
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_async_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = await secured_client.get_async_httpx_client().request(**kwargs)
+    response = await secured_client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)

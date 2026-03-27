@@ -5,7 +5,7 @@ site_description: Websockets and HTTP clients for Kraken exchange API
 site_author: Terry Garner
 edit_uri: edit/main/docs/
 repo_name: tlg7c5/kraken-connector
-copyright: Maintained by <a href="https://tlg7c5.com">Florian</a>.
+copyright: Maintained by Terry Garner.
 
 nav:
   - Home: index.md

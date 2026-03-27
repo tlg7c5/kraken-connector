@@ -1,35 +1,41 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.get_status_of_recent_deposits_request_body import (
-    GetStatusOfRecentDepositsRequestBody,
+from ...schemas.get_recent_deposits_request import (
+    GetRecentDepositsRequest,
 )
-from ...schemas.recent_2 import Recent2
+from ...schemas.get_recent_deposits_response import GetRecentDepositsResponse
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: GetStatusOfRecentDepositsRequestBody,
-) -> Dict[str, Any]:
-    pass
-
+    form_data: GetRecentDepositsRequest,
+) -> dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/DepositStatus",
+        "url": f"{API_VERSION_PREFIX}/private/DepositStatus",
         "data": form_data.to_dict(),
     }
 
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[Recent2]:
+) -> GetRecentDepositsResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Recent2.from_dict(response.json())
+        response_200 = GetRecentDepositsResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -40,7 +46,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[Recent2]:
+) -> Response[GetRecentDepositsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -52,8 +58,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetStatusOfRecentDepositsRequestBody,
-) -> Response[Recent2]:
+    form_data: GetRecentDepositsRequest,
+) -> Response[GetRecentDepositsResponse]:
     """Get Status of Recent Deposits
 
      Retrieve information about recent deposits. Any deposits initiated in the past 90 days will be
@@ -66,23 +72,23 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Recent2]
+        Response[GetRecentDepositsResponse]
     """
 
     kwargs = _get_kwargs(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = secured_client.get_httpx_client().request(**kwargs)
+    response = secured_client.get_or_create_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -90,8 +96,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetStatusOfRecentDepositsRequestBody,
-) -> Optional[Recent2]:
+    form_data: GetRecentDepositsRequest,
+) -> GetRecentDepositsResponse | None:
     """Get Status of Recent Deposits
 
      Retrieve information about recent deposits. Any deposits initiated in the past 90 days will be
@@ -104,7 +110,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Recent2
+        GetRecentDepositsResponse
     """
 
     return sync_detailed(
@@ -116,8 +122,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetStatusOfRecentDepositsRequestBody,
-) -> Response[Recent2]:
+    form_data: GetRecentDepositsRequest,
+) -> Response[GetRecentDepositsResponse]:
     """Get Status of Recent Deposits
 
      Retrieve information about recent deposits. Any deposits initiated in the past 90 days will be
@@ -130,23 +136,23 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Recent2]
+        Response[GetRecentDepositsResponse]
     """
 
     kwargs = _get_kwargs(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_async_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = await secured_client.get_async_httpx_client().request(**kwargs)
+    response = await secured_client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -154,8 +160,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: GetStatusOfRecentDepositsRequestBody,
-) -> Optional[Recent2]:
+    form_data: GetRecentDepositsRequest,
+) -> GetRecentDepositsResponse | None:
     """Get Status of Recent Deposits
 
      Retrieve information about recent deposits. Any deposits initiated in the past 90 days will be
@@ -168,7 +174,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Recent2
+        GetRecentDepositsResponse
     """
 
     return (

@@ -1,35 +1,41 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.cancel_all_orders_after_data import CancelAllOrdersAfterData
-from ...schemas.cancel_all_orders_after_response_200 import (
-    CancelAllOrdersAfterResponse200,
+from ...schemas.cancel_all_orders_after_request import CancelAllOrdersAfterRequest
+from ...schemas.cancel_all_orders_after_response import (
+    CancelAllOrdersAfterResponse,
 )
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
-    form_data: CancelAllOrdersAfterData,
-) -> Dict[str, Any]:
-    pass
-
+    form_data: CancelAllOrdersAfterRequest,
+) -> dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/CancelAllOrdersAfter",
+        "url": f"{API_VERSION_PREFIX}/private/CancelAllOrdersAfter",
         "data": form_data.to_dict(),
     }
 
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[CancelAllOrdersAfterResponse200]:
+) -> CancelAllOrdersAfterResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = CancelAllOrdersAfterResponse200.from_dict(response.json())
+        response_200 = CancelAllOrdersAfterResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -40,7 +46,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[CancelAllOrdersAfterResponse200]:
+) -> Response[CancelAllOrdersAfterResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -52,8 +58,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CancelAllOrdersAfterData,
-) -> Response[CancelAllOrdersAfterResponse200]:
+    form_data: CancelAllOrdersAfterRequest,
+) -> Response[CancelAllOrdersAfterResponse]:
     """Cancel All Orders After X
 
      CancelAllOrdersAfter provides a \"Dead Man's Switch\" mechanism to protect the client from network
@@ -77,23 +83,23 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CancelAllOrdersAfterResponse200]
+        Response[CancelAllOrdersAfterResponse]
     """
 
     kwargs = _get_kwargs(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = secured_client.get_httpx_client().request(**kwargs)
+    response = secured_client.get_or_create_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -101,8 +107,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CancelAllOrdersAfterData,
-) -> Optional[CancelAllOrdersAfterResponse200]:
+    form_data: CancelAllOrdersAfterRequest,
+) -> CancelAllOrdersAfterResponse | None:
     """Cancel All Orders After X
 
      CancelAllOrdersAfter provides a \"Dead Man's Switch\" mechanism to protect the client from network
@@ -126,7 +132,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CancelAllOrdersAfterResponse200
+        CancelAllOrdersAfterResponse
     """
 
     return sync_detailed(
@@ -138,8 +144,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CancelAllOrdersAfterData,
-) -> Response[CancelAllOrdersAfterResponse200]:
+    form_data: CancelAllOrdersAfterRequest,
+) -> Response[CancelAllOrdersAfterResponse]:
     """Cancel All Orders After X
 
      CancelAllOrdersAfter provides a \"Dead Man's Switch\" mechanism to protect the client from network
@@ -163,23 +169,23 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[CancelAllOrdersAfterResponse200]
+        Response[CancelAllOrdersAfterResponse]
     """
 
     kwargs = _get_kwargs(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_async_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = await secured_client.get_async_httpx_client().request(**kwargs)
+    response = await secured_client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -187,8 +193,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    form_data: CancelAllOrdersAfterData,
-) -> Optional[CancelAllOrdersAfterResponse200]:
+    form_data: CancelAllOrdersAfterRequest,
+) -> CancelAllOrdersAfterResponse | None:
     """Cancel All Orders After X
 
      CancelAllOrdersAfter provides a \"Dead Man's Switch\" mechanism to protect the client from network
@@ -212,7 +218,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        CancelAllOrdersAfterResponse200
+        CancelAllOrdersAfterResponse
     """
 
     return (

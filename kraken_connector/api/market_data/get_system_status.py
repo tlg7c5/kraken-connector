@@ -1,28 +1,34 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.get_system_status_response_200 import GetSystemStatusResponse200
-from ...types import Response
+from ...schemas.get_system_status_response import GetSystemStatusResponse
+from ...types import Response, Unset
 
 
-def _get_kwargs() -> Dict[str, Any]:
-    pass
-
+def _get_kwargs() -> dict[str, Any]:
     return {
         "method": "get",
-        "url": "/0/public/SystemStatus",
+        "url": f"{API_VERSION_PREFIX}/public/SystemStatus",
     }
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[GetSystemStatusResponse200]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetSystemStatusResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetSystemStatusResponse200.from_dict(response.json())
+        response_200 = GetSystemStatusResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -32,8 +38,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[GetSystemStatusResponse200]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> Response[GetSystemStatusResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -44,8 +50,8 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Response[GetSystemStatusResponse200]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+) -> Response[GetSystemStatusResponse]:
     """Get System Status
 
      Get the current system status or trading mode.
@@ -55,12 +61,12 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetSystemStatusResponse200]
+        Response[GetSystemStatusResponse]
     """
 
     kwargs = _get_kwargs()
 
-    response = client.get_httpx_client().request(
+    response = client.get_or_create_httpx_client().request(
         **kwargs,
     )
 
@@ -69,8 +75,8 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Optional[GetSystemStatusResponse200]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+) -> GetSystemStatusResponse | None:
     """Get System Status
 
      Get the current system status or trading mode.
@@ -80,7 +86,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetSystemStatusResponse200
+        GetSystemStatusResponse
     """
 
     return sync_detailed(
@@ -90,8 +96,8 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Response[GetSystemStatusResponse200]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+) -> Response[GetSystemStatusResponse]:
     """Get System Status
 
      Get the current system status or trading mode.
@@ -101,20 +107,20 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[GetSystemStatusResponse200]
+        Response[GetSystemStatusResponse]
     """
 
     kwargs = _get_kwargs()
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-) -> Optional[GetSystemStatusResponse200]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+) -> GetSystemStatusResponse | None:
     """Get System Status
 
      Get the current system status or trading mode.
@@ -124,7 +130,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        GetSystemStatusResponse200
+        GetSystemStatusResponse
     """
 
     return (

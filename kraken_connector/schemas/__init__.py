@@ -6,419 +6,342 @@ from .account_transfer import (
     AccountTransferResponse,
     AccountTransferResult,
 )
-from .add_2 import Add2
-from .add_2_order_added import Add2OrderAdded
-from .add_2_order_added_descr import Add2OrderAddedDescr
-from .add_export_data import AddExportData
-from .add_export_response_200 import AddExportResponse200
-from .add_export_response_200_result import AddExportResponse200Result
-from .add_standard_order_request_body import AddStandardOrderRequestBody
-from .addresses import Addresses
-from .addresses_2 import Addresses2
-from .allocate_strategy_json_body import AllocateStrategyJsonBody
-from .allocate_strategy_json_body_nonce import AllocateStrategyJsonBodyNonce
-from .allocate_strategy_response_200 import AllocateStrategyResponse200
+from .add_export_request import AddExportRequest
+from .add_export_response import AddExportResponse
+from .add_export_result import AddExportResult
+from .add_order_request import AddOrderRequest
+from .add_order_response import AddOrderResponse
+from .add_order_result import AddOrderResult
+from .add_order_result_descr import AddOrderResultDescr
+from .allocate_strategy_request import AllocateStrategyRequest
+from .allocate_strategy_request_nonce import AllocateStrategyRequestNonce
+from .allocate_strategy_response import AllocateStrategyResponse
+from .allocation import Allocation
+from .allocation_accumulated_reward import AllocationAccumulatedReward
+from .allocation_amount import AllocationAmount
+from .allocation_bonding import AllocationBonding
+from .allocation_bonding_entry import AllocationBondingEntry
+from .allocation_estimated_reward import AllocationEstimatedReward
+from .allocation_exit_queue import AllocationExitQueue
+from .allocation_exit_queue_entry import AllocationExitQueueEntry
+from .allocation_payout import AllocationPayout
+from .allocation_pending import AllocationPending
+from .allocation_total import AllocationTotal
+from .allocation_total_rewarded import AllocationTotalRewarded
+from .allocation_unbonding import AllocationUnbonding
+from .allocation_unbonding_entry import AllocationUnbondingEntry
 from .asset_info import AssetInfo
 from .asset_pair import AssetPair
 from .asset_ticker_info import AssetTickerInfo
-from .balance_2 import Balance2
-from .balanceex_2 import Balanceex2
-from .balanceex_2_extended_balance import Balanceex2ExtendedBalance
-from .batch_cancel_open_orders_request_body import BatchCancelOpenOrdersRequestBody
-from .batch_cancel_open_orders_request_body_orders_item import (
-    BatchCancelOpenOrdersRequestBodyOrdersItem,
-)
-from .batchadd_2 import Batchadd2
-from .batchadd_2_result import Batchadd2Result
-from .batchadd_2_result_orders_item import Batchadd2ResultOrdersItem
-from .batchadd_2_result_orders_item_descr import Batchadd2ResultOrdersItemDescr
-from .cancel_all_orders_after_data import CancelAllOrdersAfterData
-from .cancel_all_orders_after_response_200 import CancelAllOrdersAfterResponse200
-from .cancel_all_orders_after_response_200_result import (
-    CancelAllOrdersAfterResponse200Result,
-)
-from .cancel_all_orders_response_200 import CancelAllOrdersResponse200
-from .cancel_all_orders_response_200_result import CancelAllOrdersResponse200Result
-from .cancel_open_order_request_body import CancelOpenOrderRequestBody
-from .cancel_withdrawal_response_200 import CancelWithdrawalResponse200
-from .closed_2 import Closed2
-from .closed_2_closed_orders import Closed2ClosedOrders
-from .closed_2_closed_orders_closed import Closed2ClosedOrdersClosed
+from .batch_add_order_response import BatchAddOrderResponse
+from .batch_add_order_result import BatchAddOrderResult
+from .batch_add_order_result_item import BatchAddOrderResultItem
+from .batch_add_order_result_item_descr import BatchAddOrderResultItemDescr
+from .batch_cancel_orders_request import BatchCancelOrdersRequest
+from .batch_cancel_orders_request_item import BatchCancelOrdersRequestItem
+from .cancel_all_orders_after_request import CancelAllOrdersAfterRequest
+from .cancel_all_orders_after_response import CancelAllOrdersAfterResponse
+from .cancel_all_orders_after_result import CancelAllOrdersAfterResult
+from .cancel_all_orders_response import CancelAllOrdersResponse
+from .cancel_all_orders_result import CancelAllOrdersResult
+from .cancel_order_request import CancelOrderRequest
+from .cancel_withdrawal_request import CancelWithdrawalRequest
+from .cancel_withdrawal_response import CancelWithdrawalResponse
 from .closed_order import ClosedOrder
-from .create_subaccount_data import CreateSubaccountData
-from .create_subaccount_response_200 import CreateSubaccountResponse200
-from .deallocate_strategy_json_body import DeallocateStrategyJsonBody
-from .deallocate_strategy_json_body_nonce import DeallocateStrategyJsonBodyNonce
-from .deallocate_strategy_response_200 import DeallocateStrategyResponse200
+from .create_subaccount_request import CreateSubaccountRequest
+from .create_subaccount_response import CreateSubaccountResponse
+from .deallocate_strategy_request import DeallocateStrategyRequest
+from .deallocate_strategy_request_nonce import DeallocateStrategyRequestNonce
+from .deallocate_strategy_response import DeallocateStrategyResponse
 from .deposit import Deposit
 from .deposit_address import DepositAddress
 from .deposit_method import DepositMethod
-from .depth import Depth
-from .depth_result import DepthResult
-from .edit_2 import Edit2
-from .edit_2_order_edited import Edit2OrderEdited
-from .edit_2_order_edited_descr import Edit2OrderEditedDescr
-from .edit_standard_order_request_body import EditStandardOrderRequestBody
-from .export_status_data import ExportStatusData
-from .export_status_response_200 import ExportStatusResponse200
-from .export_status_response_200_result_item import ExportStatusResponse200ResultItem
+from .earn_strategy import EarnStrategy
+from .earn_strategy_apr_estimate import EarnStrategyAprEstimate
+from .earn_strategy_auto_compound_disabled import EarnStrategyAutoCompoundDisabled
+from .earn_strategy_auto_compound_forced import EarnStrategyAutoCompoundForced
+from .earn_strategy_auto_compound_optional import EarnStrategyAutoCompoundOptional
+from .earn_strategy_lock_bonded import EarnStrategyLockBonded
+from .earn_strategy_lock_flex import EarnStrategyLockFlex
+from .earn_strategy_lock_instant import EarnStrategyLockInstant
+from .earn_strategy_lock_timed import EarnStrategyLockTimed
+from .earn_strategy_yield_off_chain import EarnStrategyYieldOffChain
+from .earn_strategy_yield_staking import EarnStrategyYieldStaking
+from .edit_order_request import EditOrderRequest
+from .edit_order_response import EditOrderResponse
+from .edit_order_result import EditOrderResult
+from .edit_order_result_descr import EditOrderResultDescr
+from .export_status_request import ExportStatusRequest
+from .export_status_response import ExportStatusResponse
+from .export_status_result_item import ExportStatusResultItem
 from .extended_balance import ExtendedBalance
 from .fee_tier_info import FeeTierInfo
-from .get_allocate_strategy_status_json_body import GetAllocateStrategyStatusJsonBody
-from .get_allocate_strategy_status_json_body_nonce import (
-    GetAllocateStrategyStatusJsonBodyNonce,
+from .get_allocate_strategy_status_request import GetAllocateStrategyStatusRequest
+from .get_allocate_strategy_status_request_nonce import (
+    GetAllocateStrategyStatusRequestNonce,
 )
-from .get_allocate_strategy_status_response_200 import (
-    GetAllocateStrategyStatusResponse200,
+from .get_allocate_strategy_status_response import GetAllocateStrategyStatusResponse
+from .get_allocate_strategy_status_result import GetAllocateStrategyStatusResult
+from .get_asset_info_response import GetAssetInfoResponse
+from .get_asset_info_result import GetAssetInfoResult
+from .get_balance_response import GetBalanceResponse
+from .get_closed_orders_response import GetClosedOrdersResponse
+from .get_closed_orders_result import GetClosedOrdersResult
+from .get_closed_orders_result_entries import GetClosedOrdersResultEntries
+from .get_deallocate_strategy_status_request import GetDeallocateStrategyStatusRequest
+from .get_deallocate_strategy_status_request_nonce import (
+    GetDeallocateStrategyStatusRequestNonce,
 )
-from .get_allocate_strategy_status_response_200_result import (
-    GetAllocateStrategyStatusResponse200Result,
-)
-from .get_deallocate_strategy_status_json_body import (
-    GetDeallocateStrategyStatusJsonBody,
-)
-from .get_deallocate_strategy_status_json_body_nonce import (
-    GetDeallocateStrategyStatusJsonBodyNonce,
-)
-from .get_deallocate_strategy_status_response_200 import (
-    GetDeallocateStrategyStatusResponse200,
-)
-from .get_deallocate_strategy_status_response_200_result import (
-    GetDeallocateStrategyStatusResponse200Result,
-)
-from .get_desposit_methods_request_body import GetDespositMethodsRequestBody
-from .get_open_positions_data import GetOpenPositionsData
-from .get_open_positions_response_200 import GetOpenPositionsResponse200
-from .get_open_positions_response_200_result import GetOpenPositionsResponse200Result
-from .get_open_positions_response_200_result_additional_property import (
-    GetOpenPositionsResponse200ResultAdditionalProperty,
-)
-from .get_status_of_recent_deposits_request_body import (
-    GetStatusOfRecentDepositsRequestBody,
-)
-from .get_status_of_recent_withdrawals_request_body import (
-    GetStatusOfRecentWithdrawalsRequestBody,
-)
-from .get_system_status_response_200 import GetSystemStatusResponse200
-from .get_system_status_response_200_result import GetSystemStatusResponse200Result
-from .get_tradable_asset_pairs_response_200 import GetTradableAssetPairsResponse200
-from .get_tradable_asset_pairs_response_200_result import (
-    GetTradableAssetPairsResponse200Result,
-)
-from .get_trades_info_response_200 import GetTradesInfoResponse200
-from .get_trades_info_response_200_result import GetTradesInfoResponse200Result
-from .get_websockets_token_response_200 import GetWebsocketsTokenResponse200
-from .get_websockets_token_response_200_result import (
-    GetWebsocketsTokenResponse200Result,
-)
-from .history_2 import History2
-from .info_2 import Info2
-from .info_2_result import Info2Result
-from .info_3 import Info3
-from .info_3_ledgers_info import Info3LedgersInfo
-from .info_3_ledgers_info_ledger import Info3LedgersInfoLedger
-from .info_4 import Info4
-from .info_5 import Info5
-from .info_5_withdrawal_info import Info5WithdrawalInfo
+from .get_deallocate_strategy_status_response import GetDeallocateStrategyStatusResponse
+from .get_deallocate_strategy_status_result import GetDeallocateStrategyStatusResult
+from .get_deposit_addresses_request import GetDepositAddressesRequest
+from .get_deposit_addresses_response import GetDepositAddressesResponse
+from .get_deposit_methods_request import GetDepositMethodsRequest
+from .get_deposit_methods_response import GetDepositMethodsResponse
+from .get_extended_balance_response import GetExtendedBalanceResponse
+from .get_extended_balance_result import GetExtendedBalanceResult
+from .get_ledgers_info_response import GetLedgersInfoResponse
+from .get_ledgers_info_result import GetLedgersInfoResult
+from .get_ledgers_response import GetLedgersResponse
+from .get_ledgers_result import GetLedgersResult
+from .get_ledgers_result_entries import GetLedgersResultEntries
+from .get_open_orders_response import GetOpenOrdersResponse
+from .get_open_orders_result import GetOpenOrdersResult
+from .get_open_orders_result_entries import GetOpenOrdersResultEntries
+from .get_open_positions_request import GetOpenPositionsRequest
+from .get_open_positions_response import GetOpenPositionsResponse
+from .get_open_positions_result import GetOpenPositionsResult
+from .get_open_positions_result_entry import GetOpenPositionsResultEntry
+from .get_orders_info_response import GetOrdersInfoResponse
+from .get_orders_info_result import GetOrdersInfoResult
+from .get_recent_deposits_request import GetRecentDepositsRequest
+from .get_recent_deposits_response import GetRecentDepositsResponse
+from .get_recent_deposits_result_alt import GetRecentDepositsResultAlt
+from .get_recent_spreads_response import GetRecentSpreadsResponse
+from .get_recent_spreads_result import GetRecentSpreadsResult
+from .get_recent_withdrawals_request import GetRecentWithdrawalsRequest
+from .get_system_status_response import GetSystemStatusResponse
+from .get_system_status_result import GetSystemStatusResult
+from .get_ticker_response import GetTickerResponse
+from .get_ticker_result import GetTickerResult
+from .get_tradable_asset_pairs_response import GetTradableAssetPairsResponse
+from .get_tradable_asset_pairs_result import GetTradableAssetPairsResult
+from .get_trade_history_response import GetTradeHistoryResponse
+from .get_trade_history_result import GetTradeHistoryResult
+from .get_trade_history_result_trades import GetTradeHistoryResultTrades
+from .get_trades_info_response import GetTradesInfoResponse
+from .get_trades_info_result import GetTradesInfoResult
+from .get_websockets_token_response import GetWebsocketsTokenResponse
+from .get_websockets_token_result import GetWebsocketsTokenResult
 from .ledger_entry import LedgerEntry
-from .list_allocations_json_body import ListAllocationsJsonBody
-from .list_allocations_json_body_nonce import ListAllocationsJsonBodyNonce
-from .list_allocations_response_200 import ListAllocationsResponse200
-from .list_allocations_response_200_result import ListAllocationsResponse200Result
-from .list_allocations_response_200_result_items_item import (
-    ListAllocationsResponse200ResultItemsItem,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocated,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_bonding import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedBonding,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_bonding_allocations_item import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedBondingAllocationsItem,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_exit_queue import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedExitQueue,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_exit_queue_allocations_item import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedExitQueueAllocationsItem,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_pending import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedPending,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_total import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedTotal,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_unbonding import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedUnbonding,
-)
-from .list_allocations_response_200_result_items_item_amount_allocated_unbonding_allocations_item import (
-    ListAllocationsResponse200ResultItemsItemAmountAllocatedUnbondingAllocationsItem,
-)
-from .list_allocations_response_200_result_items_item_payout import (
-    ListAllocationsResponse200ResultItemsItemPayout,
-)
-from .list_allocations_response_200_result_items_item_payout_accumulated_reward import (
-    ListAllocationsResponse200ResultItemsItemPayoutAccumulatedReward,
-)
-from .list_allocations_response_200_result_items_item_payout_estimated_reward import (
-    ListAllocationsResponse200ResultItemsItemPayoutEstimatedReward,
-)
-from .list_allocations_response_200_result_items_item_total_rewarded import (
-    ListAllocationsResponse200ResultItemsItemTotalRewarded,
-)
-from .list_strategies_json_body import ListStrategiesJsonBody
-from .list_strategies_json_body_nonce import ListStrategiesJsonBodyNonce
-from .list_strategies_response_200 import ListStrategiesResponse200
-from .list_strategies_response_200_result import ListStrategiesResponse200Result
-from .list_strategies_response_200_result_items_item import (
-    ListStrategiesResponse200ResultItemsItem,
-)
-from .list_strategies_response_200_result_items_item_apr_estimate import (
-    ListStrategiesResponse200ResultItemsItemAprEstimate,
-)
-from .list_strategies_response_200_result_items_item_auto_compound_type_0 import (
-    ListStrategiesResponse200ResultItemsItemAutoCompoundType0,
-)
-from .list_strategies_response_200_result_items_item_auto_compound_type_1 import (
-    ListStrategiesResponse200ResultItemsItemAutoCompoundType1,
-)
-from .list_strategies_response_200_result_items_item_auto_compound_type_2 import (
-    ListStrategiesResponse200ResultItemsItemAutoCompoundType2,
-)
-from .list_strategies_response_200_result_items_item_lock_type_type_0 import (
-    ListStrategiesResponse200ResultItemsItemLockTypeType0,
-)
-from .list_strategies_response_200_result_items_item_lock_type_type_1 import (
-    ListStrategiesResponse200ResultItemsItemLockTypeType1,
-)
-from .list_strategies_response_200_result_items_item_lock_type_type_2 import (
-    ListStrategiesResponse200ResultItemsItemLockTypeType2,
-)
-from .list_strategies_response_200_result_items_item_lock_type_type_3 import (
-    ListStrategiesResponse200ResultItemsItemLockTypeType3,
-)
-from .list_strategies_response_200_result_items_item_yield_source_type_0 import (
-    ListStrategiesResponse200ResultItemsItemYieldSourceType0,
-)
-from .list_strategies_response_200_result_items_item_yield_source_type_1 import (
-    ListStrategiesResponse200ResultItemsItemYieldSourceType1,
-)
+from .list_allocations_request import ListAllocationsRequest
+from .list_allocations_request_nonce import ListAllocationsRequestNonce
+from .list_allocations_response import ListAllocationsResponse
+from .list_allocations_result import ListAllocationsResult
+from .list_strategies_request import ListStrategiesRequest
+from .list_strategies_request_nonce import ListStrategiesRequestNonce
+from .list_strategies_response import ListStrategiesResponse
+from .list_strategies_result import ListStrategiesResult
 from .lock import Lock
-from .methods_2 import Methods2
-from .ohlc import Ohlc
+from .ohlc_response import OhlcResponse
 from .ohlc_result import OhlcResult
-from .open_2 import Open2
-from .open_2_open_orders import Open2OpenOrders
-from .open_2_open_orders_open import Open2OpenOrdersOpen
 from .open_order import OpenOrder
 from .open_order_order_description import OpenOrderOrderDescription
 from .order_book import OrderBook
-from .query_2 import Query2
-from .query_2_result import Query2Result
-from .query_3 import Query3
-from .query_3_result import Query3Result
-from .query_orders_info_request_body import QueryOrdersInfoRequestBody
-from .recent_2 import Recent2
-from .recent_2_result_type_1 import Recent2ResultType1
-from .remove_export_data import RemoveExportData
-from .remove_export_response_200 import RemoveExportResponse200
-from .remove_export_response_200_result import RemoveExportResponse200Result
-from .request_withdrawal_cancelation_request_body import (
-    RequestWithdrawalCancelationRequestBody,
-)
-from .retrieve_export_data import RetrieveExportData
-from .retrieve_export_response_200 import RetrieveExportResponse200
-from .spread_2 import Spread2
-from .spread_2_result import Spread2Result
-from .ticker_2 import Ticker2
-from .ticker_2_result import Ticker2Result
-from .time import Time
-from .time_server_time import TimeServerTime
+from .order_book_response import OrderBookResponse
+from .order_book_result import OrderBookResult
+from .query_orders_info_request import QueryOrdersInfoRequest
+from .recent_trades_response import RecentTradesResponse
+from .recent_trades_result import RecentTradesResult
+from .remove_export_request import RemoveExportRequest
+from .remove_export_response import RemoveExportResponse
+from .remove_export_result import RemoveExportResult
+from .retrieve_export_request import RetrieveExportRequest
+from .retrieve_export_response import RetrieveExportResponse
+from .server_time import ServerTime
+from .server_time_response import ServerTimeResponse
 from .trade import Trade
-from .trade_history import TradeHistory
-from .trade_history_trades import TradeHistoryTrades
-from .trades import Trades
-from .trades_result import TradesResult
-from .volume import Volume
-from .volume_trade_volume import VolumeTradeVolume
-from .volume_trade_volume_fees import VolumeTradeVolumeFees
-from .volume_trade_volume_fees_maker import VolumeTradeVolumeFeesMaker
-from .wallet_transfer_data import WalletTransferData
-from .wallet_transfer_response_200 import WalletTransferResponse200
-from .wallet_transfer_response_200_result import WalletTransferResponse200Result
-from .withdrawal import Withdrawal
-from .withdrawal_2 import Withdrawal2
-from .withdrawal_2_result import Withdrawal2Result
+from .trade_volume_fees import TradeVolumeFees
+from .trade_volume_fees_maker import TradeVolumeFeesMaker
+from .trade_volume_response import TradeVolumeResponse
+from .trade_volume_result import TradeVolumeResult
+from .wallet_transfer_request import WalletTransferRequest
+from .wallet_transfer_response import WalletTransferResponse
+from .wallet_transfer_result import WalletTransferResult
+from .withdraw_funds_request import WithdrawFundsRequest
+from .withdraw_funds_response import WithdrawFundsResponse
+from .withdraw_funds_result import WithdrawFundsResult
+from .withdrawal_info_request import WithdrawalInfoRequest
+from .withdrawal_info_response import WithdrawalInfoResponse
+from .withdrawal_info_result import WithdrawalInfoResult
 
 __all__ = (
     "AccountBalance",
     "AccountTransferRequest",
     "AccountTransferResponse",
     "AccountTransferResult",
-    "Add2",
-    "Add2OrderAdded",
-    "Add2OrderAddedDescr",
-    "AddExportData",
-    "AddExportResponse200",
-    "AddExportResponse200Result",
-    "Addresses",
-    "Addresses2",
-    "AddStandardOrderRequestBody",
-    "AllocateStrategyJsonBody",
-    "AllocateStrategyJsonBodyNonce",
-    "AllocateStrategyResponse200",
+    "AddExportRequest",
+    "AddExportResponse",
+    "AddExportResult",
+    "AddOrderRequest",
+    "AddOrderResponse",
+    "AddOrderResult",
+    "AddOrderResultDescr",
+    "AllocateStrategyRequest",
+    "AllocateStrategyRequestNonce",
+    "AllocateStrategyResponse",
+    "Allocation",
+    "AllocationAccumulatedReward",
+    "AllocationAmount",
+    "AllocationBonding",
+    "AllocationBondingEntry",
+    "AllocationEstimatedReward",
+    "AllocationExitQueue",
+    "AllocationExitQueueEntry",
+    "AllocationPayout",
+    "AllocationPending",
+    "AllocationTotal",
+    "AllocationTotalRewarded",
+    "AllocationUnbonding",
+    "AllocationUnbondingEntry",
     "AssetInfo",
     "AssetPair",
     "AssetTickerInfo",
-    "Balance2",
-    "Balanceex2",
-    "Balanceex2ExtendedBalance",
-    "Batchadd2",
-    "Batchadd2Result",
-    "Batchadd2ResultOrdersItem",
-    "Batchadd2ResultOrdersItemDescr",
-    "BatchCancelOpenOrdersRequestBody",
-    "BatchCancelOpenOrdersRequestBodyOrdersItem",
-    "CancelAllOrdersAfterData",
-    "CancelAllOrdersAfterResponse200",
-    "CancelAllOrdersAfterResponse200Result",
-    "CancelAllOrdersResponse200",
-    "CancelAllOrdersResponse200Result",
-    "CancelOpenOrderRequestBody",
-    "CancelWithdrawalResponse200",
-    "Closed2",
-    "Closed2ClosedOrders",
-    "Closed2ClosedOrdersClosed",
+    "BatchAddOrderResponse",
+    "BatchAddOrderResult",
+    "BatchAddOrderResultItem",
+    "BatchAddOrderResultItemDescr",
+    "BatchCancelOrdersRequest",
+    "BatchCancelOrdersRequestItem",
+    "CancelAllOrdersAfterRequest",
+    "CancelAllOrdersAfterResponse",
+    "CancelAllOrdersAfterResult",
+    "CancelAllOrdersResponse",
+    "CancelAllOrdersResult",
+    "CancelOrderRequest",
+    "CancelWithdrawalRequest",
+    "CancelWithdrawalResponse",
     "ClosedOrder",
-    "CreateSubaccountData",
-    "CreateSubaccountResponse200",
-    "DeallocateStrategyJsonBody",
-    "DeallocateStrategyJsonBodyNonce",
-    "DeallocateStrategyResponse200",
+    "CreateSubaccountRequest",
+    "CreateSubaccountResponse",
+    "DeallocateStrategyRequest",
+    "DeallocateStrategyRequestNonce",
+    "DeallocateStrategyResponse",
     "Deposit",
     "DepositAddress",
     "DepositMethod",
-    "Depth",
-    "DepthResult",
-    "Edit2",
-    "Edit2OrderEdited",
-    "Edit2OrderEditedDescr",
-    "EditStandardOrderRequestBody",
-    "ExportStatusData",
-    "ExportStatusResponse200",
-    "ExportStatusResponse200ResultItem",
+    "EarnStrategy",
+    "EarnStrategyAprEstimate",
+    "EarnStrategyAutoCompoundDisabled",
+    "EarnStrategyAutoCompoundForced",
+    "EarnStrategyAutoCompoundOptional",
+    "EarnStrategyLockBonded",
+    "EarnStrategyLockFlex",
+    "EarnStrategyLockInstant",
+    "EarnStrategyLockTimed",
+    "EarnStrategyYieldOffChain",
+    "EarnStrategyYieldStaking",
+    "EditOrderRequest",
+    "EditOrderResponse",
+    "EditOrderResult",
+    "EditOrderResultDescr",
+    "ExportStatusRequest",
+    "ExportStatusResponse",
+    "ExportStatusResultItem",
     "ExtendedBalance",
     "FeeTierInfo",
-    "GetAllocateStrategyStatusJsonBody",
-    "GetAllocateStrategyStatusJsonBodyNonce",
-    "GetAllocateStrategyStatusResponse200",
-    "GetAllocateStrategyStatusResponse200Result",
-    "GetDeallocateStrategyStatusJsonBody",
-    "GetDeallocateStrategyStatusJsonBodyNonce",
-    "GetDeallocateStrategyStatusResponse200",
-    "GetDeallocateStrategyStatusResponse200Result",
-    "GetDespositMethodsRequestBody",
-    "GetOpenPositionsData",
-    "GetOpenPositionsResponse200",
-    "GetOpenPositionsResponse200Result",
-    "GetOpenPositionsResponse200ResultAdditionalProperty",
-    "GetStatusOfRecentDepositsRequestBody",
-    "GetStatusOfRecentWithdrawalsRequestBody",
-    "GetSystemStatusResponse200",
-    "GetSystemStatusResponse200Result",
-    "GetTradableAssetPairsResponse200",
-    "GetTradableAssetPairsResponse200Result",
-    "GetTradesInfoResponse200",
-    "GetTradesInfoResponse200Result",
-    "GetWebsocketsTokenResponse200",
-    "GetWebsocketsTokenResponse200Result",
-    "History2",
-    "Info2",
-    "Info2Result",
-    "Info3",
-    "Info3LedgersInfo",
-    "Info3LedgersInfoLedger",
-    "Info4",
-    "Info5",
-    "Info5WithdrawalInfo",
+    "GetAllocateStrategyStatusRequest",
+    "GetAllocateStrategyStatusRequestNonce",
+    "GetAllocateStrategyStatusResponse",
+    "GetAllocateStrategyStatusResult",
+    "GetAssetInfoResponse",
+    "GetAssetInfoResult",
+    "GetBalanceResponse",
+    "GetClosedOrdersResponse",
+    "GetClosedOrdersResult",
+    "GetClosedOrdersResultEntries",
+    "GetDeallocateStrategyStatusRequest",
+    "GetDeallocateStrategyStatusRequestNonce",
+    "GetDeallocateStrategyStatusResponse",
+    "GetDeallocateStrategyStatusResult",
+    "GetDepositAddressesRequest",
+    "GetDepositAddressesResponse",
+    "GetDepositMethodsRequest",
+    "GetDepositMethodsResponse",
+    "GetExtendedBalanceResponse",
+    "GetExtendedBalanceResult",
+    "GetLedgersInfoResponse",
+    "GetLedgersInfoResult",
+    "GetLedgersResponse",
+    "GetLedgersResult",
+    "GetLedgersResultEntries",
+    "GetOpenOrdersResponse",
+    "GetOpenOrdersResult",
+    "GetOpenOrdersResultEntries",
+    "GetOpenPositionsRequest",
+    "GetOpenPositionsResponse",
+    "GetOpenPositionsResult",
+    "GetOpenPositionsResultEntry",
+    "GetOrdersInfoResponse",
+    "GetOrdersInfoResult",
+    "GetRecentDepositsRequest",
+    "GetRecentDepositsResponse",
+    "GetRecentDepositsResultAlt",
+    "GetRecentSpreadsResponse",
+    "GetRecentSpreadsResult",
+    "GetRecentWithdrawalsRequest",
+    "GetSystemStatusResponse",
+    "GetSystemStatusResult",
+    "GetTickerResponse",
+    "GetTickerResult",
+    "GetTradableAssetPairsResponse",
+    "GetTradableAssetPairsResult",
+    "GetTradeHistoryResponse",
+    "GetTradeHistoryResult",
+    "GetTradeHistoryResultTrades",
+    "GetTradesInfoResponse",
+    "GetTradesInfoResult",
+    "GetWebsocketsTokenResponse",
+    "GetWebsocketsTokenResult",
     "LedgerEntry",
-    "ListAllocationsJsonBody",
-    "ListAllocationsJsonBodyNonce",
-    "ListAllocationsResponse200",
-    "ListAllocationsResponse200Result",
-    "ListAllocationsResponse200ResultItemsItem",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocated",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedBonding",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedBondingAllocationsItem",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedExitQueue",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedExitQueueAllocationsItem",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedPending",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedTotal",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedUnbonding",
-    "ListAllocationsResponse200ResultItemsItemAmountAllocatedUnbondingAllocationsItem",
-    "ListAllocationsResponse200ResultItemsItemPayout",
-    "ListAllocationsResponse200ResultItemsItemPayoutAccumulatedReward",
-    "ListAllocationsResponse200ResultItemsItemPayoutEstimatedReward",
-    "ListAllocationsResponse200ResultItemsItemTotalRewarded",
-    "ListStrategiesJsonBody",
-    "ListStrategiesJsonBodyNonce",
-    "ListStrategiesResponse200",
-    "ListStrategiesResponse200Result",
-    "ListStrategiesResponse200ResultItemsItem",
-    "ListStrategiesResponse200ResultItemsItemAprEstimate",
-    "ListStrategiesResponse200ResultItemsItemAutoCompoundType0",
-    "ListStrategiesResponse200ResultItemsItemAutoCompoundType1",
-    "ListStrategiesResponse200ResultItemsItemAutoCompoundType2",
-    "ListStrategiesResponse200ResultItemsItemLockTypeType0",
-    "ListStrategiesResponse200ResultItemsItemLockTypeType1",
-    "ListStrategiesResponse200ResultItemsItemLockTypeType2",
-    "ListStrategiesResponse200ResultItemsItemLockTypeType3",
-    "ListStrategiesResponse200ResultItemsItemYieldSourceType0",
-    "ListStrategiesResponse200ResultItemsItemYieldSourceType1",
+    "ListAllocationsRequest",
+    "ListAllocationsRequestNonce",
+    "ListAllocationsResponse",
+    "ListAllocationsResult",
+    "ListStrategiesRequest",
+    "ListStrategiesRequestNonce",
+    "ListStrategiesResponse",
+    "ListStrategiesResult",
     "Lock",
-    "Methods2",
-    "Ohlc",
+    "OhlcResponse",
     "OhlcResult",
-    "Open2",
-    "Open2OpenOrders",
-    "Open2OpenOrdersOpen",
     "OpenOrder",
     "OpenOrderOrderDescription",
     "OrderBook",
-    "Ordertype",
-    "Query2",
-    "Query2Result",
-    "Query3",
-    "Query3Result",
-    "QueryOrdersInfoRequestBody",
-    "Recent2",
-    "Recent2ResultType1",
-    "RemoveExportData",
-    "RemoveExportResponse200",
-    "RemoveExportResponse200Result",
-    "RequestWithdrawalCancelationRequestBody",
-    "RetrieveExportData",
-    "RetrieveExportResponse200",
-    "Spread2",
-    "Spread2Result",
-    "Ticker2",
-    "Ticker2Result",
-    "Time",
-    "TimeServerTime",
+    "OrderBookResponse",
+    "OrderBookResult",
+    "QueryOrdersInfoRequest",
+    "RecentTradesResponse",
+    "RecentTradesResult",
+    "RemoveExportRequest",
+    "RemoveExportResponse",
+    "RemoveExportResult",
+    "RetrieveExportRequest",
+    "RetrieveExportResponse",
+    "ServerTime",
+    "ServerTimeResponse",
     "Trade",
-    "TradeHistory",
-    "TradeHistoryTrades",
-    "Trades",
-    "TradesResult",
-    "Volume",
-    "VolumeTradeVolume",
-    "VolumeTradeVolumeFees",
-    "VolumeTradeVolumeFeesMaker",
-    "WalletTransferData",
-    "WalletTransferResponse200",
-    "WalletTransferResponse200Result",
-    "Withdrawal",
-    "Withdrawal2",
-    "Withdrawal2Result",
+    "TradeVolumeFees",
+    "TradeVolumeFeesMaker",
+    "TradeVolumeResponse",
+    "TradeVolumeResult",
+    "WalletTransferRequest",
+    "WalletTransferResponse",
+    "WalletTransferResult",
+    "WithdrawFundsRequest",
+    "WithdrawFundsResponse",
+    "WithdrawFundsResult",
+    "WithdrawalInfoRequest",
+    "WithdrawalInfoResponse",
+    "WithdrawalInfoResult",
 )

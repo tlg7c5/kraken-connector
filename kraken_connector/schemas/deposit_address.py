@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,21 +22,21 @@ class DepositAddress:
             us/articles/360000184443-Destination-Tag-for-Ripple-XRP-deposits) deposit addresses
     """
 
-    address: Union[Unset, str] = UNSET
-    expiretm: Union[Unset, str] = UNSET
-    new: Union[Unset, bool] = UNSET
-    memo: Union[Unset, str] = UNSET
-    tag: Union[Unset, Any] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    address: Unset | str = UNSET
+    expiretm: Unset | str = UNSET
+    new: Unset | bool = UNSET
+    memo: Unset | str = UNSET
+    tag: Unset | Any = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         address = self.address
         expiretm = self.expiretm
         new = self.new
         memo = self.memo
         tag = self.tag
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if address is not UNSET:
@@ -53,7 +53,7 @@ class DepositAddress:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         address = d.pop("address", UNSET)
 
@@ -77,7 +77,7 @@ class DepositAddress:
         return deposit_address
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

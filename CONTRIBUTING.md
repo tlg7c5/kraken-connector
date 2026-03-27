@@ -29,7 +29,7 @@ Anything tagged with "enhancement" and "help wanted" is open to whoever wants to
 
 ## Write Documentation
 
-Cookiecutter PyPackage could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
+`kraken-connector` could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
 
 ## Submit Feedback
 
@@ -45,7 +45,7 @@ If you are proposing a new feature:
 # Get Started!
 
 Ready to contribute? Here's how to set up `kraken-connector` for local development.
-Please note this documentation assumes you already have `poetry` and `Git` installed and ready to go.
+Please note this documentation assumes you already have `pdm` and `Git` installed and ready to go.
 
 1. Fork the `kraken-connector` repo on GitHub.
 
@@ -68,17 +68,16 @@ If you are using `pyenv`, select a version to use locally. (See installed versio
 pyenv local <x.y.z>
 ```
 
-Then, install and activate the environment with:
+Then, install the environment with:
 
 ```bash
-poetry install
-poetry shell
+pdm install
 ```
 
 4. Install pre-commit to run linters/formatters at commit time:
 
 ```bash
-poetry run pre-commit install
+pdm run pre-commit install
 ```
 
 5. Create a branch for local development:
@@ -110,8 +109,7 @@ make test
 tox
 ```
 
-This requires you to have multiple versions of python installed.
-This step is also triggered in the CI/CD pipeline, so you could also choose to skip this step locally.
+This is also triggered in the CI/CD pipeline, so you could also choose to skip this step locally.
 
 10. Commit your changes and push your branch to GitHub:
 

@@ -1,36 +1,42 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.list_allocations_json_body import ListAllocationsJsonBody
-from ...schemas.list_allocations_response_200 import ListAllocationsResponse200
+from ...schemas.list_allocations_request import ListAllocationsRequest
+from ...schemas.list_allocations_response import ListAllocationsResponse
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
     *,
-    json_body: ListAllocationsJsonBody,
-) -> Dict[str, Any]:
-    pass
-
+    json_body: ListAllocationsRequest,
+) -> dict[str, Any]:
     json_json_body = json_body.to_dict()
 
     return {
         "method": "post",
-        "url": "/0/private/Earn/Allocations",
+        "url": f"{API_VERSION_PREFIX}/private/Earn/Allocations",
         "json": json_json_body,
     }
 
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[ListAllocationsResponse200]:
+) -> ListAllocationsResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = ListAllocationsResponse200.from_dict(response.json())
+        response_200 = ListAllocationsResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -41,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[ListAllocationsResponse200]:
+) -> Response[ListAllocationsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,8 +59,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListAllocationsJsonBody,
-) -> Response[ListAllocationsResponse200]:
+    json_body: ListAllocationsRequest,
+) -> Response[ListAllocationsResponse]:
     """List Earn Allocations
 
      List all allocations for the user.
@@ -94,30 +100,30 @@ def sync_detailed(
     funds. Wait 1-2 minutes after (de)allocating to get an accurate result.
 
     Args:
-        json_body (ListAllocationsJsonBody): Page request
+        json_body (ListAllocationsRequest): Page request
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[ListAllocationsResponse200]
+        Response[ListAllocationsResponse]
     """
 
     kwargs = _get_kwargs(
         json_body=json_body,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = secured_client.get_httpx_client().request(**kwargs)
+    response = secured_client.get_or_create_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -125,8 +131,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListAllocationsJsonBody,
-) -> Optional[ListAllocationsResponse200]:
+    json_body: ListAllocationsRequest,
+) -> ListAllocationsResponse | None:
     """List Earn Allocations
 
      List all allocations for the user.
@@ -166,14 +172,14 @@ def sync(
     funds. Wait 1-2 minutes after (de)allocating to get an accurate result.
 
     Args:
-        json_body (ListAllocationsJsonBody): Page request
+        json_body (ListAllocationsRequest): Page request
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        ListAllocationsResponse200
+        ListAllocationsResponse
     """
 
     return sync_detailed(
@@ -185,8 +191,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListAllocationsJsonBody,
-) -> Response[ListAllocationsResponse200]:
+    json_body: ListAllocationsRequest,
+) -> Response[ListAllocationsResponse]:
     """List Earn Allocations
 
      List all allocations for the user.
@@ -226,30 +232,30 @@ async def asyncio_detailed(
     funds. Wait 1-2 minutes after (de)allocating to get an accurate result.
 
     Args:
-        json_body (ListAllocationsJsonBody): Page request
+        json_body (ListAllocationsRequest): Page request
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[ListAllocationsResponse200]
+        Response[ListAllocationsResponse]
     """
 
     kwargs = _get_kwargs(
         json_body=json_body,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_async_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = await secured_client.get_async_httpx_client().request(**kwargs)
+    response = await secured_client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -257,8 +263,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: ListAllocationsJsonBody,
-) -> Optional[ListAllocationsResponse200]:
+    json_body: ListAllocationsRequest,
+) -> ListAllocationsResponse | None:
     """List Earn Allocations
 
      List all allocations for the user.
@@ -298,14 +304,14 @@ async def asyncio(
     funds. Wait 1-2 minutes after (de)allocating to get an accurate result.
 
     Args:
-        json_body (ListAllocationsJsonBody): Page request
+        json_body (ListAllocationsRequest): Page request
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and HTTPClient.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        ListAllocationsResponse200
+        ListAllocationsResponse
     """
 
     return (

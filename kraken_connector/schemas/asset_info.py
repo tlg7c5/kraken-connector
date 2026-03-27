@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -20,15 +20,15 @@ class AssetInfo:
             `funding_temporarily_disabled`.
     """
 
-    aclass: Union[Unset, str] = UNSET
-    altname: Union[Unset, str] = UNSET
-    decimals: Union[Unset, int] = UNSET
-    display_decimals: Union[Unset, int] = UNSET
-    collateral_value: Union[Unset, float] = UNSET
-    status: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    aclass: Unset | str = UNSET
+    altname: Unset | str = UNSET
+    decimals: Unset | int = UNSET
+    display_decimals: Unset | int = UNSET
+    collateral_value: Unset | float = UNSET
+    status: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         aclass = self.aclass
         altname = self.altname
         decimals = self.decimals
@@ -36,7 +36,7 @@ class AssetInfo:
         collateral_value = self.collateral_value
         status = self.status
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if aclass is not UNSET:
@@ -55,7 +55,7 @@ class AssetInfo:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         aclass = d.pop("aclass", UNSET)
 
@@ -82,7 +82,7 @@ class AssetInfo:
         return asset_info
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

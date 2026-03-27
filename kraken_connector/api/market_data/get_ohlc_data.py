@@ -1,27 +1,26 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...constants.market_data import OHLCDataInterval
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.ohlc import Ohlc
+from ...schemas.ohlc_response import OhlcResponse
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Dict[str, Any]:
-    pass
-
-    params: Dict[str, Any] = {}
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
-    json_interval: Union[Unset, None, int] = UNSET
+    json_interval: Unset | None | int = UNSET
     if not isinstance(interval, Unset):
         json_interval = interval.value if interval else None
 
@@ -33,16 +32,23 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/0/public/OHLC",
+        "url": f"{API_VERSION_PREFIX}/public/OHLC",
         "params": params,
     }
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Ohlc]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> OhlcResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Ohlc.from_dict(response.json())
+        response_200 = OhlcResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -52,8 +58,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Ohlc]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> Response[OhlcResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -64,11 +70,11 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Response[Ohlc]:
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> Response[OhlcResponse]:
     """Get OHLC Data
 
      Note: the last entry in the OHLC array is for the current, not-yet-committed frame and will always
@@ -84,7 +90,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Ohlc]
+        Response[OhlcResponse]
     """
 
     kwargs = _get_kwargs(
@@ -93,7 +99,7 @@ def sync_detailed(
         since=since,
     )
 
-    response = client.get_httpx_client().request(
+    response = client.get_or_create_httpx_client().request(
         **kwargs,
     )
 
@@ -102,11 +108,11 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Optional[Ohlc]:
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> OhlcResponse | None:
     """Get OHLC Data
 
      Note: the last entry in the OHLC array is for the current, not-yet-committed frame and will always
@@ -122,7 +128,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Ohlc
+        OhlcResponse
     """
 
     return sync_detailed(
@@ -135,11 +141,11 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Response[Ohlc]:
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> Response[OhlcResponse]:
     """Get OHLC Data
 
      Note: the last entry in the OHLC array is for the current, not-yet-committed frame and will always
@@ -155,7 +161,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Ohlc]
+        Response[OhlcResponse]
     """
 
     kwargs = _get_kwargs(
@@ -164,18 +170,18 @@ async def asyncio_detailed(
         since=since,
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    interval: Union[Unset, None, OHLCDataInterval] = OHLCDataInterval.ONE_MINUTE,
-    since: Union[Unset, None, int] = UNSET,
-) -> Optional[Ohlc]:
+    interval: Unset | None | OHLCDataInterval = OHLCDataInterval.ONE_MINUTE,
+    since: Unset | None | int = UNSET,
+) -> OhlcResponse | None:
     """Get OHLC Data
 
      Note: the last entry in the OHLC array is for the current, not-yet-committed frame and will always
@@ -191,7 +197,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Ohlc
+        OhlcResponse
     """
 
     return (

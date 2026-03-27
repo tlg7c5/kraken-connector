@@ -1,36 +1,42 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
-from ...schemas.deallocate_strategy_json_body import DeallocateStrategyJsonBody
-from ...schemas.deallocate_strategy_response_200 import DeallocateStrategyResponse200
+from ...schemas.deallocate_strategy_request import DeallocateStrategyRequest
+from ...schemas.deallocate_strategy_response import DeallocateStrategyResponse
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
     *,
-    json_body: DeallocateStrategyJsonBody,
-) -> Dict[str, Any]:
-    pass
-
+    json_body: DeallocateStrategyRequest,
+) -> dict[str, Any]:
     json_json_body = json_body.to_dict()
 
     return {
         "method": "post",
-        "url": "/0/private/Earn/Deallocate",
+        "url": f"{API_VERSION_PREFIX}/private/Earn/Deallocate",
         "json": json_json_body,
     }
 
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[DeallocateStrategyResponse200]:
+) -> DeallocateStrategyResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = DeallocateStrategyResponse200.from_dict(response.json())
+        response_200 = DeallocateStrategyResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -41,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Response[DeallocateStrategyResponse200]:
+) -> Response[DeallocateStrategyResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,8 +59,8 @@ def _build_response(
 def sync_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Response[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> Response[DeallocateStrategyResponse]:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -83,7 +89,7 @@ def sync_detailed(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -91,23 +97,23 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[DeallocateStrategyResponse200]
+        Response[DeallocateStrategyResponse]
     """
 
     kwargs = _get_kwargs(
         json_body=json_body,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = secured_client.get_httpx_client().request(**kwargs)
+    response = secured_client.get_or_create_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -115,8 +121,8 @@ def sync_detailed(
 def sync(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Optional[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> DeallocateStrategyResponse | None:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -145,7 +151,7 @@ def sync(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -153,7 +159,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        DeallocateStrategyResponse200
+        DeallocateStrategyResponse
     """
 
     return sync_detailed(
@@ -165,8 +171,8 @@ def sync(
 async def asyncio_detailed(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Response[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> Response[DeallocateStrategyResponse]:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -195,7 +201,7 @@ async def asyncio_detailed(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -203,23 +209,23 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[DeallocateStrategyResponse200]
+        Response[DeallocateStrategyResponse]
     """
 
     kwargs = _get_kwargs(
         json_body=json_body,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_async_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = await secured_client.get_async_httpx_client().request(**kwargs)
+    response = await secured_client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -227,8 +233,8 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
-    json_body: DeallocateStrategyJsonBody,
-) -> Optional[DeallocateStrategyResponse200]:
+    json_body: DeallocateStrategyRequest,
+) -> DeallocateStrategyResponse | None:
     """Deallocate Earn Funds
 
      Deallocate funds from a strategy.
@@ -257,7 +263,7 @@ async def asyncio(
     - Strategy not found: `EGeneral:Invalid arguments:Invalid strategy ID`
 
     Args:
-        json_body (DeallocateStrategyJsonBody): Allocation amount in asset specified in the
+        json_body (DeallocateStrategyRequest): Allocation amount in asset specified in the
             strategy
 
     Raises:
@@ -265,7 +271,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        DeallocateStrategyResponse200
+        DeallocateStrategyResponse
     """
 
     return (

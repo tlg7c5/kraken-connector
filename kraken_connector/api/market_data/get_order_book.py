@@ -1,22 +1,21 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.depth import Depth
+from ...schemas.order_book_response import OrderBookResponse
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Dict[str, Any]:
-    pass
-
-    params: Dict[str, Any] = {}
+    count: Unset | None | int = 100,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["pair"] = pair
 
     params["count"] = count
@@ -25,16 +24,23 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/0/public/Depth",
+        "url": f"{API_VERSION_PREFIX}/public/OrderBookResponse",
         "params": params,
     }
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Depth]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> OrderBookResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Depth.from_dict(response.json())
+        response_200 = OrderBookResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -44,8 +50,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Depth]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> Response[OrderBookResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,10 +62,10 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Response[Depth]:
+    count: Unset | None | int = 100,
+) -> Response[OrderBookResponse]:
     """Get Order Book
 
     Args:
@@ -71,7 +77,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Depth]
+        Response[OrderBookResponse]
     """
 
     kwargs = _get_kwargs(
@@ -79,7 +85,7 @@ def sync_detailed(
         count=count,
     )
 
-    response = client.get_httpx_client().request(
+    response = client.get_or_create_httpx_client().request(
         **kwargs,
     )
 
@@ -88,10 +94,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Optional[Depth]:
+    count: Unset | None | int = 100,
+) -> OrderBookResponse | None:
     """Get Order Book
 
     Args:
@@ -103,7 +109,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Depth
+        OrderBookResponse
     """
 
     return sync_detailed(
@@ -115,10 +121,10 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Response[Depth]:
+    count: Unset | None | int = 100,
+) -> Response[OrderBookResponse]:
     """Get Order Book
 
     Args:
@@ -130,7 +136,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Depth]
+        Response[OrderBookResponse]
     """
 
     kwargs = _get_kwargs(
@@ -138,17 +144,17 @@ async def asyncio_detailed(
         count=count,
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
+    client: HTTPAuthenticatedClient | HTTPClient,
     pair: str,
-    count: Union[Unset, None, int] = 100,
-) -> Optional[Depth]:
+    count: Unset | None | int = 100,
+) -> OrderBookResponse | None:
     """Get Order Book
 
     Args:
@@ -160,7 +166,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Depth
+        OrderBookResponse
     """
 
     return (

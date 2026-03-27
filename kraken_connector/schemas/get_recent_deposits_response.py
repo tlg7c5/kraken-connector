@@ -1,0 +1,118 @@
+from typing import TYPE_CHECKING, Any, Self, Union, cast
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..schemas.deposit import Deposit
+    from ..schemas.get_recent_deposits_result_alt import GetRecentDepositsResultAlt
+
+
+@_attrs_define
+class GetRecentDepositsResponse:
+    """
+    Attributes:
+        result (Union['Deposit', 'GetRecentDepositsResultAlt', Unset]):
+        error (Union[Unset, List[str]]):
+    """
+
+    result: Union["Deposit", "GetRecentDepositsResultAlt", Unset] = UNSET
+    error: Unset | list[str] = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        from ..schemas.deposit import Deposit
+
+        result: dict[str, Any] | Unset
+        if isinstance(self.result, Unset):
+            result = UNSET
+
+        elif isinstance(self.result, Deposit):
+            result = UNSET
+            if not isinstance(self.result, Unset):
+                result = self.result.to_dict()
+
+        else:
+            result = UNSET
+            if not isinstance(self.result, Unset):
+                result = self.result.to_dict()
+
+        error: Unset | list[str] = UNSET
+        if not isinstance(self.error, Unset):
+            error = self.error
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if result is not UNSET:
+            field_dict["result"] = result
+        if error is not UNSET:
+            field_dict["error"] = error
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
+        from ..schemas.deposit import Deposit
+        from ..schemas.get_recent_deposits_result_alt import GetRecentDepositsResultAlt
+
+        d = src_dict.copy()
+
+        def _parse_result(
+            data: object,
+        ) -> Union["Deposit", "GetRecentDepositsResultAlt", Unset]:
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                _result_type_0 = data
+                result_type_0: Unset | Deposit
+                if isinstance(_result_type_0, Unset):
+                    result_type_0 = UNSET
+                else:
+                    result_type_0 = Deposit.from_dict(_result_type_0)
+
+                return result_type_0
+            except:  # noqa: E722
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            _result_type_1 = data
+            result_type_1: Unset | GetRecentDepositsResultAlt
+            if isinstance(_result_type_1, Unset):
+                result_type_1 = UNSET
+            else:
+                result_type_1 = GetRecentDepositsResultAlt.from_dict(_result_type_1)
+
+            return result_type_1
+
+        result = _parse_result(d.pop("result", UNSET))
+
+        error = cast(list[str], d.pop("error", UNSET))
+
+        recent_2 = cls(
+            result=result,
+            error=error,
+        )
+
+        recent_2.additional_properties = d
+        return recent_2
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

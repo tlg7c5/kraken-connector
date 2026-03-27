@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,23 +22,23 @@ class OpenOrderOrderDescription:
         close (Union[Unset, str]): Conditional close order description (if conditional close set)
     """
 
-    pair: Union[Unset, str] = UNSET
-    type: Union[Unset, TypeOrder] = UNSET
-    ordertype: Union[Unset, OrderType] = UNSET
-    price: Union[Unset, str] = UNSET
-    price2: Union[Unset, str] = UNSET
-    leverage: Union[Unset, str] = UNSET
-    order: Union[Unset, str] = UNSET
-    close: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    pair: Unset | str = UNSET
+    type: Unset | TypeOrder = UNSET
+    ordertype: Unset | OrderType = UNSET
+    price: Unset | str = UNSET
+    price2: Unset | str = UNSET
+    leverage: Unset | str = UNSET
+    order: Unset | str = UNSET
+    close: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         pair = self.pair
-        type: Union[Unset, str] = UNSET
+        type: Unset | str = UNSET
         if not isinstance(self.type, Unset):
             type = self.type.value
 
-        ordertype: Union[Unset, str] = UNSET
+        ordertype: Unset | str = UNSET
         if not isinstance(self.ordertype, Unset):
             ordertype = self.ordertype.value
 
@@ -48,7 +48,7 @@ class OpenOrderOrderDescription:
         order = self.order
         close = self.close
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if pair is not UNSET:
@@ -71,16 +71,16 @@ class OpenOrderOrderDescription:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         pair = d.pop("pair", UNSET)
 
         _type = d.pop("type", UNSET)
-        type: Union[Unset, TypeOrder]
+        type: Unset | TypeOrder
         type = UNSET if isinstance(_type, Unset) else TypeOrder(_type)
 
         _ordertype = d.pop("ordertype", UNSET)
-        ordertype: Union[Unset, OrderType]
+        ordertype: Unset | OrderType
         ordertype = UNSET if isinstance(_ordertype, Unset) else OrderType(_ordertype)
 
         price = d.pop("price", UNSET)
@@ -108,7 +108,7 @@ class OpenOrderOrderDescription:
         return open_order_order_description
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

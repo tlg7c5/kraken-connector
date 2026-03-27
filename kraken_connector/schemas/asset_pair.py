@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union, cast
+from typing import Any, Self, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,7 +17,7 @@ class AssetPair:
         base (Union[Unset, str]): Asset ID of base component
         aclass_quote (Union[Unset, str]): Asset class of quote component
         quote (Union[Unset, str]): Asset ID of quote component
-        lot (Union[Unset, str]): Volume lot size
+        lot (Union[Unset, str]): TradeVolumeResponse lot size
         pair_decimals (Union[Unset, int]): Scaling decimal places for pair
         cost_decimals (Union[Unset, int]): Scaling decimal places for cost
         lot_decimals (Union[Unset, int]): Scaling decimal places for volume
@@ -27,7 +27,7 @@ class AssetPair:
         fees (Union[Unset, List[List[float]]]): Fee schedule array in `[<volume>, <percent fee>]` tuples
         fees_maker (Union[Unset, List[List[float]]]): Maker fee schedule array in `[<volume>, <percent fee>]`  tuples
             (if on maker/taker)
-        fee_volume_currency (Union[Unset, str]): Volume discount currency
+        fee_volume_currency (Union[Unset, str]): TradeVolumeResponse discount currency
         margin_call (Union[Unset, int]): Margin call level
         margin_stop (Union[Unset, int]): Stop-out/liquidation margin level
         ordermin (Union[Unset, str]): Minimum order size (in terms of base currency)
@@ -39,33 +39,33 @@ class AssetPair:
         short_position_limit (Union[Unset, int]): Maximum short margin position size (in terms of base currency)
     """
 
-    altname: Union[Unset, str] = UNSET
-    wsname: Union[Unset, str] = UNSET
-    aclass_base: Union[Unset, str] = UNSET
-    base: Union[Unset, str] = UNSET
-    aclass_quote: Union[Unset, str] = UNSET
-    quote: Union[Unset, str] = UNSET
-    lot: Union[Unset, str] = UNSET
-    pair_decimals: Union[Unset, int] = UNSET
-    cost_decimals: Union[Unset, int] = UNSET
-    lot_decimals: Union[Unset, int] = UNSET
-    lot_multiplier: Union[Unset, int] = UNSET
-    leverage_buy: Union[Unset, List[int]] = UNSET
-    leverage_sell: Union[Unset, List[int]] = UNSET
-    fees: Union[Unset, List[List[float]]] = UNSET
-    fees_maker: Union[Unset, List[List[float]]] = UNSET
-    fee_volume_currency: Union[Unset, str] = UNSET
-    margin_call: Union[Unset, int] = UNSET
-    margin_stop: Union[Unset, int] = UNSET
-    ordermin: Union[Unset, str] = UNSET
-    costmin: Union[Unset, str] = UNSET
-    tick_size: Union[Unset, str] = UNSET
-    status: Union[Unset, str] = UNSET
-    long_position_limit: Union[Unset, int] = UNSET
-    short_position_limit: Union[Unset, int] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    altname: Unset | str = UNSET
+    wsname: Unset | str = UNSET
+    aclass_base: Unset | str = UNSET
+    base: Unset | str = UNSET
+    aclass_quote: Unset | str = UNSET
+    quote: Unset | str = UNSET
+    lot: Unset | str = UNSET
+    pair_decimals: Unset | int = UNSET
+    cost_decimals: Unset | int = UNSET
+    lot_decimals: Unset | int = UNSET
+    lot_multiplier: Unset | int = UNSET
+    leverage_buy: Unset | list[int] = UNSET
+    leverage_sell: Unset | list[int] = UNSET
+    fees: Unset | list[list[float]] = UNSET
+    fees_maker: Unset | list[list[float]] = UNSET
+    fee_volume_currency: Unset | str = UNSET
+    margin_call: Unset | int = UNSET
+    margin_stop: Unset | int = UNSET
+    ordermin: Unset | str = UNSET
+    costmin: Unset | str = UNSET
+    tick_size: Unset | str = UNSET
+    status: Unset | str = UNSET
+    long_position_limit: Unset | int = UNSET
+    short_position_limit: Unset | int = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         altname = self.altname
         wsname = self.wsname
         aclass_base = self.aclass_base
@@ -77,15 +77,15 @@ class AssetPair:
         cost_decimals = self.cost_decimals
         lot_decimals = self.lot_decimals
         lot_multiplier = self.lot_multiplier
-        leverage_buy: Union[Unset, List[int]] = UNSET
+        leverage_buy: Unset | list[int] = UNSET
         if not isinstance(self.leverage_buy, Unset):
             leverage_buy = self.leverage_buy
 
-        leverage_sell: Union[Unset, List[int]] = UNSET
+        leverage_sell: Unset | list[int] = UNSET
         if not isinstance(self.leverage_sell, Unset):
             leverage_sell = self.leverage_sell
 
-        fees: Union[Unset, List[List[float]]] = UNSET
+        fees: Unset | list[list[float]] = UNSET
         if not isinstance(self.fees, Unset):
             fees = []
             for fees_item_data in self.fees:
@@ -93,7 +93,7 @@ class AssetPair:
 
                 fees.append(fees_item)
 
-        fees_maker: Union[Unset, List[List[float]]] = UNSET
+        fees_maker: Unset | list[list[float]] = UNSET
         if not isinstance(self.fees_maker, Unset):
             fees_maker = []
             for fees_maker_item_data in self.fees_maker:
@@ -111,7 +111,7 @@ class AssetPair:
         long_position_limit = self.long_position_limit
         short_position_limit = self.short_position_limit
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if altname is not UNSET:
@@ -166,7 +166,7 @@ class AssetPair:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         altname = d.pop("altname", UNSET)
 
@@ -190,21 +190,21 @@ class AssetPair:
 
         lot_multiplier = d.pop("lot_multiplier", UNSET)
 
-        leverage_buy = cast(List[int], d.pop("leverage_buy", UNSET))
+        leverage_buy = cast(list[int], d.pop("leverage_buy", UNSET))
 
-        leverage_sell = cast(List[int], d.pop("leverage_sell", UNSET))
+        leverage_sell = cast(list[int], d.pop("leverage_sell", UNSET))
 
         fees = []
         _fees = d.pop("fees", UNSET)
         for fees_item_data in _fees or []:
-            fees_item = cast(List[float], fees_item_data)
+            fees_item = cast(list[float], fees_item_data)
 
             fees.append(fees_item)
 
         fees_maker = []
         _fees_maker = d.pop("fees_maker", UNSET)
         for fees_maker_item_data in _fees_maker or []:
-            fees_maker_item = cast(List[float], fees_maker_item_data)
+            fees_maker_item = cast(list[float], fees_maker_item_data)
 
             fees_maker.append(fees_maker_item)
 
@@ -257,7 +257,7 @@ class AssetPair:
         return asset_pair
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

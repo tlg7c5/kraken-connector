@@ -1,22 +1,21 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient, HTTPClient
-from ...schemas.info_2 import Info2
+from ...schemas.get_asset_info_response import GetAssetInfoResponse
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Dict[str, Any]:
-    pass
-
-    params: Dict[str, Any] = {}
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     params["asset"] = asset
 
     params["aclass"] = aclass
@@ -25,16 +24,23 @@ def _get_kwargs(
 
     return {
         "method": "get",
-        "url": "/0/public/Assets",
+        "url": f"{API_VERSION_PREFIX}/public/Assets",
         "params": params,
     }
 
 
 def _parse_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Optional[Info2]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> GetAssetInfoResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = Info2.from_dict(response.json())
+        response_200 = GetAssetInfoResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -44,8 +50,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[HTTPAuthenticatedClient, HTTPClient], response: httpx.Response
-) -> Response[Info2]:
+    *, client: HTTPAuthenticatedClient | HTTPClient, response: httpx.Response
+) -> Response[GetAssetInfoResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,10 +62,10 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Response[Info2]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> Response[GetAssetInfoResponse]:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -73,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Info2]
+        Response[GetAssetInfoResponse]
     """
 
     kwargs = _get_kwargs(
@@ -81,7 +87,7 @@ def sync_detailed(
         aclass=aclass,
     )
 
-    response = client.get_httpx_client().request(
+    response = client.get_or_create_httpx_client().request(
         **kwargs,
     )
 
@@ -90,10 +96,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Optional[Info2]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> GetAssetInfoResponse | None:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -107,7 +113,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Info2
+        GetAssetInfoResponse
     """
 
     return sync_detailed(
@@ -119,10 +125,10 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Response[Info2]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> Response[GetAssetInfoResponse]:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -136,7 +142,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Response[Info2]
+        Response[GetAssetInfoResponse]
     """
 
     kwargs = _get_kwargs(
@@ -144,17 +150,17 @@ async def asyncio_detailed(
         aclass=aclass,
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
 
 async def asyncio(
     *,
-    client: Union[HTTPAuthenticatedClient, HTTPClient],
-    asset: Union[Unset, None, str] = UNSET,
-    aclass: Union[Unset, None, str] = UNSET,
-) -> Optional[Info2]:
+    client: HTTPAuthenticatedClient | HTTPClient,
+    asset: Unset | None | str = UNSET,
+    aclass: Unset | None | str = UNSET,
+) -> GetAssetInfoResponse | None:
     """Get Asset Info
 
      Get information about the assets that are available for deposit, withdrawal, trading and staking.
@@ -168,7 +174,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than HTTPClient.timeout.
 
     Returns:
-        Info2
+        GetAssetInfoResponse
     """
 
     return (

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Self, Union
+from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,21 +23,21 @@ class LedgerEntry:
         balance (Union[Unset, str]): Resulting balance
     """
 
-    refid: Union[Unset, str] = UNSET
-    time: Union[Unset, float] = UNSET
-    type: Union[Unset, LedgerEntryType] = UNSET
-    subtype: Union[Unset, str] = UNSET
-    aclass: Union[Unset, str] = UNSET
-    asset: Union[Unset, str] = UNSET
-    amount: Union[Unset, str] = UNSET
-    fee: Union[Unset, str] = UNSET
-    balance: Union[Unset, str] = UNSET
-    additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
+    refid: Unset | str = UNSET
+    time: Unset | float = UNSET
+    type: Unset | LedgerEntryType = UNSET
+    subtype: Unset | str = UNSET
+    aclass: Unset | str = UNSET
+    asset: Unset | str = UNSET
+    amount: Unset | str = UNSET
+    fee: Unset | str = UNSET
+    balance: Unset | str = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         refid = self.refid
         time = self.time
-        type: Union[Unset, str] = UNSET
+        type: Unset | str = UNSET
         if not isinstance(self.type, Unset):
             type = self.type.value
 
@@ -48,7 +48,7 @@ class LedgerEntry:
         fee = self.fee
         balance = self.balance
 
-        field_dict: Dict[str, Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if refid is not UNSET:
@@ -73,14 +73,14 @@ class LedgerEntry:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: Dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         refid = d.pop("refid", UNSET)
 
         time = d.pop("time", UNSET)
 
         _type = d.pop("type", UNSET)
-        type: Union[Unset, LedgerEntryType]
+        type: Unset | LedgerEntryType
         type = UNSET if isinstance(_type, Unset) else LedgerEntryType(_type)
 
         subtype = d.pop("subtype", UNSET)
@@ -111,7 +111,7 @@ class LedgerEntry:
         return ledger_entry
 
     @property
-    def additional_keys(self) -> List[str]:
+    def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
     def __getitem__(self, key: str) -> Any:

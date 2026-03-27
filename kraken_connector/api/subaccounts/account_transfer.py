@@ -1,32 +1,38 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
 from ... import exceptions
+from ...constants.api import API_VERSION_PREFIX
 from ...http import HTTPAuthenticatedClient
 from ...schemas.account_transfer import AccountTransferRequest, AccountTransferResponse
 from ...security import sign_message
-from ...types import Response
+from ...types import Response, Unset
 
 
 def _get_kwargs(
     form_data: AccountTransferRequest,
-) -> Dict[str, Any]:
-    pass
-
+) -> dict[str, Any]:
     return {
         "method": "post",
-        "url": "/0/private/AccountTransfer",
+        "url": f"{API_VERSION_PREFIX}/private/AccountTransfer",
         "data": form_data.to_dict(),
     }
 
 
 def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
-) -> Optional[AccountTransferResponse]:
+) -> AccountTransferResponse | None:
     if response.status_code == HTTPStatus.OK:
         response_200 = AccountTransferResponse.from_dict(response.json())
+
+        # Check for API-level errors in response body
+        errors = getattr(response_200, "error", None)
+        if errors and not isinstance(errors, Unset) and errors:
+            raise exceptions.KrakenAPIError(
+                errors if isinstance(errors, list) else [str(errors)]
+            )
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -68,16 +74,16 @@ def sync_detailed(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = secured_client.get_httpx_client().request(**kwargs)
+    response = secured_client.get_or_create_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -86,7 +92,7 @@ def sync(
     *,
     client: HTTPAuthenticatedClient,
     form_data: AccountTransferRequest,
-) -> Optional[AccountTransferResponse]:
+) -> AccountTransferResponse | None:
     """Account Transfer
 
      Transfer funds to and from master and subaccounts. **Note:** `AccountTransfer` must be called by the
@@ -128,16 +134,16 @@ async def asyncio_detailed(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
         )
     }
-    # ensure client._client is set as default is `None`
-    client.get_async_httpx_client()
     secured_client = client.with_headers(security_header)
 
-    response = await secured_client.get_async_httpx_client().request(**kwargs)
+    response = await secured_client.get_or_create_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -146,7 +152,7 @@ async def asyncio(
     *,
     client: HTTPAuthenticatedClient,
     form_data: AccountTransferRequest,
-) -> Optional[AccountTransferResponse]:
+) -> AccountTransferResponse | None:
     """Account Transfer
 
      Transfer funds to and from master and subaccounts. **Note:** `AccountTransfer` must be called by the
