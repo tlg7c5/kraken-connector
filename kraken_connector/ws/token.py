@@ -21,7 +21,7 @@ class TokenManager:
     Acquires tokens via the REST API, caches them, and refreshes
     before expiry.
 
-    Args:
+    Attributes:
         auth_client: Authenticated HTTP client for token requests.
         refresh_margin: Seconds before expiry to trigger refresh (default 60).
     """

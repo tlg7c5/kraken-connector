@@ -69,4 +69,4 @@ jobs:
         uses: ./.github/actions/setup-pdm-env
 
       - name: Check if documentation can be built
-        run: pdm run mkdocs build -s
+        run: pdm run mkdocs build

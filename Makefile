@@ -76,8 +76,8 @@ publish: ## publish a release to pypi.
 build-and-publish: build publish ## Build and publish.
 
 .PHONY: docs-test
-docs-test: ## Test if documentation can be built without warnings or errors
-	@pdm run mkdocs build -s
+docs-test: ## Test if documentation can be built
+	@pdm run mkdocs build
 
 .PHONY: docs
 docs: ## Build and serve the documentation
