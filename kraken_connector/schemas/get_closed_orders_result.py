@@ -40,7 +40,7 @@ class GetClosedOrdersResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_closed_orders_result_entries import (
             GetClosedOrdersResultEntries,
         )

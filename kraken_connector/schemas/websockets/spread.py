@@ -67,7 +67,7 @@ class SpreadMessage:
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: list[Any]):
+    def from_message(cls, message: list[Any]) -> Self:
         """Convert raw message from websocke to OHLCMessage."""
         channel_id = message[0]
         spread = Spread.from_message(message[1])

@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,7 +22,7 @@ class EarnStrategyLockTimed:
     """
 
     duration: int
-    type: StrategyLockType.TIMED
+    type: Literal[StrategyLockType.TIMED]
     payout_frequency: Unset | None | int = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -46,7 +46,7 @@ class EarnStrategyLockTimed:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         duration = d.pop("duration")
 
@@ -56,7 +56,7 @@ class EarnStrategyLockTimed:
 
         list_strategies_response_200_result_items_item_lock_type_type_2 = cls(
             duration=duration,
-            type=type,
+            type=type,  # type: ignore[arg-type]
             payout_frequency=payout_frequency,
         )
 

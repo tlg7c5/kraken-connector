@@ -54,7 +54,7 @@ class TradeVolumeResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.trade_volume_fees import TradeVolumeFees
         from ..schemas.trade_volume_fees_maker import TradeVolumeFeesMaker
 

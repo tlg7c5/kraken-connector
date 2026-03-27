@@ -54,7 +54,7 @@ class GetRecentDepositsResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.deposit import Deposit
         from ..schemas.get_recent_deposits_result_alt import GetRecentDepositsResultAlt
 

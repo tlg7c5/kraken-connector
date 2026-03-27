@@ -45,7 +45,7 @@ class EditOrderResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.edit_order_result import EditOrderResult
 
         d = src_dict.copy()

@@ -41,7 +41,7 @@ class OhlcResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.ohlc_result import OhlcResult
 
         d = src_dict.copy()

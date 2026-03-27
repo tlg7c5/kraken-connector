@@ -210,7 +210,7 @@ class EarnStrategy:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.earn_strategy_apr_estimate import (
             EarnStrategyAprEstimate,
         )

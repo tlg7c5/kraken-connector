@@ -41,7 +41,7 @@ class AddExportResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.add_export_result import AddExportResult
 
         d = src_dict.copy()

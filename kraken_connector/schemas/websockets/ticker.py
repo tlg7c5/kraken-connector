@@ -21,7 +21,7 @@ class OrderBookEntry:
     lot_volume: float = _attrs_field()
 
     @classmethod
-    def from_message(cls, message) -> Self:
+    def from_message(cls, message: list[Any]) -> Self:
         """Instantiate a OrderBookEntry obj from the message context."""
         return cls(*message)
 
@@ -34,7 +34,7 @@ class Close:
     lot_volume: float
 
     @classmethod
-    def from_message(cls, message) -> Self:
+    def from_message(cls, message: list[Any]) -> Self:
         """Instantiate a Close object from the message context."""
         return cls(*message)
 
@@ -176,7 +176,7 @@ class TickerMessage:
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: list[Any]):
+    def from_message(cls, message: list[Any]) -> Self:
         """Convert raw message from websocke to TicketMessage."""
         channel_id = message[0]
         ticker = Ticker.from_message(message[1])

@@ -80,6 +80,8 @@ def sync_detailed(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
@@ -148,6 +150,8 @@ async def asyncio_detailed(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]

@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -40,7 +40,7 @@ class EarnStrategyLockBonded:
     bonding_rewards: bool
     exit_queue_period: int
     payout_frequency: int
-    type: StrategyLockType.BONDED
+    type: Literal[StrategyLockType.BONDED]
     unbonding_period: int
     unbonding_rewards: bool
     bonding_period_variable: Unset | bool = False
@@ -80,7 +80,7 @@ class EarnStrategyLockBonded:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         bonding_period = d.pop("bonding_period")
 
@@ -105,7 +105,7 @@ class EarnStrategyLockBonded:
             bonding_rewards=bonding_rewards,
             exit_queue_period=exit_queue_period,
             payout_frequency=payout_frequency,
-            type=type,
+            type=type,  # type: ignore[arg-type]
             unbonding_period=unbonding_period,
             unbonding_rewards=unbonding_rewards,
             bonding_period_variable=bonding_period_variable,

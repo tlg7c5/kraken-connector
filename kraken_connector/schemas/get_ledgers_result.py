@@ -40,7 +40,7 @@ class GetLedgersResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_ledgers_result_entries import GetLedgersResultEntries
 
         d = src_dict.copy()

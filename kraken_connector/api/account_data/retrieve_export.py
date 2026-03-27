@@ -26,7 +26,7 @@ def _parse_response(
     *, client: HTTPAuthenticatedClient, response: httpx.Response
 ) -> RetrieveExportResponse | None:
     if response.status_code == HTTPStatus.OK:
-        response_200 = RetrieveExportResponse.from_dict(response.content)
+        response_200 = RetrieveExportResponse.from_dict(response.json())
 
         # Check for API-level errors in response body
         errors = getattr(response_200, "error", None)
@@ -76,6 +76,8 @@ def sync_detailed(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]
@@ -136,6 +138,8 @@ async def asyncio_detailed(
         form_data=form_data,
     )
 
+    if client._api_secret is None:
+        raise ValueError("api_secret is required for authenticated endpoints")
     security_header = {
         client.hmac_msg_signature: sign_message(
             client._api_secret, kwargs["data"], kwargs["url"]

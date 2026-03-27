@@ -229,9 +229,10 @@ class OrderBookMessage:
     currency_pair: str = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: list[Any]):
+    def from_message(cls, message: list[Any]) -> Self:
         """Convert raw message from websocke to OHLCMessage."""
         chanel_id = message[0]
+        order_book_update: OrderBookSnapshot | OrderBookUpdate
         if "as" in message[1]:
             order_book_update = OrderBookSnapshot.from_message(message[1])
         else:

@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 def build_event_error_msg(
     attribute: _attrs_Attribute, value: Any, expected: "EventType"
-):
+) -> str:
     return (
         f"Expected '{attribute.name}' with value '{expected.value}' but received"
         f" '{value}'"

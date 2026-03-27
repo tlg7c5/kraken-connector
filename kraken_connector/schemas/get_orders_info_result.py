@@ -32,7 +32,7 @@ class GetOrdersInfoResult:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.closed_order import ClosedOrder
         from ..schemas.open_order import OpenOrder
 

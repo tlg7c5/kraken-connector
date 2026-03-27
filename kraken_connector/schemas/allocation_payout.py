@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
+from dateutil.parser import isoparse  # type: ignore[import-untyped]
 
 if TYPE_CHECKING:
     from ..schemas.allocation_accumulated_reward import (
@@ -57,7 +57,7 @@ class AllocationPayout:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.allocation_accumulated_reward import (
             AllocationAccumulatedReward,
         )

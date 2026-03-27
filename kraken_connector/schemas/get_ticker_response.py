@@ -41,7 +41,7 @@ class GetTickerResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_ticker_result import GetTickerResult
 
         d = src_dict.copy()

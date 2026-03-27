@@ -43,7 +43,7 @@ class WalletTransferResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.wallet_transfer_result import (
             WalletTransferResult,
         )

@@ -3,7 +3,7 @@
 from ..types import Unset
 
 
-def _check_reqid(value):
+def _check_reqid(value: Unset | int | str) -> Unset | int:
     if not isinstance(value, (Unset, int)):
         try:
             return int(value)

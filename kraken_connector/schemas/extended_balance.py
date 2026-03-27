@@ -46,7 +46,7 @@ class ExtendedBalance:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         balance = d.pop("balance", UNSET)
 

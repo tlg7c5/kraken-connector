@@ -41,7 +41,7 @@ class WithdrawalInfoResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.withdrawal_info_result import WithdrawalInfoResult
 
         d = src_dict.copy()

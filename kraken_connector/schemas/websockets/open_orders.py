@@ -27,14 +27,14 @@ class OrderDescription:
             close is set.
     """
 
-    pair: str
+    pair: str | None
     position_id: str | Unset
     type_order: TypeOrder
     order_type: OrderType
-    price: float
+    price: float | None
     price2: float | Unset
     leverage: float | Unset
-    order: str
+    order: str | None
     close: str | Unset
 
     @classmethod
@@ -56,9 +56,9 @@ class OrderDescription:
             position_id=position_id,
             type_order=TypeOrder(type_order),
             order_type=OrderType(order_type),
-            price=float(price),
+            price=float(price) if price is not None else None,
             price2=float(price2) if price2 else UNSET,
-            leverage=float(leverage) if price2 else UNSET,
+            leverage=float(leverage) if leverage else UNSET,
             order=order,
             close=close,
         )
@@ -82,7 +82,7 @@ class ConditionalCloseOrder:
     """
 
     order_type: OrderType
-    price: float
+    price: float | None
     price2: float | Unset
     order_flags: str
 
@@ -97,7 +97,7 @@ class ConditionalCloseOrder:
 
         return cls(
             order_type=OrderType(order_type),
-            price=float(price),
+            price=float(price) if price is not None else None,
             price2=float(price2) if price2 else UNSET,
             order_flags=order_flags,
         )
@@ -427,9 +427,9 @@ class OpenOrderMessage:
     sequence: int = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: list[Any]):
+    def from_message(cls, message: list[Any]) -> Self:
         """Convert raw message from websocket to OpenOrderMessage."""
-        open_orders = {}
+        open_orders: dict[str, Order] = {}
         for i in message[0]:
             open_orders |= {j: Order.from_message(i[j]) for j in i}
         channel_name = message[1]

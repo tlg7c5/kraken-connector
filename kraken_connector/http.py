@@ -183,6 +183,8 @@ class HTTPAuthenticatedClient(HTTPClient):
         """Get the underlying httpx.Client, constructing a new one if not previously set
         """
         if self._client is None:
+            if self._api_key is None:
+                raise ValueError("api_key is required for authenticated client")
             self._headers[self.auth_header_name] = self._api_key
             self._client = httpx.Client(**self._build_httpx_kwargs())
         return self._client
@@ -191,6 +193,8 @@ class HTTPAuthenticatedClient(HTTPClient):
         """Get the underlying httpx.AsyncClient, constructing a new one if not previously set
         """
         if self._async_client is None:
+            if self._api_key is None:
+                raise ValueError("api_key is required for authenticated client")
             self._headers[self.auth_header_name] = self._api_key
             self._async_client = httpx.AsyncClient(
                 **self._build_httpx_kwargs(is_async=True)

@@ -30,18 +30,18 @@ class OwnTrade:
             with the order associated with the trade.
     """
 
-    order_id: str
-    position_id: str
-    pair: str
-    time: float
+    order_id: str | None
+    position_id: str | None
+    pair: str | None
+    time: float | None
     type_order: TypeOrder
     order_type: OrderType
-    price: float
-    cost: float
-    fee: float
-    volume: float
-    margin: float
-    userref: int
+    price: float | None
+    cost: float | None
+    fee: float | None
+    volume: float | None
+    margin: float | None
+    userref: int | None
 
     @classmethod
     def from_message(cls, message: dict[str, Any]) -> Self:
@@ -166,9 +166,9 @@ class OwnTradeMessage:
     sequence: int = _attrs_field()
 
     @classmethod
-    def from_message(cls, message: list[Any]):
+    def from_message(cls, message: list[Any]) -> Self:
         """Convert raw message from websocket to OwnTradeMessage."""
-        trades = {}
+        trades: dict[str, OwnTrade] = {}
         for i in message[0]:
             trades |= {j: OwnTrade.from_message(i[j]) for j in i}
         channel_name = message[1]

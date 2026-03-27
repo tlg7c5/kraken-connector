@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -16,7 +16,7 @@ class EarnStrategyYieldStaking:
         type (YieldSourceType.STAKING):
     """
 
-    type: YieldSourceType.STAKING
+    type: Literal[YieldSourceType.STAKING]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -33,12 +33,12 @@ class EarnStrategyYieldStaking:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         type = YieldSourceType(d.pop("type"))
 
         list_strategies_response_200_result_items_item_yield_source_type_0 = cls(
-            type=type,
+            type=type,  # type: ignore[arg-type]
         )
 
         list_strategies_response_200_result_items_item_yield_source_type_0.additional_properties = (

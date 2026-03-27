@@ -3,7 +3,7 @@ from typing import Any, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
+from dateutil.parser import isoparse  # type: ignore[import-untyped]
 
 
 @_attrs_define
@@ -51,7 +51,7 @@ class AllocationUnbondingEntry:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         converted = d.pop("converted")
 

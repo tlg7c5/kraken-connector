@@ -41,7 +41,7 @@ class GetOpenOrdersResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         from ..schemas.get_open_orders_result import GetOpenOrdersResult
 
         d = src_dict.copy()

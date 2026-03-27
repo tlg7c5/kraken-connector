@@ -4,6 +4,7 @@ import hashlib
 import hmac
 import time
 import urllib.parse
+from typing import Any
 
 
 def get_nonce() -> int:
@@ -15,7 +16,7 @@ def get_nonce() -> int:
     return int(time.time() * 1_000_000)
 
 
-def sign_message(api_secret: str, data: dict, urlpath: str):
+def sign_message(api_secret: str, data: dict[str, Any], urlpath: str) -> str:
     postdata = urllib.parse.urlencode(data)
 
     # Unicode-objects must be encoded before hashing

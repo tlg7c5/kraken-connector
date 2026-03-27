@@ -95,7 +95,7 @@ class PongResponse:
         reqid = d.pop("reqid", UNSET)
 
         return cls(
-            _event=event,
+            event=event,
             reqid=reqid,
         )
 
@@ -132,7 +132,7 @@ class SystemStatusResponse:
         connectionID = d.pop("connectionID", UNSET)
 
         return cls(
-            _event=event,
+            event=event,
             status=status,
             version=version,
             connectionID=connectionID,
@@ -265,7 +265,7 @@ class SubscriptionStatusResponse:
         subscription = SubscriptionStatusSubscriptionResponse.from_dict(_subscription)
 
         return cls(
-            _event=event,
+            event=event,
             status=status,
             channelName=channel_name,
             subscription=subscription,

@@ -84,7 +84,7 @@ class CreateOrder:
     reduce_only: Unset | bool = _attrs_field(
         default=UNSET, converter=converters.optional(converters.to_bool)
     )
-    order_flags: Unset | list[OrderFlags] = _attrs_field(default=UNSET, factory=list)
+    order_flags: Unset | list[OrderFlags] = _attrs_field(default=UNSET)
     start_time: str | Unset = UNSET
     expire_time: str | Unset = UNSET
     deadline: str | Unset = UNSET
@@ -266,7 +266,7 @@ class CreateOrderResponse:
         _message = message.copy()
         _response = {
             "event": _message.get("event"),
-            "status": MessageStatus(_message.get("status")),
+            "status": MessageStatus(_message["status"]),
             "order_id": _message.get("txid", UNSET),
             "description": _message.get("descr", UNSET),
             "error_message": _message.get("errorMessage", UNSET),

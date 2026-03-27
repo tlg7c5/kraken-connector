@@ -1,4 +1,4 @@
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,8 +21,8 @@ class WalletTransferRequest:
     """
 
     asset: str
-    from_: TypeWallet.SPOT_WALLET
-    to: TypeWallet.FUTURES_WALLET
+    from_: Literal[TypeWallet.SPOT_WALLET]
+    to: Literal[TypeWallet.FUTURES_WALLET]
     amount: str
     nonce: int = get_nonce()
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -51,7 +51,7 @@ class WalletTransferRequest:
         return field_dict
 
     @classmethod
-    def from_dict(cls: Self, src_dict: dict[str, Any]) -> Self:
+    def from_dict(cls, src_dict: dict[str, Any]) -> Self:
         d = src_dict.copy()
         nonce = d.pop("nonce", get_nonce())
 
@@ -81,8 +81,8 @@ class WalletTransferRequest:
         wallet_transfer_data = cls(
             nonce=nonce,
             asset=asset,
-            from_=from_,
-            to=to,
+            from_=from_,  # type: ignore[arg-type]
+            to=to,  # type: ignore[arg-type]
             amount=amount,
         )
 
