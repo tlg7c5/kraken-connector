@@ -29,7 +29,7 @@ Anything tagged with "enhancement" and "help wanted" is open to whoever wants to
 
 ## Write Documentation
 
-Cookiecutter PyPackage could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
+`kraken-connector` could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
 
 ## Submit Feedback
 
@@ -109,8 +109,7 @@ make test
 tox
 ```
 
-This requires you to have multiple versions of python installed.
-This step is also triggered in the CI/CD pipeline, so you could also choose to skip this step locally.
+This is also triggered in the CI/CD pipeline, so you could also choose to skip this step locally.
 
 10. Commit your changes and push your branch to GitHub:
 
@@ -121,34 +120,6 @@ git push origin name-of-your-bugfix-or-feature
 ```
 
 11. Submit a pull request through the GitHub website.
-
-# Code Generation
-
-The API client and schema classes were initially generated from Kraken's OpenAPI specification using `openapi-python-client`.
-
-## Obtaining the OpenAPI spec
-
-Kraken publishes their REST API spec at https://docs.kraken.com/api/. Save it as `openapi.json` in the repository root (this file is gitignored).
-
-## Regenerating
-
-```bash
-make generate
-```
-
-This runs `openapi-python-client update --path openapi.json`. The tool is listed as a dev dependency in `pyproject.toml`.
-
-## Manual edits applied post-generation
-
-The generated code serves as scaffolding. The following manual changes have been applied on top and must be reapplied after any regeneration:
-
-1. **KrakenAPIError wiring** — All 48 endpoint `_parse_response()` functions check the response body's `error` field and raise `KrakenAPIError` if non-empty. The generated code does not include this.
-2. **HMAC authentication** (`kraken_connector/security.py`) — `sign_message()` and `get_nonce()` are entirely hand-written; they are not part of the generated output.
-3. **HTTP client auth logic** (`kraken_connector/http.py`) — `HTTPAuthenticatedClient` injects `API-Key` headers and HMAC signatures. The generated client only handles unauthenticated requests.
-4. **Module name shortening** — Some generated module names were shortened for readability.
-5. **Model reuse across modules** — Some generated schema classes were consolidated to reduce duplication.
-6. **API version prefix constant** (`kraken_connector/constants/api.py`) — Endpoint URLs use `API_VERSION_PREFIX` instead of a hardcoded `/0/` path.
-7. **Dead code removal** — Unreachable `pass` statements in `_get_kwargs()` functions were removed.
 
 # Pull Request Guidelines
 
