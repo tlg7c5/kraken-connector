@@ -461,17 +461,22 @@ class KrakenWSClient:
 
     async def __anext__(self) -> WSMessage:
         """Yield the next message, stopping when disconnected and drained."""
-        if self._state == ConnectionState.DISCONNECTED and self._message_queue.empty():
-            raise StopAsyncIteration
-        try:
-            return await asyncio.wait_for(self._message_queue.get(), timeout=1.0)
-        except asyncio.TimeoutError:
+        while True:
             if (
                 self._state == ConnectionState.DISCONNECTED
                 and self._message_queue.empty()
             ):
-                raise StopAsyncIteration from None
-            raise
+                raise StopAsyncIteration
+            try:
+                return await asyncio.wait_for(self._message_queue.get(), timeout=1.0)
+            except asyncio.TimeoutError:
+                if (
+                    self._state == ConnectionState.DISCONNECTED
+                    and self._message_queue.empty()
+                ):
+                    raise StopAsyncIteration from None
+                # Keep waiting while reconnecting or briefly idle.
+                continue
 
     # ------------------------------------------------------------------
     # Internal tasks
