@@ -3,13 +3,27 @@
 [![Release](https://img.shields.io/github/v/release/tlg7c5/kraken-connector)](https://img.shields.io/github/v/release/tlg7c5/kraken-connector)
 [![Build status](https://img.shields.io/github/actions/workflow/status/tlg7c5/kraken-connector/main.yml?branch=main)](https://github.com/tlg7c5/kraken-connector/actions/workflows/main.yml?query=branch%3Amain)
 [![codecov](https://codecov.io/gh/tlg7c5/kraken-connector/branch/main/graph/badge.svg)](https://codecov.io/gh/tlg7c5/kraken-connector)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/tlg7c5/kraken-connector)](https://img.shields.io/github/commit-activity/m/tlg7c5/kraken-connector)
 [![License](https://img.shields.io/github/license/tlg7c5/kraken-connector)](https://img.shields.io/github/license/tlg7c5/kraken-connector)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/pypi/v/kraken-connector)](https://pypi.org/project/kraken-connector/)
 
-WS and HTTP clients for Kraken exchange API
+A typed Python client for the [Kraken](https://www.kraken.com/) cryptocurrency exchange, covering both the REST API and WebSocket API v2. Built on [httpx](https://www.python-httpx.org/) for HTTP, [websockets](https://websockets.readthedocs.io/) for streaming, and [attrs](https://www.attrs.org/) for data models.
 
-- **Github repository**: <https://github.com/tlg7c5/kraken-connector/>
-- **Documentation** <https://tlg7c5.github.io/kraken-connector/>
+## Features
+
+- **REST API** -- typed request/response models across 7 endpoint groups (market data, account data, trading, funding, earn, subaccounts, websocket auth)
+- **WebSocket v2** -- async client with typed channel models for ticker, OHLC, trades, order book, executions, and balances
+- **Trading** -- all 8 WS v2 trading methods (add, edit, cancel, batch add, batch cancel, cancel all, cancel all after, amend)
+- **Order book management** -- local order book state with incremental updates and CRC32 checksum validation
+- **Automatic reconnection** -- configurable backoff with subscription and sequence tracking across reconnects
+- **Rate limiting** -- caller-controlled token-bucket limiter matching Kraken's tier-based rate limits
+- **Retry** -- configurable retry transport with exponential backoff for transient network errors
+- **Request logging** -- optional request/response logging via Python's stdlib `logging`
+- **Fully typed** -- `py.typed` marker, strict mypy, attrs-based models with `to_dict()`/`from_dict()`
+
+## Requirements
+
+Python 3.11+
 
 ## Installation
 
@@ -17,97 +31,20 @@ WS and HTTP clients for Kraken exchange API
 pip install kraken-connector
 ```
 
-## Usage
+## Quick Start
 
-### Basic client
-
-```python
-from kraken_connector import HTTPClient, HTTPAuthenticatedClient
-
-# Public endpoints
-client = HTTPClient("https://api.kraken.com")
-
-# Authenticated endpoints
-auth_client = HTTPAuthenticatedClient(
-    "https://api.kraken.com",
-    api_key="your-api-key",
-    api_secret="your-api-secret",
-)
-```
-
-### Retry on network errors
-
-Retry is disabled by default. Enable it via `ResilienceConfig`:
+### REST API
 
 ```python
-from kraken_connector import HTTPClient, ResilienceConfig
-
-config = ResilienceConfig(
-    max_retries=3,        # retry up to 3 times on network errors
-    backoff_base=1.0,     # initial backoff delay in seconds
-    backoff_max=30.0,     # maximum backoff delay
-)
-client = HTTPClient("https://api.kraken.com", resilience=config)
-```
-
-Only transient network errors (connection refused, timeouts) are retried. API-level errors (rate limits, validation) are never retried at the transport layer — callers handle those via `KrakenAPIError`.
-
-### Rate limiting
-
-The `RateLimiter` is a caller-controlled token bucket matching Kraken's tier-based rate limits. It is **not** automatic — callers opt in explicitly:
-
-```python
-from kraken_connector import KrakenTier, RateLimiter
+from kraken_connector import HTTPClient
 from kraken_connector.api.market_data import get_server_time
 
-limiter = RateLimiter.from_tier(KrakenTier.STARTER)
-
-# Sync — most API calls cost 1 token
-with limiter.acquire(cost=1):
-    response = get_server_time.sync(client=client)
-
-# Async
-async with limiter.async_acquire(cost=1):
-    response = await get_server_time.asyncio(client=client)
-
-# Ledger/trade history calls cost 2 tokens
-with limiter.acquire(cost=2):
-    response = get_trade_history.sync(client=auth_client, form_data=form)
+client = HTTPClient("https://api.kraken.com")
+response = get_server_time.sync(client=client)
+print(response)
 ```
 
-The rate limiter blocks (sleeps) when tokens are depleted, waiting for the bucket to refill. It is thread-safe but not multiprocessing-safe.
-
-**Kraken tier parameters:**
-
-| Tier         | Max tokens | Decay rate |
-| ------------ | ---------- | ---------- |
-| Starter      | 15         | 0.33/sec   |
-| Intermediate | 20         | 0.5/sec    |
-| Pro          | 20         | 1.0/sec    |
-
-### Request logging
-
-Enable request/response logging via `ResilienceConfig`:
-
-```python
-import logging
-from kraken_connector import HTTPClient, ResilienceConfig
-
-logging.basicConfig(level=logging.DEBUG)
-
-config = ResilienceConfig(enable_logging=True, log_level=logging.DEBUG)
-client = HTTPClient("https://api.kraken.com", resilience=config)
-# Logs: "HTTP GET https://api.kraken.com/0/public/Time"
-# Logs: "HTTP GET https://api.kraken.com/0/public/Time -> 200 (0.12s)"
-```
-
-Logging uses Python's stdlib `logging` module under the logger name `kraken_connector`. Consumers can wire any logging framework (e.g., structlog) via its stdlib integration.
-
-### WebSocket v2
-
-The `ws` package provides a full client for [Kraken's WebSocket v2 API](https://docs.kraken.com/api/docs/websocket-v2/), with typed models, automatic reconnection, order book management, and trading support.
-
-#### Public subscription
+### WebSocket
 
 ```python
 import asyncio
@@ -125,75 +62,12 @@ async def main():
 asyncio.run(main())
 ```
 
-#### Authenticated subscription
-
-Private channels (executions, balances) require a WebSocket token. `TokenManager` handles token lifecycle automatically:
-
-```python
-from kraken_connector import HTTPAuthenticatedClient
-from kraken_connector.ws import KrakenWSClient, TokenManager
-from kraken_connector.ws.subscribe import ExecutionsParams
-
-auth_client = HTTPAuthenticatedClient(
-    "https://api.kraken.com",
-    api_key="your-api-key",
-    api_secret="your-api-secret",
-)
-tm = TokenManager(auth_client=auth_client)
-
-async with KrakenWSClient(token_manager=tm) as client:
-    await client.subscribe(ExecutionsParams())
-    async for msg in client:
-        print(msg.channel, msg.sequence, msg.data)
-```
-
-#### Trading
-
-All 8 WS v2 trading methods are supported. The token is auto-injected when a `TokenManager` is configured:
-
-```python
-from kraken_connector.ws.trading import AddOrderParams, CancelAllOrdersAfterParams
-
-async with KrakenWSClient(token_manager=tm) as client:
-    # Place a limit order.
-    resp = await client.add_order(
-        AddOrderParams(
-            symbol="BTC/USD",
-            side="buy",
-            order_type="limit",
-            order_qty=0.1,
-            limit_price=26000.0,
-            token="",  # auto-injected by TokenManager
-        )
-    )
-    print("Order placed:", resp.result)
-
-    # Dead man's switch — cancel all orders if no refresh within 60s.
-    await client.cancel_all_orders_after(
-        CancelAllOrdersAfterParams(token="", timeout=60)
-    )
-```
-
-#### Order book management
-
-Subscribe to the `book` channel and the client maintains local order book state with CRC32 checksum validation:
-
-```python
-from kraken_connector.ws import KrakenWSClient
-from kraken_connector.ws.subscribe import BookParams
-from kraken_connector.ws.book import BookChecksumEvent
-
-async with KrakenWSClient() as client:
-    await client.subscribe(BookParams(symbol=["BTC/USD"], depth=10))
-    async for msg in client:
-        if isinstance(msg, BookChecksumEvent):
-            print("Checksum mismatch — resubscribe:", msg.symbol)
-            continue
-        book = client.book_manager.get("BTC/USD")
-        if book:
-            print("Best bid:", book.best_bid, "Best ask:", book.best_ask)
-```
+See the [documentation](https://tlg7c5.github.io/kraken-connector/) for guides on authentication, rate limiting, trading, order book management, error handling, and more.
 
 ## Development
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
+
+## License
+
+[MIT](LICENSE)

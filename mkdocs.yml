@@ -1,7 +1,7 @@
 site_name: kraken-connector
 repo_url: https://github.com/tlg7c5/kraken-connector
 site_url: https://tlg7c5.github.io/kraken-connector
-site_description: Websockets and HTTP clients for Kraken exchange API
+site_description: Typed Python client for the Kraken REST and WebSocket v2 API
 site_author: Terry Garner
 edit_uri: edit/main/docs/
 repo_name: tlg7c5/kraken-connector
@@ -9,7 +9,29 @@ copyright: Maintained by Terry Garner.
 
 nav:
   - Home: index.md
-  - Modules: modules.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - Authentication: getting-started/authentication.md
+  - Guides:
+      - REST API: guides/rest-api.md
+      - Rate Limiting: guides/rate-limiting.md
+      - WebSocket Client: guides/websocket.md
+      - Order Book: guides/order-book.md
+      - Trading: guides/trading.md
+      - Error Handling: guides/error-handling.md
+      - Logging: guides/logging.md
+  - Architecture: architecture.md
+  - API Reference:
+      - HTTP Clients: reference/http.md
+      - Resilience: reference/resilience.md
+      - WebSocket Client: reference/ws-client.md
+      - WebSocket Trading: reference/ws-trading.md
+      - Exceptions: reference/exceptions.md
+      - Schemas: reference/schemas.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
 plugins:
   - search
   - mkdocstrings:
@@ -26,10 +48,15 @@ plugins:
             show_signature_annotations: true
             signature_crossrefs: true
             docstring_section_style: list
+
 theme:
   name: material
-  feature:
-    tabs: true
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - search.highlight
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -58,6 +85,12 @@ extra:
 markdown_extensions:
   - toc:
       permalink: true
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.snippets
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets:
+      base_path: ["."]
