@@ -23,9 +23,28 @@ pip install kraken-connector
 
 <div class="grid cards" markdown>
 
-- :material-rocket-launch: **[Getting Started](getting-started/installation.md)** -- Install and make your first API call
-- :material-book-open-variant: **[Guides](guides/rest-api.md)** -- In-depth walkthroughs for REST, WebSocket, trading, and more
-- :material-sitemap: **[Architecture](architecture.md)** -- How the library is structured and why
-- :material-api: **[API Reference](reference/http.md)** -- Auto-generated reference from source docstrings
+- :material-rocket-launch: **[Getting Started](getting-started/installation.md)**
+
+  ***
+
+  Install and make your first API call
+
+- :material-book-open-variant: **[Guides](guides/rest-api.md)**
+
+  ***
+
+  In-depth walkthroughs for REST, WebSocket, trading, and more
+
+- :material-sitemap: **[Architecture](architecture.md)**
+
+  ***
+
+  How the library is structured and why
+
+- :material-api: **[API Reference](reference/http.md)**
+
+  ***
+
+  Auto-generated reference from source docstrings
 
 </div>
