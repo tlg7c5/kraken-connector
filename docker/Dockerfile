@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.11-slim-bookworm AS base-image
+FROM python:3.14-slim-bookworm AS base-image
 
 ENV LANG=C.UTF-8 \
   LC_ALL=C.UTF-8
@@ -17,7 +17,7 @@ COPY pyproject.toml pdm.lock ./
 
 RUN pdm install --no-self --prod
 
-FROM python:3.11-slim-bookworm AS final
+FROM python:3.14-slim-bookworm AS final
 
 ENV VIRTUAL_ENV=/workspaces/.venv \
     PATH="/workspaces/.venv/bin:$PATH"
