@@ -6,6 +6,26 @@ from typing import Any
 from websockets.exceptions import ConnectionClosedOK
 from websockets.frames import Close
 
+from kraken_connector.ws import HeartbeatMessage
+
+
+async def recv_business(client: Any, timeout: float = 2.0) -> Any:
+    """Like ``client.receive()`` but skips ``HeartbeatMessage`` frames.
+
+    The iterator now yields heartbeats (so consumers can anchor a
+    liveness watchdog without inspecting payload structure). Tests
+    that only care about business / response messages can use this
+    helper to drain past them. Each ``recv()`` is wrapped in its own
+    ``wait_for(timeout)`` so a hung test fails fast rather than
+    looping forever on accidental quiet streams.
+    """
+    while True:
+        msg = await asyncio.wait_for(client.receive(), timeout=timeout)
+        if isinstance(msg, HeartbeatMessage):
+            continue
+        return msg
+
+
 # ---------------------------------------------------------------------------
 # JSON message factories
 # ---------------------------------------------------------------------------

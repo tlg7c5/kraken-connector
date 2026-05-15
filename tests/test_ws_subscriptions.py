@@ -19,6 +19,7 @@ from .ws_helpers import (
     MockWebSocket,
     async_return,
     heartbeat_json,
+    recv_business,
     subscribe_response_json,
     ticker_json,
     unsubscribe_response_json,
@@ -359,7 +360,7 @@ class TestReqIdCorrelation:
                 await client.subscribe(params)
 
                 # Consumer should only get the ticker, not the sub response.
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
                 assert msg.channel == "ticker"
 
@@ -384,7 +385,7 @@ class TestReqIdCorrelation:
                 await client.connect()
 
                 # Should be enqueued since no pending future for req_id=999999.
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSResponse)
                 assert msg.req_id == 999999
 

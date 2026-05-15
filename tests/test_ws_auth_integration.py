@@ -15,6 +15,7 @@ from .ws_helpers import (
     balances_snapshot_json,
     executions_json,
     heartbeat_json,
+    recv_business,
     subscribe_response_json,
     ticker_json,
 )
@@ -223,18 +224,18 @@ class TestSequenceInRecvLoop:
                 await client.connect()
 
                 # First: executions data (seq=1, baseline).
-                msg1 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg1 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg1, WSDataMessage)
                 assert msg1.channel == "executions"
 
                 # Second: SequenceGapEvent (expected=2, received=5).
-                msg2 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg2 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg2, SequenceGapEvent)
                 assert msg2.expected == 2
                 assert msg2.received == 5
 
                 # Third: the actual executions data (seq=5) still enqueued.
-                msg3 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg3 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg3, WSDataMessage)
 
                 await client.disconnect()
@@ -257,11 +258,11 @@ class TestSequenceInRecvLoop:
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
 
-                msg1 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg1 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg1, WSDataMessage)
                 assert msg1.channel == "ticker"
 
-                msg2 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg2 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg2, WSDataMessage)
                 assert msg2.channel == "ticker"
 
@@ -285,7 +286,7 @@ class TestSequenceInRecvLoop:
                 await client.connect()
 
                 # First private message sets baseline — no gap event.
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
                 assert msg.channel == "balances"
                 assert msg.sequence == 42

@@ -186,7 +186,14 @@ class TestConnectionLifecycle:
 
 
 class TestHeartbeatMonitoring:
-    def test_heartbeat_not_enqueued_to_consumer(self) -> None:
+    def test_heartbeat_enqueued_to_consumer(self) -> None:
+        """Iterator contract: heartbeats are yielded so consumers can
+        anchor their own liveness watchdog. They're a distinct typed
+        class (HeartbeatMessage) so a consumer that only wants business
+        events can discriminate with a single isinstance() check; no
+        payload inspection required."""
+        from kraken_connector.ws import HeartbeatMessage
+
         async def _run() -> None:
             mock_ws = MockWebSocket([heartbeat_json(), ticker_json()])
             with patch(
@@ -196,10 +203,18 @@ class TestHeartbeatMonitoring:
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
 
-                # First message should be ticker (heartbeat filtered out).
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
-                assert isinstance(msg, WSDataMessage)
-                assert msg.channel == "ticker"
+                # First message: heartbeat (typed, discriminable).
+                first = await asyncio.wait_for(client.receive(), timeout=2.0)
+                assert isinstance(first, HeartbeatMessage)
+                assert first.channel == "heartbeat"
+                # NOT a WSDataMessage -- consumers won't accidentally
+                # process it through their data-message dispatch.
+                assert not isinstance(first, WSDataMessage)
+
+                # Second message: the actual business event.
+                second = await asyncio.wait_for(client.receive(), timeout=2.0)
+                assert isinstance(second, WSDataMessage)
+                assert second.channel == "ticker"
 
                 await client.disconnect()
 
