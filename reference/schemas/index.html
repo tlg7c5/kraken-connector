@@ -1,0 +1,3377 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Typed Python client for the Kraken REST and WebSocket v2 API">
+      
+      
+        <meta name="author" content="Terry Garner">
+      
+      
+        <link rel="canonical" href="https://tlg7c5.github.io/kraken-connector/reference/schemas/">
+      
+      
+        <link rel="prev" href="../exceptions/">
+      
+      
+        <link rel="next" href="../../contributing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Schemas - kraken-connector</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#schemas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="kraken-connector" class="md-header__button md-logo" aria-label="kraken-connector" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            kraken-connector
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Schemas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tlg7c5/kraken-connector" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tlg7c5/kraken-connector
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/rest-api/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../http/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../contributing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="kraken-connector" class="md-nav__button md-logo" aria-label="kraken-connector" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    kraken-connector
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tlg7c5/kraken-connector" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tlg7c5/kraken-connector
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/rate-limiting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rate Limiting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/websocket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WebSocket Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/order-book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/error-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ws-client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WebSocket Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ws-trading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WebSocket Trading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#market-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.server_time_response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        server_time_response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.server_time_response.ServerTimeResponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ServerTimeResponse
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        asset_info
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_info.AssetInfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AssetInfo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_ticker_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        asset_ticker_info
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_ticker_info.AssetTickerInfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AssetTickerInfo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#account-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.account_balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        account_balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.account_balance.AccountBalance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountBalance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.extended_balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extended_balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.extended_balance.ExtendedBalance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ExtendedBalance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.add_order_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_order_request
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.add_order_request.AddOrderRequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddOrderRequest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.cancel_order_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cancel_order_request
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.cancel_order_request.CancelOrderRequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CancelOrderRequest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.deposit_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deposit_method
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.deposit_method.DepositMethod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DepositMethod
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#earn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Earn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.earn_strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        earn_strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.earn_strategy.EarnStrategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EarnStrategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#market-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.server_time_response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        server_time_response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.server_time_response.ServerTimeResponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ServerTimeResponse
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        asset_info
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_info.AssetInfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AssetInfo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_ticker_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        asset_ticker_info
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.asset_ticker_info.AssetTickerInfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AssetTickerInfo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#account-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.account_balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        account_balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.account_balance.AccountBalance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccountBalance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.extended_balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extended_balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.extended_balance.ExtendedBalance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ExtendedBalance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.add_order_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_order_request
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.add_order_request.AddOrderRequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddOrderRequest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.cancel_order_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cancel_order_request
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.cancel_order_request.CancelOrderRequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CancelOrderRequest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.deposit_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deposit_method
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.deposit_method.DepositMethod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DepositMethod
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#earn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Earn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.earn_strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        earn_strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kraken_connector.schemas.earn_strategy.EarnStrategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EarnStrategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="schemas">Schemas<a class="headerlink" href="#schemas" title="Permanent link">&para;</a></h1>
+<p>Response and request models generated from Kraken's OpenAPI specification. All models are <a href="https://www.attrs.org/">attrs</a> classes with <code>to_dict()</code> and <code>from_dict()</code> methods.</p>
+<h2 id="market-data">Market Data<a class="headerlink" href="#market-data" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.server_time_response"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            ServerTimeResponse (kraken_connector.schemas.server_time_response.ServerTimeResponse)" href="#kraken_connector.schemas.server_time_response.ServerTimeResponse">ServerTimeResponse</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Success response</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.server_time_response.ServerTimeResponse" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ServerTimeResponse</span>
+
+
+<a href="#kraken_connector.schemas.server_time_response.ServerTimeResponse" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Success response</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.server_time_response.ServerTimeResponse.result">result</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="kraken_connector.schemas.server_time.ServerTime">ServerTime</span>]</code>)
+          –
+          <div class="doc-md-description">
+            
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.server_time_response.ServerTimeResponse.error">error</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.asset_info"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            AssetInfo (kraken_connector.schemas.asset_info.AssetInfo)" href="#kraken_connector.schemas.asset_info.AssetInfo">AssetInfo</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Asset Info</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.asset_info.AssetInfo" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">AssetInfo</span>
+
+
+<a href="#kraken_connector.schemas.asset_info.AssetInfo" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Asset Info</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_info.AssetInfo.aclass">aclass</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Asset Class</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_info.AssetInfo.altname">altname</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Alternate name</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_info.AssetInfo.decimals">decimals</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="int">int</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Scaling decimal places for record keeping</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_info.AssetInfo.display_decimals">display_decimals</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="int">int</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Scaling decimal places for output display</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_info.AssetInfo.collateral_value">collateral_value</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="float">float</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Valuation as margin collateral (if applicable)</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_info.AssetInfo.status">status</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Status of asset. Possible values: <code>enabled</code>, <code>deposit_only</code>, <code>withdrawal_only</code>,
+<code>funding_temporarily_disabled</code>.</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.asset_ticker_info"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            AssetTickerInfo (kraken_connector.schemas.asset_ticker_info.AssetTickerInfo)" href="#kraken_connector.schemas.asset_ticker_info.AssetTickerInfo">AssetTickerInfo</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Asset Ticker Info</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">AssetTickerInfo</span>
+
+
+<a href="#kraken_connector.schemas.asset_ticker_info.AssetTickerInfo" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Asset Ticker Info</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.a">a</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Ask <code>[&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.b">b</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Bid <code>[&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.c">c</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Last trade closed <code>[&lt;price&gt;, &lt;lot volume&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.v">v</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>TradeVolumeResponse <code>[&lt;today&gt;, &lt;last 24 hours&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.p">p</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>TradeVolumeResponse weighted average price <code>[&lt;today&gt;, &lt;last 24 hours&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.t">t</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="int">int</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Number of trades <code>[&lt;today&gt;, &lt;last 24 hours&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.l">l</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Low <code>[&lt;today&gt;, &lt;last 24 hours&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.h">h</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="List">List</span>[<span title="str">str</span>]]</code>)
+          –
+          <div class="doc-md-description">
+            <p>High <code>[&lt;today&gt;, &lt;last 24 hours&gt;]</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.asset_ticker_info.AssetTickerInfo.o">o</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Today's opening price</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="account-data">Account Data<a class="headerlink" href="#account-data" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.account_balance"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            AccountBalance (kraken_connector.schemas.account_balance.AccountBalance)" href="#kraken_connector.schemas.account_balance.AccountBalance">AccountBalance</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Account Balance</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.account_balance.AccountBalance" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">AccountBalance</span>
+
+
+<a href="#kraken_connector.schemas.account_balance.AccountBalance" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Account Balance</p>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <p>{'ZUSD': '2970172.7962'}</p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.extended_balance"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            ExtendedBalance (kraken_connector.schemas.extended_balance.ExtendedBalance)" href="#kraken_connector.schemas.extended_balance.ExtendedBalance">ExtendedBalance</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Extended Balance</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.extended_balance.ExtendedBalance" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ExtendedBalance</span>
+
+
+<a href="#kraken_connector.schemas.extended_balance.ExtendedBalance" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Extended Balance</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.extended_balance.ExtendedBalance.balance">balance</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Total balance amount for an asset Example: 3.46840030.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.extended_balance.ExtendedBalance.credit">credit</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Total credit amount (only applicable if account has a credit line) Example:
+1.26844502.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.extended_balance.ExtendedBalance.credit_used">credit_used</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Used credit amount (only applicable if account has a credit line) Example:
+0.10002300.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.extended_balance.ExtendedBalance.hold_trade">hold_trade</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Total held amount for an asset Example: 2.14560458.</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="trading">Trading<a class="headerlink" href="#trading" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.add_order_request"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            AddOrderRequest (kraken_connector.schemas.add_order_request.AddOrderRequest)" href="#kraken_connector.schemas.add_order_request.AddOrderRequest">AddOrderRequest</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Attributes:</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.add_order_request.AddOrderRequest" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">AddOrderRequest</span>
+
+
+<a href="#kraken_connector.schemas.add_order_request.AddOrderRequest" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.nonce">nonce</span></code></b>
+              (<code><span title="int">int</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Nonce used in construction of <code>API-Sign</code> header. Default <code>../security.get_nonce</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.ordertype">ordertype</span></code></b>
+              (<code><span title="Ordertype">Ordertype</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Order type</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.type">type</span></code></b>
+              (<code><span title="kraken_connector.constants.trading.TypeOrder">TypeOrder</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Order direction (buy/sell)</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.volume">volume</span></code></b>
+              (<code><span title="str">str</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Order quantity in terms of the base asset</p>
+<blockquote>
+<p>Note: TradeVolumeResponse can be specified as <code>0</code> for closing margin orders to automatically fill the requisite quantity.</p>
+</blockquote>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.pair">pair</span></code></b>
+              (<code><span title="str">str</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Asset pair <code>id</code> or <code>altname</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.userref">userref</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="int">int</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>User reference id</p>
+<p><code>userref</code> is an optional user-specified integer id that can be associated with any number of orders. Many
+clients choose a <code>userref</code> corresponding to a unique integer id generated by their systems (e.g. a timestamp).
+However, because we don't enforce uniqueness on our side, it can also be used to easily group orders by pair,
+side, strategy, etc. This allows clients to more readily cancel or query information about orders in a
+particular group, with fewer API calls by using <code>userref</code> instead of our <code>txid</code>, where supported.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.displayvol">displayvol</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Used to create an iceberg order, this is the visible order quantity in terms of
+the base asset. The rest of the order will be hidden, although the full <code>volume</code> can be filled at any time by
+any order of that size or larger that matches in the order book. <code>displayvol</code> can only be used with the <code>limit</code>
+order type, must be greater than <code>0</code>, and less than <code>volume</code>.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.price">price</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Price:</p>
+<ul>
+<li>Limit price for <code>limit</code> orders</li>
+<li>Trigger price for <code>stop-loss</code>, <code>stop-loss-limit</code>, <code>take-profit</code> and <code>take-profit-limit</code> orders</li>
+</ul>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.price2">price2</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Secondary Price:</p>
+<ul>
+<li>Limit price for <code>stop-loss-limit</code> and <code>take-profit-limit</code> orders</li>
+</ul>
+<blockquote>
+<p>Note: Either <code>price</code> or <code>price2</code> can be preceded by <code>+</code>, <code>-</code>, or <code>#</code> to specify the order price as an offset
+relative to the last traded price. <code>+</code> adds the amount to, and <code>-</code> subtracts the amount from the last traded
+price. <code>#</code> will either add or subtract the amount to the last traded price, depending on the direction and order
+type used. Relative prices can be suffixed with a <code>%</code> to signify the relative amount as a percentage.</p>
+</blockquote>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.trigger">trigger</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="kraken_connector.constants.trading.Trigger">Trigger</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Price signal used to trigger <code>stop-loss</code>, <code>stop-
+loss-limit</code>, <code>take-profit</code> and <code>take-profit-limit</code> orders</p>
+<blockquote>
+<p>Note: This <code>trigger</code> type will as well be used for associated conditional close orders.
+ Default: Trigger.LAST.</p>
+</blockquote>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.leverage">leverage</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Amount of leverage desired (default: none)</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.reduce_only">reduce_only</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="bool">bool</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>If <code>true</code>, order will only reduce a currently open position, not increase it
+or open a new position.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.stptype">stptype</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="kraken_connector.constants.trading.SelfTradePreventionStrategy">SelfTradePreventionStrategy</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Self trade prevention behavior definition:
+* cancel-newest - if self trade is triggered, arriving order will be canceled
+* cancel-oldest - if self trade is triggered, resting order will be canceled
+* cancel-both - if self trade is triggered, both arriving and resting orders will be canceled
+ Default: SelfTradePreventionStrategy.CANCEL_NEWEST.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.oflags">oflags</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Comma delimited list of order flags</p>
+<ul>
+<li><code>post</code> post-only order (available when ordertype = limit)</li>
+<li><code>fcib</code> prefer fee in base currency (default if selling)</li>
+<li><code>fciq</code> prefer fee in quote currency (default if buying, mutually exclusive with <code>fcib</code>)</li>
+<li><code>nompp</code> disable <a href="https://support.kraken.com/hc/en-us/articles/201648183-Market-
+Price-Protection">market price protection</a> for market orders</li>
+<li><code>viqc</code>  order volume expressed in quote currency. This is supported only for market orders.</li>
+</ul>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.timeinforce">timeinforce</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="kraken_connector.constants.trading.TimeInForce">TimeInForce</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>ServerTimeResponse-in-force of the order to specify how
+long it should remain in the order book before being cancelled. GTC (Good-'til-cancelled) is default if the
+parameter is omitted. IOC (immediate-or-cancel) will immediately execute the amount possible and cancel any
+remaining balance rather than resting in the book. GTD (good-'til-date), if specified, must coincide with a
+desired <code>expiretm</code>.
+ Default: TimeInForce.GTC.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.starttm">starttm</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Scheduled start time, can be specified as an absolute timestamp or as a number of
+seconds in the future:
+  * <code>0</code> now (default)
+  * <code>&lt;n&gt;</code> = unix timestamp of start time
+  * <code>+&lt;n&gt;</code> = schedule start time <code>&lt;n&gt;</code> seconds from now
+    * Note that URL encoding of the <code>+</code> character changes it to a space, so please use <code>%2b</code> followed by the
+number of seconds instead of <code>+</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.expiretm">expiretm</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Expiration time, also can be specified as an absolute timestamp or as a number of
+seconds in the future:
+  * <code>0</code> no expiration (default)
+  * <code>&lt;n&gt;</code> = unix timestamp of expiration time
+  * <code>+&lt;n&gt;</code> = expire <code>&lt;n&gt;</code> seconds from now, minimum 5 seconds
+    * Note that URL encoding of the <code>+</code> character changes it to a space, so please use <code>%2b</code> followed by the
+number of seconds instead of <code>+</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.closeordertype">closeordertype</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="kraken_connector.constants.trading.ConditionalCloseOrderType">ConditionalCloseOrderType</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Conditional close order type</p>
+<blockquote>
+<p>Note: <a href="https://support.kraken.com/hc/en-us/articles/360038640052-Conditional-Close">Conditional close orders</a>
+are triggered by execution of the primary order in the same quantity and opposite direction, but once triggered
+are <strong>independent orders</strong> that may reduce or increase net position</p>
+</blockquote>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.closeprice">closeprice</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Conditional close order <code>price</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.closeprice2">closeprice2</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Conditional close order <code>price2</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.deadline">deadline</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>RFC3339 timestamp (e.g. 2021-04-01T00:18:45Z) after which the matching engine
+should reject the new order request, in presence of latency or order queueing: min now() + 2 seconds, max now()
++ 60 seconds.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.add_order_request.AddOrderRequest.validate">validate</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="bool">bool</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Validate inputs only. Do not submit order.</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.cancel_order_request"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            CancelOrderRequest (kraken_connector.schemas.cancel_order_request.CancelOrderRequest)" href="#kraken_connector.schemas.cancel_order_request.CancelOrderRequest">CancelOrderRequest</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Attributes:</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.cancel_order_request.CancelOrderRequest" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">CancelOrderRequest</span>
+
+
+<a href="#kraken_connector.schemas.cancel_order_request.CancelOrderRequest" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.cancel_order_request.CancelOrderRequest.nonce">nonce</span></code></b>
+              (<code><span title="int">int</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Nonce used in construction of <code>API-Sign</code> header. Default <code>get_nonce</code></p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.cancel_order_request.CancelOrderRequest.txid">txid</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="int">int</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Open order transaction ID (txid) or user reference (userref)</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="funding">Funding<a class="headerlink" href="#funding" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.deposit_method"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            DepositMethod (kraken_connector.schemas.deposit_method.DepositMethod)" href="#kraken_connector.schemas.deposit_method.DepositMethod">DepositMethod</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Deposit Method</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.deposit_method.DepositMethod" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">DepositMethod</span>
+
+
+<a href="#kraken_connector.schemas.deposit_method.DepositMethod" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Deposit Method</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.deposit_method.DepositMethod.method">method</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Name of deposit method</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.deposit_method.DepositMethod.limit">limit</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="typing.Any">Any</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Maximum net amount that can be deposited right now, or false if no limit</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.deposit_method.DepositMethod.fee">fee</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Amount of fees that will be paid</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.deposit_method.DepositMethod.address_setup_fee">address_setup_fee</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Whether or not method has an address setup fee</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.deposit_method.DepositMethod.gen_address">gen_address</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="bool">bool</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Whether new addresses can be generated for this method.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.deposit_method.DepositMethod.minimum">minimum</span></code></b>
+              (<code><span title="Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Minimum net amount that can be deposited right now</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="earn">Earn<a class="headerlink" href="#earn" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="kraken_connector.schemas.earn_strategy"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="            EarnStrategy (kraken_connector.schemas.earn_strategy.EarnStrategy)" href="#kraken_connector.schemas.earn_strategy.EarnStrategy">EarnStrategy</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Parameters for a single strategy</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="kraken_connector.schemas.earn_strategy.EarnStrategy" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">EarnStrategy</span>
+
+
+<a href="#kraken_connector.schemas.earn_strategy.EarnStrategy" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Parameters for a single strategy</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.allocation_fee">allocation_fee</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="float">float</span>, <span title="int">int</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Fee applied when allocating to this strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.allocation_restriction_info">allocation_restriction_info</span></code></b>
+              (<code><span title="List">List</span>[<span title="kraken_connector.constants.earn.AllocationRestrictionInfo">AllocationRestrictionInfo</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Reason list why user is not eligible for allocating to the strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.asset">asset</span></code></b>
+              (<code><span title="str">str</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The asset to invest for this earn strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.can_allocate">can_allocate</span></code></b>
+              (<code><span title="bool">bool</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Is allocation available for this strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.can_deallocate">can_deallocate</span></code></b>
+              (<code><span title="bool">bool</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Is deallocation available for this strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.deallocation_fee">deallocation_fee</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="float">float</span>, <span title="int">int</span>, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Fee applied when deallocating from this strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.id">id</span></code></b>
+              (<code><span title="str">str</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The unique identifier for this strategy</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.apr_estimate">apr_estimate</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, None, <span title="kraken_connector.schemas.earn_strategy_apr_estimate.EarnStrategyAprEstimate">EarnStrategyAprEstimate</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The estimate is based on
+previous revenues from the strategy.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.user_cap">user_cap</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, None, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The maximum amount of funds that any given user may allocate to an account.
+Absence of value means there is no limit. Zero means that all new allocations will return an error (though auto-
+compound is unaffected).</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code><span title="kraken_connector.schemas.earn_strategy.EarnStrategy.user_min_allocation">user_min_allocation</span></code></b>
+              (<code><span title="typing.Union">Union</span>[<span title="kraken_connector.types.Unset">Unset</span>, None, <span title="str">str</span>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>Minimum amount (in USD) for an allocation or deallocation</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+<p>For the full list of schemas, see the <code>kraken_connector.schemas</code> package source or use:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kraken_connector</span><span class="w"> </span><span class="kn">import</span> <span class="n">schemas</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">dir</span><span class="p">(</span><span class="n">schemas</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Maintained by Terry Garner.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/tlg7c5/kraken-connector" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/kraken-connector" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "content.code.copy", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
