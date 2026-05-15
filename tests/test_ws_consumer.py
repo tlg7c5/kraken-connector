@@ -22,6 +22,7 @@ from .ws_helpers import (
     book_update_json,
     executions_json,
     heartbeat_json,
+    recv_business,
     subscribe_response_json,
     ticker_json,
     trading_response_json,
@@ -59,16 +60,20 @@ class TestAsyncIterator:
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
 
-                messages = []
-                count = 0
+                # Iterator now yields heartbeats too -- filter for the
+                # business messages this test is asserting on.
+                from kraken_connector.ws import HeartbeatMessage
+
+                data_messages = []
                 async for msg in client:
-                    messages.append(msg)
-                    count += 1
-                    if count >= 3:
+                    if isinstance(msg, HeartbeatMessage):
+                        continue
+                    data_messages.append(msg)
+                    if len(data_messages) >= 3:
                         break
 
-                assert len(messages) == 3
-                assert all(isinstance(m, WSDataMessage) for m in messages)
+                assert len(data_messages) == 3
+                assert all(isinstance(m, WSDataMessage) for m in data_messages)
 
                 await client.disconnect()
 
@@ -84,8 +89,8 @@ class TestAsyncIterator:
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
 
-                # Receive the one data message.
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                # Receive the one data message (skip the heartbeat).
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
 
                 # Disconnect — iterator should stop.
@@ -125,13 +130,17 @@ class TestAsyncIterator:
                 # Disconnect while messages are in queue.
                 await client.disconnect()
 
-                messages = []
+                from kraken_connector.ws import HeartbeatMessage
+
+                data_messages = []
                 async for m in client:
-                    messages.append(m)
+                    if isinstance(m, HeartbeatMessage):
+                        continue
+                    data_messages.append(m)
 
                 # Should have drained the remaining data messages.
-                assert len(messages) >= 1
-                assert all(isinstance(m, WSDataMessage) for m in messages)
+                assert len(data_messages) >= 1
+                assert all(isinstance(m, WSDataMessage) for m in data_messages)
 
         asyncio.run(_run())
 
@@ -161,7 +170,7 @@ class TestFullStack:
 
                 # Receive data.
                 mock_ws.add_message(ticker_json())
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
                 assert msg.channel == "ticker"
 
@@ -196,7 +205,7 @@ class TestFullStack:
 
                 # Receive executions data with sequence.
                 mock_ws.add_message(executions_json(sequence=1))
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
                 assert msg.channel == "executions"
                 assert msg.sequence == 1
@@ -281,7 +290,7 @@ class TestFullStack:
                         asks=[{"price": 26001.0, "qty": 2.0}],
                     )
                 )
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
 
                 book = client.book_manager.get("BTC/USD")
@@ -307,7 +316,7 @@ class TestFullStack:
                         checksum=valid_crc,
                     )
                 )
-                msg2 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg2 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg2, WSDataMessage)
 
                 assert book.best_ask == (Decimal("26001.0"), Decimal("5.0"))

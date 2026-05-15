@@ -11,7 +11,6 @@ from websockets.exceptions import ConnectionClosed
 
 from ..types import Unset
 from .book import OrderBookManager
-from .channels.heartbeat import HeartbeatMessage
 from .channels.status import StatusData
 from .constants import ConnectionState
 from .dispatcher import WSMessage, parse_message
@@ -88,6 +87,7 @@ class KrakenWSClient:
         max_reconnect_attempts: int = 10,
         request_timeout: float = 10.0,
         token_manager: TokenManager | None = None,
+        message_queue_max: int = 1024,
     ) -> None:
         self.url = url
         self.ping_interval = ping_interval
@@ -108,7 +108,14 @@ class KrakenWSClient:
         self._ping_counter: int = 0
         self._pong_event: asyncio.Event = asyncio.Event()
         self._stop_event: asyncio.Event = asyncio.Event()
-        self._message_queue: asyncio.Queue[WSMessage] = asyncio.Queue()
+        # Bounded so a stalled consumer applies backpressure to the
+        # socket via _recv_loop's await put(), instead of growing the
+        # queue without limit. Heartbeats are now yielded (~1/s on
+        # quiet streams), so an unbounded queue would amplify any
+        # downstream stall into a slow OOM.
+        self._message_queue: asyncio.Queue[WSMessage] = asyncio.Queue(
+            maxsize=message_queue_max
+        )
         self._tasks: list[asyncio.Task[None]] = []
 
         # Subscription tracking
@@ -460,7 +467,28 @@ class KrakenWSClient:
         return self
 
     async def __anext__(self) -> WSMessage:
-        """Yield the next message, stopping when disconnected and drained."""
+        """Yield the next message, stopping when disconnected and drained.
+
+        Iterator contract: yields ALL transport-valid inbound frames. This
+        explicitly INCLUDES :class:`HeartbeatMessage` so consumers can
+        anchor their own liveness watchdogs against the same signal the
+        connector uses internally — a quiet account that produces no
+        business events still receives ~1 heartbeat/sec from Kraken, and
+        a watchdog that ignores them would falsely flag a healthy socket
+        as half-open.
+
+        Frames NOT yielded:
+          - :class:`PongResponse` — correlated internally to client pings
+            sent by the ping task; never carries consumer-relevant data.
+          - :class:`WSResponse` / :class:`WSErrorResponse` whose ``req_id``
+            matches a pending request — delivered to that request's future
+            instead, so callers of ``send_request`` see them as the result.
+
+        Consumers who only want business events should filter with
+        ``isinstance(msg, HeartbeatMessage)`` — distinct typed classes
+        mean no payload inspection is required to discriminate transport-
+        from business-level messages.
+        """
         while True:
             if (
                 self._state == ConnectionState.DISCONNECTED
@@ -538,13 +566,21 @@ class KrakenWSClient:
                     self._handle_status(msg)
 
                 # Intercept pong responses — signal the ping task, don't enqueue.
+                # Pongs are correlated to client-initiated PingRequests by the
+                # ping task itself; consumers cannot do anything useful with
+                # them and exposing them would force every consumer to filter.
                 if isinstance(msg, PongResponse):
                     self._pong_event.set()
                     continue
 
-                # Don't enqueue heartbeats — they're transport-level.
-                if isinstance(msg, HeartbeatMessage):
-                    continue
+                # Heartbeats DO enqueue — they're transport-liveness signals
+                # that consumers' watchdogs need to see in order to distinguish
+                # "quiet account, socket fine" from "half-open socket." The
+                # message is a distinct typed class (HeartbeatMessage) so a
+                # consumer that only cares about business events can filter
+                # with a single isinstance() check; no payload inspection
+                # required. Iterator semantics: yields all transport-valid
+                # inbound frames, not business-only frames.
 
                 # Correlate subscribe/unsubscribe responses by req_id.
                 if isinstance(msg, (WSResponse, WSErrorResponse)):

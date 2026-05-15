@@ -13,6 +13,7 @@ from .ws_helpers import (
     book_snapshot_json,
     book_update_json,
     heartbeat_json,
+    recv_business,
 )
 
 
@@ -36,7 +37,7 @@ class TestBookInRecvLoop:
                 client = KrakenWSClient(max_reconnect_attempts=0)
                 await client.connect()
 
-                msg = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg = await recv_business(client, timeout=2.0)
                 assert isinstance(msg, WSDataMessage)
                 assert msg.channel == "book"
 
@@ -89,11 +90,11 @@ class TestBookInRecvLoop:
                 await client.connect()
 
                 # Snapshot.
-                msg1 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg1 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg1, WSDataMessage)
 
                 # Update.
-                msg2 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg2 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg2, WSDataMessage)
 
                 book = client.book_manager.get("BTC/USD")
@@ -129,16 +130,16 @@ class TestBookInRecvLoop:
                 await client.connect()
 
                 # Snapshot message.
-                msg1 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg1 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg1, WSDataMessage)
 
                 # Checksum failure event should come before the data message.
-                msg2 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg2 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg2, BookChecksumEvent)
                 assert msg2.symbol == "BTC/USD"
 
                 # The data message is still enqueued.
-                msg3 = await asyncio.wait_for(client.receive(), timeout=2.0)
+                msg3 = await recv_business(client, timeout=2.0)
                 assert isinstance(msg3, WSDataMessage)
 
                 await client.disconnect()
